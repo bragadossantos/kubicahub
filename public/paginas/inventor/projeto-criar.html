@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="pt-AO">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>Submeter Novo Projecto — Kubica Hub</title>
+  <link rel="stylesheet" href="../../kubica.css"/>
+  <style>
+    .k-role-check {
+      display: flex; align-items: center; gap: 8px;
+      padding: 10px 16px;
+      background: var(--color-midnight-cocoa);
+      border: 1px solid var(--color-walnut);
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 13px;
+      color: var(--color-driftwood);
+      transition: border-color 0.15s, color 0.15s;
+    }
+    .k-role-check:has(input:checked) {
+      border-color: var(--color-amber-forge);
+      color: var(--color-amber-forge);
+      background: var(--color-amber-dim);
+    }
+    .k-role-check input { display: none; }
+  </style>
+</head>
+<body class="page-body">
+
+<div class="k-dash-layout">
+  <div id="k-sidebar-placeholder"></div>
+  <div class="k-dash-main">
+    <div id="k-header-placeholder"></div>
+    <div class="k-dash-content">
+
+      <div class="k-page-header">
+        <div class="k-page-header__eyebrow">Inventor · FKCU</div>
+        <h1 class="k-page-header__title">Submeter Novo Projecto</h1>
+        <p class="k-page-header__desc">Descreve a tua ideia de startup. Após aprovação pela coordenação FKCU, entrará no Banco de Ideias para matchmaking com Builders.</p>
+      </div>
+
+      <form id="idea-form" onsubmit="handleSubmit(event)" novalidate>
+
+        <div id="form-feedback" style="display:none;margin-bottom:var(--sp-16);"></div>
+
+        <!-- Identificação -->
+        <div class="k-form-section">
+          <h2 class="k-form-section__title">1. Identificação do Projecto</h2>
+          <div class="k-form-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:var(--sp-16);">
+            <div class="input-group" style="grid-column:span 2;">
+              <label class="input-label" for="title">Título do Projecto *</label>
+              <input type="text" id="title" class="input-pill" placeholder="Ex: AgroLink Angola — Marketplace Digital para Agricultores" required maxlength="200"/>
+            </div>
+            <div class="input-group">
+              <label class="input-label" for="sector">Sector de Actividade *</label>
+              <select id="sector" class="select-pill" required>
+                <option value="">Seleccionar sector</option>
+                <option>Agritech</option><option>Fintech</option><option>Healthtech</option>
+                <option>Edtech</option><option>Energia</option><option>Logística</option>
+                <option>Turismo</option><option>Segurança</option><option>E-Commerce</option>
+                <option>Outro</option>
+              </select>
+            </div>
+            <div class="input-group">
+              <label class="input-label" for="pdn_axis">Eixo do PDN 2023-2027 *</label>
+              <select id="pdn_axis" class="select-pill" required>
+                <option value="">Seleccionar eixo</option>
+                <option value="Eixo 1 — Soberania e Segurança Nacional">Eixo 1 — Soberania e Segurança Nacional</option>
+                <option value="Eixo 2 — Soberania Alimentar">Eixo 2 — Soberania Alimentar</option>
+                <option value="Eixo 3 — Transformação Digital">Eixo 3 — Transformação Digital</option>
+                <option value="Eixo 4 — Capital Humano">Eixo 4 — Capital Humano</option>
+                <option value="Eixo 5 — Diversificação da Economia">Eixo 5 — Diversificação da Economia</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <!-- Problema e Solução -->
+        <div class="k-form-section">
+          <h2 class="k-form-section__title">2. Problema e Solução</h2>
+          <div class="input-group">
+            <label class="input-label" for="problem">Problema que resolves no mercado angolano *</label>
+            <textarea id="problem" class="input-pill" rows="4" placeholder="Descreve o problema concreto que identificaste. Quem sofre com ele? Qual o impacto actual?" required style="resize:vertical;"></textarea>
+          </div>
+          <div class="input-group" style="margin-top:var(--sp-16);">
+            <label class="input-label" for="solution">Solução proposta *</label>
+            <textarea id="solution" class="input-pill" rows="4" placeholder="Como a tua startup resolve o problema? Qual a proposta de valor única?" required style="resize:vertical;"></textarea>
+          </div>
+          <div class="input-group" style="margin-top:var(--sp-16);">
+            <label class="input-label" for="target_market">Mercado-alvo / Clientes</label>
+            <textarea id="target_market" class="input-pill" rows="2" placeholder="A quem se destina? Ex: Agricultores das províncias do Huambo e Malanje, cooperativas e distribuidores." style="resize:vertical;"></textarea>
+          </div>
+        </div>
+
+        <!-- Perfis que precisa -->
+        <div class="k-form-section">
+          <h2 class="k-form-section__title">3. Perfis de Co-Fundadores Necessários (Builders)</h2>
+          <p style="font-size:13px;color:var(--color-driftwood);margin-bottom:var(--sp-16);">Selecciona os papéis que queres recrutar para a tua equipa multidisciplinar FKCU.</p>
+          <div style="display:flex;gap:var(--sp-12);flex-wrap:wrap;">
+            <label class="k-role-check">
+              <input type="checkbox" name="roles" value="CTO"/> <span>⚙ CTO — Tecnologia / Engenharia</span>
+            </label>
+            <label class="k-role-check">
+              <input type="checkbox" name="roles" value="CFO"/> <span>📊 CFO — Finanças / Gestão</span>
+            </label>
+            <label class="k-role-check">
+              <input type="checkbox" name="roles" value="CLO"/> <span>⚖ CLO — Jurídico / Direito</span>
+            </label>
+            <label class="k-role-check">
+              <input type="checkbox" name="roles" value="CMO"/> <span>📣 CMO — Marketing / Comunicação</span>
+            </label>
+          </div>
+        </div>
+
+        <div style="display:flex;gap:var(--sp-12);justify-content:flex-end;">
+          <a href="projetos.html" class="btn-outline">Cancelar</a>
+          <button type="submit" id="submit-btn" class="btn-primary">Submeter Projecto ao FKCU →</button>
+        </div>
+
+      </form>
+    </div>
+  </div>
+</div>
+
+<script src="../../assets/js/kubica.js"></script>
+<script src="../../assets/js/app.js"></script>
+<script src="../../assets/js/kubica-dashboard.js"></script>
+<script>
+(async () => {
+  await KubicaDash.init('inventor', 'projeto-criar');
+})();
+
+async function handleSubmit(e) {
+  e.preventDefault();
+
+  const roles = [...document.querySelectorAll('input[name="roles"]:checked')].map(c => c.value);
+  
+  const payload = {
+    title:         document.getElementById('title').value.trim(),
+    sector:        document.getElementById('sector').value,
+    pdn_axis:      document.getElementById('pdn_axis').value,
+    problem:       document.getElementById('problem').value.trim(),
+    solution:      document.getElementById('solution').value.trim(),
+    target_market: document.getElementById('target_market').value.trim(),
+    roles_needed:  roles,
+  };
+
+  const btn = document.getElementById('submit-btn');
+  btn.disabled = true;
+  btn.textContent = 'A submeter projecto...';
+  document.getElementById('form-feedback').style.display = 'none';
+
+  try {
+    const res = await KubicaApp.api('/ideas', 'POST', payload);
+    if (res && res.success) {
+      document.getElementById('form-feedback').style.display = 'block';
+      document.getElementById('form-feedback').innerHTML = `
+        <div style="padding:var(--sp-16);background:rgba(74,222,128,0.12);border:1px solid #4ade80;border-radius:8px;color:#4ade80;">
+          ✓ ${res.message || 'Projecto submetido com sucesso! A coordenação FKCU iniciará a triagem.'}
+        </div>`;
+      setTimeout(() => window.location.href = 'projetos.html', 1800);
+    }
+  } catch(err) {
+    const msg = err?.data?.message || 'Erro ao submeter projecto. Verifique os campos.';
+    document.getElementById('form-feedback').style.display = 'block';
+    document.getElementById('form-feedback').innerHTML = `
+      <div style="padding:var(--sp-12);background:rgba(248,113,113,0.12);border:1px solid #f87171;border-radius:8px;color:#f87171;">⚠ ${msg}</div>`;
+    btn.disabled = false;
+    btn.textContent = 'Submeter Projecto ao FKCU →';
+  }
+}
+</script>
+</body>
+</html>

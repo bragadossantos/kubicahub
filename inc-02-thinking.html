@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="pt-AO"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Design Thinking Workspace — Kubica Hub</title>
+<meta name="description" content="Ferramentas Stanford d.school integradas: Ethnography Field Guide, How Might We, Ambiguity Map e Stoke Deck."/>
+<link rel="stylesheet" href="kubica.css"/>
+</head>
+<body class="page-body"><div id="k-nav-placeholder"></div>
+<main>
+<section class="section-sm" style="border-bottom:1px solid var(--color-walnut);">
+  <div class="container"><div class="section-eyebrow">INC-02 — Design Thinking</div>
+  <h1 class="text-heading-lg weight-medium color-cream" style="letter-spacing:var(--tracking-heading-lg);">Workspace de Inovação Stanford d.school</h1>
+  <p class="text-body-lg color-driftwood mt-16">Guided Discovery: ferramentas metodológicas integradas para que a equipa nunca fique paralisada pela incerteza.</p>
+  <div class="filter-bar mt-16" id="dt-tabs">
+    <button class="filter-chip active" onclick="showDTTab('empathy',this)">🗺 Ethnography</button>
+    <button class="filter-chip" onclick="showDTTab('hmw',this)">💡 How Might We</button>
+    <button class="filter-chip" onclick="showDTTab('ambiguity',this)">🌀 Ambiguity Map</button>
+    <button class="filter-chip" onclick="showDTTab('stoke',this)">⚡ Stoke Deck</button>
+  </div></div>
+</section>
+<section class="section">
+  <div class="container">
+    <!-- Ethnography Tab -->
+    <div id="tab-empathy">
+      <div class="grid-2" style="gap:24px;align-items:flex-start;">
+        <div class="card card-surface" style="padding:24px;">
+          <h2 class="text-subheading weight-medium color-cream mb-16">Notas de Campo</h2>
+          <div class="input-group"><label class="input-label" for="field-name">Entrevistado</label><input type="text" id="field-name" class="input-pill" placeholder="Nome do agricultor / utilizador entrevistado"/></div>
+          <div class="input-group"><label class="input-label" for="field-loc">Localização</label><input type="text" id="field-loc" class="input-pill" placeholder="Ex: Calumbo, Luanda Sul"/></div>
+          <div class="input-group"><label class="input-label" for="field-quote">Transcrição — Citação directa</label><textarea class="textarea-card" id="field-quote" style="min-height:100px;" placeholder='"Os intermediários levam tudo. Vendo barato e chego a casa sem nada." — Augusto F.'></textarea></div>
+          <div class="input-group"><label class="input-label" for="field-obs">Observação comportamental</label><textarea class="textarea-card" id="field-obs" placeholder="O que observaste no ambiente? Que comportamentos mostrou?"></textarea></div>
+          <button class="btn-primary" style="width:100%;justify-content:center;" onclick="showToast('Nota de campo guardada!','success')">Guardar nota de campo</button>
+        </div>
+        <div class="card card-surface" style="padding:24px;">
+          <h2 class="text-subheading weight-medium color-cream mb-16">Mapa de Empatia — Persona Angolana</h2>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
+            <div style="border:1px solid var(--color-walnut);border-radius:4px;padding:14px;"><p class="text-caption color-amber mb-6" style="text-transform:uppercase;letter-spacing:.1em;">Diz</p><p class="text-body color-driftwood">"Os intermediários levam tudo. Vendo barato e chego a casa sem nada."</p></div>
+            <div style="border:1px solid var(--color-walnut);border-radius:4px;padding:14px;"><p class="text-caption color-amber mb-6" style="text-transform:uppercase;letter-spacing:.1em;">Pensa</p><p class="text-body color-driftwood">Quer preço justo mas desconfia da tecnologia. Medo de ser enganado.</p></div>
+            <div style="border:1px solid var(--color-walnut);border-radius:4px;padding:14px;"><p class="text-caption color-amber mb-6" style="text-transform:uppercase;letter-spacing:.1em;">Faz</p><p class="text-body color-driftwood">Negoceia pessoalmente na estrada cada manhã. Perde 3h/dia.</p></div>
+            <div style="border:1px solid var(--color-walnut);border-radius:4px;padding:14px;"><p class="text-caption color-amber mb-6" style="text-transform:uppercase;letter-spacing:.1em;">Sente</p><p class="text-body color-driftwood">Frustração e impotência. Sente-se explorado pelo sistema.</p></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- HMW Tab -->
+    <div id="tab-hmw" style="display:none;">
+      <div class="card card-surface" style="padding:32px;max-width:680px;margin:auto;">
+        <h2 class="text-subheading weight-medium color-cream mb-16">How Might We — Reformulação de Problemas</h2>
+        <p class="text-body color-driftwood mb-24" style="line-height:1.7;">Transforma o problema em oportunidade de design. Começa cada frase com "Como poderíamos..."</p>
+        <div style="display:flex;flex-direction:column;gap:12px;">
+          <div class="flex flex-gap-12" style="align-items:center;"><span class="badge badge-amber" style="flex-shrink:0;">HMW 1</span><input class="input-pill" value="Como poderíamos ligar agricultores a supermercados sem intermediários?"/></div>
+          <div class="flex flex-gap-12" style="align-items:center;"><span class="badge badge-amber" style="flex-shrink:0;">HMW 2</span><input class="input-pill" placeholder="Como poderíamos tornar o processo acessível com 2G..."/></div>
+          <div class="flex flex-gap-12" style="align-items:center;"><span class="badge badge-amber" style="flex-shrink:0;">HMW 3</span><input class="input-pill" placeholder="Como poderíamos garantir confiança mútua agricultor-comprador..."/></div>
+          <div class="flex flex-gap-12" style="align-items:center;"><span class="badge badge-walnut" style="flex-shrink:0;">HMW 4</span><input class="input-pill" placeholder="Como poderíamos..."/></div>
+          <div class="flex flex-gap-12" style="align-items:center;"><span class="badge badge-walnut" style="flex-shrink:0;">HMW 5</span><input class="input-pill" placeholder="Como poderíamos..."/></div>
+        </div>
+        <button class="btn-primary mt-24" style="width:100%;justify-content:center;" onclick="showToast('How Might We guardado!','success')">Guardar HMW</button>
+      </div>
+    </div>
+
+    <!-- Ambiguity Map Tab -->
+    <div id="tab-ambiguity" style="display:none;">
+      <div class="card card-surface" style="padding:32px;text-align:center;max-width:560px;margin:auto;">
+        <div style="font-size:48px;margin-bottom:16px;">🌀</div>
+        <h2 class="text-heading-sm weight-medium color-cream mb-12">Ambiguity Journey Map</h2>
+        <p class="text-body color-driftwood mb-24" style="line-height:1.6;">Upload do Ambiguity Map preenchido pela equipa durante o workshop de campo no Campus.</p>
+        <div style="border:1px dashed var(--color-cedar);border-radius:6px;padding:40px;cursor:pointer;transition:border-color var(--transition-fast);" onmouseover="this.style.borderColor='var(--color-amber-forge)'" onmouseout="this.style.borderColor='var(--color-cedar)'" onclick="showToast('Ficheiro carregado com sucesso!','success')">
+          <div style="font-size:32px;">📎</div>
+          <p class="text-body color-driftwood mt-8">Arrastar ou clicar para carregar</p>
+          <p class="text-caption color-driftwood mt-4">PDF, PNG, JPG · Max 20MB</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Stoke Deck Tab -->
+    <div id="tab-stoke" style="display:none;">
+      <div class="card card-surface" style="padding:32px;">
+        <h2 class="text-subheading weight-medium color-cream mb-24">⚡ Stoke Deck — Activadores de Criatividade</h2>
+        <div class="grid-3" style="gap:16px;">
+          <div class="card" style="padding:20px;text-align:center;cursor:pointer;" onclick="this.style.borderColor='var(--color-amber-forge)';showToast('Activador seleccionado!','success')"><p style="font-size:28px;margin-bottom:12px;">🚀</p><p class="text-body color-cream">Analogia: e se fossemos o Uber da agricultura angolana?</p></div>
+          <div class="card" style="padding:20px;text-align:center;cursor:pointer;" onclick="this.style.borderColor='var(--color-amber-forge)';showToast('Activador seleccionado!','success')"><p style="font-size:28px;margin-bottom:12px;">🔄</p><p class="text-body color-cream">SCAMPER: o que substituímos no processo de negociação?</p></div>
+          <div class="card" style="padding:20px;text-align:center;cursor:pointer;" onclick="this.style.borderColor='var(--color-amber-forge)';showToast('Activador seleccionado!','success')"><p style="font-size:28px;margin-bottom:12px;">😈</p><p class="text-body color-cream">Pior ideia possível: e se tivéssemos mais intermediários?</p></div>
+          <div class="card" style="padding:20px;text-align:center;cursor:pointer;" onclick="this.style.borderColor='var(--color-amber-forge)'"><p style="font-size:28px;margin-bottom:12px;">👴</p><p class="text-body color-cream">Perspectiva radical: visão do agricultor de 70 anos sem smartphone</p></div>
+          <div class="card" style="padding:20px;text-align:center;cursor:pointer;" onclick="this.style.borderColor='var(--color-amber-forge)'"><p style="font-size:28px;margin-bottom:12px;">🎩</p><p class="text-body color-cream">6 Chapéus: perspectiva do chapéu verde — criatividade pura</p></div>
+          <div class="card" style="padding:20px;text-align:center;cursor:pointer;" onclick="this.style.borderColor='var(--color-amber-forge)'"><p style="font-size:28px;margin-bottom:12px;">🔬</p><p class="text-body color-cream">Anti-problema: o que tornaria a AgroLink impossível de usar?</p></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+</main>
+<div id="k-footer-placeholder"></div>
+<script src="assets/js/kubica.js"></script>
+<script>
+KubicaNav.init('inc-01-dashboard.html');
+function showDTTab(id, btn) {
+  ['empathy','hmw','ambiguity','stoke'].forEach(t => {
+    const el = document.getElementById('tab-'+t);
+    if(el) el.style.display = t===id?'block':'none';
+  });
+  document.querySelectorAll('#dt-tabs .filter-chip').forEach(c=>c.classList.remove('active'));
+  btn.classList.add('active');
+}
+</script>
+</body></html>

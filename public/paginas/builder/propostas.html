@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="pt-AO">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>Propostas de Co-Fundação — Kubica Hub</title>
+  <link rel="stylesheet" href="../../kubica.css"/>
+  <style>
+    .k-filter-btn--active { border-color:var(--color-amber-forge)!important;color:var(--color-amber-forge)!important;background:var(--color-amber-dim)!important; }
+  </style>
+</head>
+<body class="page-body">
+
+<div class="k-dash-layout">
+  <div id="k-sidebar-placeholder"></div>
+  <div class="k-dash-main">
+    <div id="k-header-placeholder"></div>
+    <div class="k-dash-content">
+
+      <div class="k-page-header">
+        <div class="k-page-header__eyebrow">Builder · Matchmaking</div>
+        <h1 class="k-page-header__title">As minhas Propostas</h1>
+        <p class="k-page-header__desc">Propostas societárias recebidas de Inventors. Aceita para formar a equipa e iniciar a co-criação da startup.</p>
+      </div>
+
+      <div style="display:flex;gap:var(--sp-8);margin-bottom:var(--sp-24);">
+        <button class="btn-outline k-filter-btn k-filter-btn--active" data-tab="pending" onclick="switchTab('pending')">⏳ Pendentes</button>
+        <button class="btn-outline k-filter-btn" data-tab="accepted" onclick="switchTab('accepted')">✅ Aceites</button>
+        <button class="btn-outline k-filter-btn" data-tab="declined" onclick="switchTab('declined')">❌ Recusadas</button>
+      </div>
+
+      <div id="proposals-container">
+        <div class="k-loading"><div class="k-spinner"></div><p>A carregar propostas...</p></div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<script src="../../assets/js/kubica.js"></script>
+<script src="../../assets/js/app.js"></script>
+<script src="../../assets/js/kubica-dashboard.js"></script>
+<script>
+let allProposals = [], currentTab = 'pending';
+
+(async () => {
+  await KubicaDash.init('builder', 'propostas');
+  await loadProposals();
+})();
+
+async function loadProposals() {
+  KubicaDash.showLoading('proposals-container');
+  try {
+    const res = await KubicaApp.api('/proposals');
+    allProposals = res?.data?.proposals ?? [];
+    renderProposals(currentTab);
+  } catch(e) {
+    KubicaDash.showError('proposals-container', 'Erro ao carregar propostas.');
+  }
+}
+
+function switchTab(tab) {
+  currentTab = tab;
+  document.querySelectorAll('.k-filter-btn').forEach(b => {
+    b.classList.toggle('k-filter-btn--active', b.dataset.tab === tab);
+  });
+  renderProposals(tab);
+}
+
+function renderProposals(status) {
+  const filtered = allProposals.filter(p => p.status === status);
+  if (!filtered.length) {
+    KubicaDash.showEmpty('proposals-container', `Sem propostas ${status === 'pending' ? 'pendentes' : status === 'accepted' ? 'aceites' : 'recusadas'}.`, '📋');
+    return;
+  }
+  document.getElementById('proposals-container').innerHTML = filtered.map(p => `
+    <div class="k-list-card" style="margin-bottom:var(--sp-12);">
+      <div class="k-list-card__body">
+        <div style="display:flex;align-items:flex-start;gap:var(--sp-16);flex-wrap:wrap;">
+          <div style="flex:1;min-width:280px;">
+            <div style="display:flex;align-items:center;gap:var(--sp-8);margin-bottom:var(--sp-8);">
+              <h3 style="font-size:16px;font-weight:600;color:var(--color-warm-cream);margin:0;">${p.idea_title || 'Projecto FKCU'}</h3>
+              ${KubicaDash.statusBadge(p.status)}
+            </div>
+            <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:var(--sp-8);margin-bottom:var(--sp-12);">
+              <div class="k-kpi" style="padding:var(--sp-8) var(--sp-12);">
+                <div>
+                  <div class="k-kpi__value" style="font-size:15px;">${p.proposed_role}</div>
+                  <div class="k-kpi__label">Papel proposto</div>
+                </div>
+              </div>
+              <div class="k-kpi" style="padding:var(--sp-8) var(--sp-12);">
+                <div>
+                  <div class="k-kpi__value" style="font-size:15px;">${p.equity_pct}%</div>
+                  <div class="k-kpi__label">Equity oferecida</div>
+                </div>
+              </div>
+              <div class="k-kpi" style="padding:var(--sp-8) var(--sp-12);">
+                <div>
+                  <div class="k-kpi__value" style="font-size:15px;">${p.hours_per_week}h/sem</div>
+                  <div class="k-kpi__label">Dedicação</div>
+                </div>
+              </div>
+            </div>
+            ${p.message ? `<p style="font-size:13px;color:var(--color-driftwood);margin:0 0 var(--sp-12);padding:var(--sp-12);background:var(--color-amber-dim);border-radius:6px;line-height:1.4;">"${p.message}"</p>` : ''}
+            <div style="font-size:12px;color:var(--color-driftwood);">Vesting: ${p.vesting_months || 36} meses · Cliff: ${p.cliff_months || 12} meses · Proposto por: ${p.inventor_name || 'Inventor'}</div>
+          </div>
+          ${p.status === 'pending' ? `
+          <div style="display:flex;flex-direction:column;gap:var(--sp-8);flex-shrink:0;">
+            <button class="btn-primary" onclick="respondProposal(${p.id}, 'accepted')" style="font-size:13px;padding:8px 16px;">✓ Aceitar e Formar Equipa</button>
+            <button class="btn-outline" onclick="respondProposal(${p.id}, 'declined')" style="font-size:13px;padding:8px 16px;">✗ Recusar Proposta</button>
+          </div>` : ''}
+        </div>
+      </div>
+    </div>
+  `).join('');
+}
+
+async function respondProposal(proposalId, action) {
+  const confirm = window.confirm(action === 'accepted'
+    ? 'Aceitar esta proposta de co-fundação? A vossa equipa FKCU será formalizada imediatamente.'
+    : 'Tens a certeza que queres recusar esta proposta?');
+  if (!confirm) return;
+
+  try {
+    const res = await KubicaApp.api('/proposals/' + proposalId, 'PATCH', { status: action });
+    if (res && res.success) {
+      KubicaDash.toast(action === 'accepted' ? '✓ Proposta aceite! Bem-vindo à equipa!' : 'Proposta recusada.', action === 'accepted' ? 'success' : 'info');
+      await loadProposals();
+    }
+  } catch(err) {
+    KubicaDash.toast(err?.data?.message || 'Erro ao processar resposta.', 'error');
+  }
+}
+</script>
+</body>
+</html>

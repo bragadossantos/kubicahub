@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="pt-AO">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>Gestão de Utilizadores — Kubica Hub Admin</title>
+  <link rel="stylesheet" href="../../kubica.css"/>
+  <style>
+    .k-filter-btn--active { border-color:var(--color-amber-forge)!important;color:var(--color-amber-forge)!important;background:var(--color-amber-dim)!important; }
+  </style>
+</head>
+<body class="page-body">
+
+<div class="k-dash-layout">
+  <div id="k-sidebar-placeholder"></div>
+  <div class="k-dash-main">
+    <div id="k-header-placeholder"></div>
+    <div class="k-dash-content">
+
+      <div class="k-page-header">
+        <div class="k-page-header__eyebrow">Admin · Gestão de Comunidade</div>
+        <h1 class="k-page-header__title">Membros do Hub</h1>
+        <p class="k-page-header__desc">Consulta, filtra e gere os inventores, builders, mentores e administradores da plataforma.</p>
+      </div>
+
+      <div style="display:flex;gap:var(--sp-8);margin-bottom:var(--sp-24);flex-wrap:wrap;">
+        <button class="btn-outline k-filter-btn k-filter-btn--active" data-role="" onclick="filterByRole('')">Todos</button>
+        <button class="btn-outline k-filter-btn" data-role="inventor" onclick="filterByRole('inventor')">💡 Inventors</button>
+        <button class="btn-outline k-filter-btn" data-role="builder" onclick="filterByRole('builder')">⚙ Builders</button>
+        <button class="btn-outline k-filter-btn" data-role="mentor" onclick="filterByRole('mentor')">🎓 Mentores</button>
+        <button class="btn-outline k-filter-btn" data-role="admin" onclick="filterByRole('admin')">🛡 Admins</button>
+      </div>
+
+      <div id="users-container">
+        <div class="k-loading"><div class="k-spinner"></div><p>A carregar utilizadores...</p></div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<script src="../../assets/js/kubica.js"></script>
+<script src="../../assets/js/app.js"></script>
+<script src="../../assets/js/kubica-dashboard.js"></script>
+<script>
+let allUsers = [], currentRole = '';
+
+(async () => {
+  await KubicaDash.init('admin', 'utilizadores');
+  await loadUsers();
+})();
+
+async function loadUsers() {
+  try {
+    const res = await KubicaApp.api('/admin/users');
+    allUsers = res?.data?.users ?? [];
+    renderUsers(allUsers);
+  } catch(e) {
+    KubicaDash.showError('users-container', 'Erro ao carregar lista de utilizadores.');
+  }
+}
+
+function filterByRole(role) {
+  currentRole = role;
+  document.querySelectorAll('.k-filter-btn').forEach(b => b.classList.toggle('k-filter-btn--active', b.dataset.role === role));
+  const filtered = role ? allUsers.filter(u => u.role === role) : allUsers;
+  renderUsers(filtered);
+}
+
+function renderUsers(users) {
+  if (!users.length) {
+    KubicaDash.showEmpty('users-container', 'Nenhum utilizador encontrado.', '👥');
+    return;
+  }
+  document.getElementById('users-container').innerHTML = `
+    <div class="k-list-card" style="overflow-x:auto;">
+      <div class="k-list-card__body" style="padding:0;">
+        <table style="width:100%;border-collapse:collapse;min-width:650px;">
+          <thead>
+            <tr style="border-bottom:1px solid var(--color-walnut);background:var(--color-midnight-cocoa);">
+              <th style="text-align:left;padding:12px 20px;font-size:11px;text-transform:uppercase;color:var(--color-driftwood);font-weight:600;">Membro</th>
+              <th style="text-align:left;padding:12px 20px;font-size:11px;text-transform:uppercase;color:var(--color-driftwood);font-weight:600;">Papel</th>
+              <th style="text-align:left;padding:12px 20px;font-size:11px;text-transform:uppercase;color:var(--color-driftwood);font-weight:600;">Instituição</th>
+              <th style="text-align:left;padding:12px 20px;font-size:11px;text-transform:uppercase;color:var(--color-driftwood);font-weight:600;">Estado</th>
+              <th style="text-align:left;padding:12px 20px;font-size:11px;text-transform:uppercase;color:var(--color-driftwood);font-weight:600;">Registado em</th>
+              <th style="padding:12px 20px;font-size:11px;text-transform:uppercase;color:var(--color-driftwood);font-weight:600;">Acção</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${users.map(u => `
+            <tr style="border-bottom:1px solid rgba(67,57,45,0.4);" id="user-row-${u.id}">
+              <td style="padding:12px 20px;">
+                <div style="display:flex;align-items:center;gap:10px;">
+                  <div class="k-sidebar__avatar" style="width:32px;height:32px;font-size:12px;">${(u.name || 'U').charAt(0)}</div>
+                  <div>
+                    <div style="font-size:13px;font-weight:600;color:var(--color-warm-cream);">${u.name}</div>
+                    <div style="font-size:11px;color:var(--color-driftwood);">${u.email}</div>
+                  </div>
+                </div>
+              </td>
+              <td style="padding:12px 20px;"><span class="k-badge k-badge--${u.role}">${u.role}</span></td>
+              <td style="padding:12px 20px;font-size:13px;color:var(--color-driftwood);">${u.university} · ${u.faculty}</td>
+              <td style="padding:12px 20px;">
+                ${u.is_active ? '<span class="k-badge k-badge--success">Activo</span>' : '<span class="k-badge k-badge--danger">Suspenso</span>'}
+                ${u.is_verified ? '' : '<span class="k-badge k-badge--warning" style="margin-left:4px;">Pendente OTP</span>'}
+              </td>
+              <td style="padding:12px 20px;font-size:12px;color:var(--color-driftwood);">${KubicaDash.formatDate(u.created_at)}</td>
+              <td style="padding:12px 20px;text-align:right;">
+                <button class="btn-outline" style="font-size:11px;padding:4px 10px;${u.is_active ? '' : 'color:#4ade80;border-color:#4ade80;'}" onclick="toggleUser(${u.id}, ${u.is_active})">
+                  ${u.is_active ? 'Suspender' : 'Reactivar'}
+                </button>
+              </td>
+            </tr>`).join('')}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  `;
+}
+
+async function toggleUser(userId, isActive) {
+  const action = isActive ? 'suspender' : 'reactivar';
+  if (!confirm(`Tens a certeza que queres ${action} este utilizador?`)) return;
+  try {
+    await KubicaApp.api('/admin/users/' + userId + '/status', 'PATCH', { is_active: !isActive ? 1 : 0 });
+    KubicaDash.toast(`Utilizador ${action === 'suspender' ? 'suspenso' : 'reactivado'} com sucesso.`, 'success');
+    await loadUsers();
+    filterByRole(currentRole);
+  } catch(e) {
+    KubicaDash.toast('Erro ao actualizar estado do utilizador.', 'error');
+  }
+}
+</script>
+</body>
+</html>

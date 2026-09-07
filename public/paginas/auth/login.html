@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="pt-AO">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>Entrar — Kubica Hub</title>
+  <meta name="description" content="Inicia sessão na plataforma Kubica Hub — o Sistema Operativo de Co-Criação Universitária de Angola."/>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="../../kubica.css"/>
+  <style>
+    body { font-family: 'Manrope', var(--font-primary); overflow: hidden; }
+    @media (max-width: 768px) { body { overflow: auto; } }
+
+    /* Alert inline */
+    .k-alert-inline {
+      display: none; padding: 12px 14px; border-radius: var(--radius-card);
+      font-size: 13px; line-height: 1.4; margin-bottom: var(--sp-16);
+    }
+    .k-alert-inline.visible { display: flex; align-items: flex-start; gap: 10px; }
+    .k-alert-inline--error   { background: rgba(248,113,113,.1); color: var(--color-danger); border: 1px solid rgba(248,113,113,.3); }
+    .k-alert-inline--success { background: rgba(74,222,128,.1); color: var(--color-success); border: 1px solid rgba(74,222,128,.3); }
+
+    /* Login panel right side scroll */
+    .auth-split__form { overflow-y: auto; align-items: flex-start; padding-top: 80px; padding-bottom: 40px; }
+    @media (min-width: 769px) {
+      .auth-split { height: 100vh; overflow: hidden; }
+      .auth-split__panel { overflow-y: auto; }
+      .auth-split__form  { height: 100vh; }
+    }
+
+    /* Subtle animated gradient on panel */
+    @keyframes panel-shift {
+      0%, 100% { background-position: 0% 50%; }
+      50%       { background-position: 100% 50%; }
+    }
+    .auth-panel-glow {
+      position: absolute; bottom: -80px; left: -80px;
+      width: 300px; height: 300px; border-radius: 9999px;
+      background: radial-gradient(circle, rgba(255,180,66,.06) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    /* Password strength bar */
+    .strength-bar { height: 2px; border-radius: 9999px; background: var(--color-walnut); margin-top: 6px; overflow: hidden; transition: none; }
+    .strength-fill { height: 100%; border-radius: 9999px; width: 0%; transition: width .35s, background .35s; }
+  </style>
+</head>
+<body>
+
+<div class="auth-split">
+
+  <!-- ── PAINEL VISUAL ESQUERDO ─────────────────────────────── -->
+  <div class="auth-split__panel" aria-hidden="true">
+    <div class="auth-panel-glow"></div>
+
+    <!-- Logo -->
+    <div style="position:relative;z-index:1;">
+      <a href="../landing.html" style="display:inline-flex;align-items:center;gap:10px;text-decoration:none;">
+        <div class="auth-split__panel-mark">K</div>
+        <span style="font-size:15px;font-weight:500;color:var(--color-warm-cream);letter-spacing:.12em;text-transform:uppercase;">Kubica Hub</span>
+      </a>
+    </div>
+
+    <!-- Headline -->
+    <div style="position:relative;z-index:1;">
+      <p class="auth-split__panel-headline reveal-up">
+        Angola's University<br>Innovation OS.
+      </p>
+      <p class="auth-split__panel-sub reveal-up delay-1">
+        Do Trabalho de Fim de Curso à startup auditada — o Framework KUBICA guia cada passo.
+      </p>
+
+      <!-- Bullets -->
+      <div class="auth-split__panel-bullets">
+        <div class="auth-split__bullet reveal-up delay-2">
+          <div class="auth-split__bullet-icon">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+          </div>
+          <div>
+            <div style="color:var(--color-warm-cream);font-size:13px;font-weight:500;margin-bottom:2px;">Matchmaking Multidisciplinar</div>
+            <div style="font-size:12px;">Liga Inventors a Builders de Engenharia, Gestão, Direito e Marketing.</div>
+          </div>
+        </div>
+        <div class="auth-split__bullet reveal-up delay-3">
+          <div class="auth-split__bullet-icon">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><polyline points="9 12 11 14 15 10"/></svg>
+          </div>
+          <div>
+            <div style="color:var(--color-warm-cream);font-size:13px;font-weight:500;margin-bottom:2px;">Vesting &amp; Governança IAPI</div>
+            <div style="font-size:12px;">Contratos de 36 meses, cliff de 12 meses e conformidade com a Lei n.º 3/92.</div>
+          </div>
+        </div>
+        <div class="auth-split__bullet reveal-up delay-4">
+          <div class="auth-split__bullet-icon">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+          </div>
+          <div>
+            <div style="color:var(--color-warm-cream);font-size:13px;font-weight:500;margin-bottom:2px;">Sandbox de Seed Funding</div>
+            <div style="font-size:12px;">Até USD 25,000 em seed capital para startups aprovadas pelo Comité FKCU.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="auth-split__panel-footer" style="position:relative;z-index:1;">
+      <span>Kubica Hub &copy; 2026</span>
+      &nbsp;&middot;&nbsp;
+      <span>Framework FKCU v2.0</span>
+      &nbsp;&middot;&nbsp;
+      <span>Angola</span>
+    </div>
+  </div>
+
+  <!-- ── FORMULÁRIO DIREITO ──────────────────────────────────── -->
+  <div class="auth-split__form">
+    <div class="auth-split__form-inner reveal-scale">
+
+      <!-- Título -->
+      <div style="margin-bottom:var(--sp-32);">
+        <h1 class="auth-split__title">Bem-vindo de volta</h1>
+        <p class="auth-split__sub">Acede à plataforma com o teu e-mail institucional.</p>
+      </div>
+
+      <!-- Alert -->
+      <div id="form-alert" class="k-alert-inline" role="alert" aria-live="polite">
+        <svg id="alert-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" flex-shrink="0" aria-hidden="true"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+        <span id="alert-text"></span>
+      </div>
+
+      <!-- Formulário -->
+      <form id="login-form" novalidate onsubmit="handleLogin(event)">
+
+        <!-- Email Institucional -->
+        <div class="input-float-wrap" style="margin-bottom:var(--sp-16);">
+          <input
+            type="email"
+            id="email"
+            class="input-float"
+            placeholder=" "
+            autocomplete="email"
+            autofocus
+            required
+          />
+          <label class="input-float-label" for="email">E-mail Institucional</label>
+        </div>
+
+        <!-- Senha -->
+        <div class="input-float-wrap input-eye-wrap" style="margin-bottom:var(--sp-8);">
+          <input
+            type="password"
+            id="password"
+            class="input-float"
+            placeholder=" "
+            autocomplete="current-password"
+            required
+            style="padding-right:48px;"
+          />
+          <label class="input-float-label" for="password">Palavra-passe</label>
+          <button
+            type="button"
+            class="input-eye-btn"
+            data-target="password"
+            aria-label="Mostrar palavra-passe"
+          >
+            <!-- Eye Open -->
+            <svg class="icon-eye-open" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+            <!-- Eye Closed (hidden by default) -->
+            <svg class="icon-eye-close" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true" style="display:none;"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></svg>
+          </button>
+        </div>
+
+        <!-- Esqueceu? -->
+        <div style="text-align:right;margin-bottom:var(--sp-24);">
+          <a href="#" style="font-size:12px;color:var(--color-driftwood);transition:color .15s;" onmouseover="this.style.color='var(--color-amber-forge)'" onmouseout="this.style.color='var(--color-driftwood)'">Esqueceste a palavra-passe?</a>
+        </div>
+
+        <!-- CTA Principal -->
+        <button type="submit" id="submit-btn" class="btn-primary" style="width:100%;justify-content:center;height:52px;font-size:15px;">
+          Entrar no Hub
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </button>
+
+      </form>
+
+      <!-- Divisor -->
+      <div class="k-divider" style="margin: var(--sp-24) 0;">ou</div>
+
+      <!-- Link para registo -->
+      <div style="text-align:center;">
+        <p style="font-size:13px;color:var(--color-driftwood);">
+          Ainda não tens conta?
+          <a href="registo.html" style="color:var(--color-amber-forge);font-weight:500;text-decoration:none;margin-left:4px;transition:opacity .15s;" onmouseover="this.style.opacity='.75'" onmouseout="this.style.opacity='1'">Criar conta gratuita</a>
+        </p>
+        <p style="font-size:12px;color:var(--color-driftwood);opacity:.5;margin-top:8px;">
+          <a href="../landing.html" style="color:inherit;text-decoration:none;transition:opacity .15s;" onmouseover="this.style.opacity='.75'" onmouseout="this.style.opacity='.5'">← Voltar ao site</a>
+        </p>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<script src="../../assets/js/app.js"></script>
+<script src="../../assets/js/kubica-animations.js"></script>
+<script>
+  // ── Redirect se já autenticado ────────────────────────────────
+  const _existing = KubicaApp.getUser();
+  if (_existing) KubicaApp.verificarAcesso();
+
+  // ── Session expired param ─────────────────────────────────────
+  const _params = new URLSearchParams(window.location.search);
+  if (_params.get('session_expired')) {
+    showAlert('A tua sessão expirou. Por favor inicia sessão novamente.', 'error');
+  }
+
+  // ── Alert helper ─────────────────────────────────────────────
+  function showAlert(msg, type = 'error') {
+    const el   = document.getElementById('form-alert');
+    const text = document.getElementById('alert-text');
+    el.className = `k-alert-inline k-alert-inline--${type} visible`;
+    text.textContent = msg;
+  }
+
+  // ── Login Handler ─────────────────────────────────────────────
+  async function handleLogin(e) {
+    e.preventDefault();
+
+    const email    = document.getElementById('email').value.trim();
+    const password = document.getElementById('password').value;
+
+    // Basic client-side validation
+    if (!email) {
+      KubicaAnimate.shakeInput('email');
+      showAlert('Por favor indica o teu e-mail institucional.', 'error');
+      return;
+    }
+    if (!password) {
+      KubicaAnimate.shakeInput('password');
+      showAlert('Por favor indica a tua palavra-passe.', 'error');
+      return;
+    }
+
+    // Clear alert
+    document.getElementById('form-alert').className = 'k-alert-inline';
+
+    // Loading state
+    KubicaAnimate.setButtonLoading('submit-btn', true, 'A autenticar');
+
+    try {
+      const user = await KubicaApp.login(email, password);
+      if (user) {
+        showAlert('Sessão iniciada com sucesso. A redirecionar...', 'success');
+        setTimeout(() => KubicaApp.verificarAcesso(), 700);
+      } else {
+        throw { data: { message: 'Credenciais inválidas.' } };
+      }
+    } catch (error) {
+      let msg = 'Credenciais inválidas. Verifica os dados e tenta novamente.';
+      if (error.data && error.data.message) msg = error.data.message;
+      showAlert(msg, 'error');
+      KubicaAnimate.shakeInput('email');
+      KubicaAnimate.shakeInput('password');
+      KubicaAnimate.setButtonLoading('submit-btn', false);
+    }
+  }
+</script>
+</body>
+</html>

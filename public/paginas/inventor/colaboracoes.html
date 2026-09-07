@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="pt-AO">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>Encontrar Builders — Kubica Hub</title>
+  <link rel="stylesheet" href="../../kubica.css"/>
+</head>
+<body class="page-body">
+
+<div class="k-dash-layout">
+  <div id="k-sidebar-placeholder"></div>
+  <div class="k-dash-main">
+    <div id="k-header-placeholder"></div>
+    <div class="k-dash-content">
+
+      <div class="k-page-header">
+        <div class="k-page-header__eyebrow">Inventor · Matchmaking FKCU</div>
+        <h1 class="k-page-header__title">Encontrar Co-Fundadores</h1>
+        <p class="k-page-header__desc">Explora o pool de Builders verificados das universidades angolanas e propõe parcerias societárias.</p>
+      </div>
+
+      <!-- Filtros -->
+      <div class="k-form-section" style="margin-bottom:var(--sp-24);">
+        <div class="k-form-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:var(--sp-16);">
+          <div class="input-group">
+            <label class="input-label" for="filter-faculty">Faculdade</label>
+            <select id="filter-faculty" class="select-pill" onchange="filterBuilders()">
+              <option value="">Todas as faculdades</option>
+              <option value="Engenharia">Engenharia e Tecnologias</option>
+              <option value="Gestão">Economia e Gestão</option>
+              <option value="Direito">Direito</option>
+              <option value="Marketing">Marketing</option>
+            </select>
+          </div>
+          <div class="input-group">
+            <label class="input-label" for="filter-university">Universidade</label>
+            <select id="filter-university" class="select-pill" onchange="filterBuilders()">
+              <option value="">Todas as universidades</option>
+              <option value="UAN">UAN</option>
+              <option value="UCAN">UCAN</option>
+              <option value="ISAF">ISAF</option>
+              <option value="UGS">UGS</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <div id="builders-grid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:var(--sp-16);">
+        <div class="k-loading" style="grid-column:span 3;"><div class="k-spinner"></div><p>A carregar builders...</p></div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- Modal de Proposta -->
+<div id="proposal-modal" class="k-modal-backdrop" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.8);z-index:999;align-items:center;justify-content:center;">
+  <div class="k-modal" style="background:var(--color-midnight-cocoa);border:1px solid var(--color-walnut);border-radius:12px;padding:var(--sp-24);max-width:480px;width:90%;">
+    <h2 class="k-modal__title" style="font-size:18px;color:var(--color-warm-cream);margin:0 0 4px;">Enviar Proposta de Co-Fundação</h2>
+    <p id="modal-builder-name" style="font-size:13px;color:var(--color-amber-forge);margin-bottom:var(--sp-16);"></p>
+    
+    <div id="modal-feedback" style="display:none;margin-bottom:var(--sp-12);"></div>
+
+    <div class="input-group">
+      <label class="input-label">Projecto *</label>
+      <select id="modal-idea" class="select-pill">
+        <option value="">A carregar projectos...</option>
+      </select>
+    </div>
+    <div class="input-group" style="margin-top:var(--sp-12);">
+      <label class="input-label">Papel proposto *</label>
+      <select id="modal-role" class="select-pill">
+        <option value="CTO">⚙ CTO — Tecnologia / Engenharia</option>
+        <option value="CFO">📊 CFO — Finanças / Gestão</option>
+        <option value="CLO">⚖ CLO — Jurídico / Direito</option>
+        <option value="CMO">📣 CMO — Marketing / Comunicação</option>
+      </select>
+    </div>
+    <div class="k-form-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:var(--sp-12);margin-top:var(--sp-12);">
+      <div class="input-group">
+        <label class="input-label">Equity proposta (%)</label>
+        <input type="number" id="modal-equity" class="input-pill" min="1" max="49" step="0.5" value="20"/>
+      </div>
+      <div class="input-group">
+        <label class="input-label">Horas/semana</label>
+        <input type="number" id="modal-hours" class="input-pill" min="5" max="40" value="20"/>
+      </div>
+    </div>
+    <div class="input-group" style="margin-top:var(--sp-12);">
+      <label class="input-label">Mensagem de apresentação</label>
+      <textarea id="modal-message" class="input-pill" rows="3" placeholder="Apresenta o projecto e explica porque seria uma excelente parceria..."></textarea>
+    </div>
+    <div style="display:flex;gap:var(--sp-12);justify-content:flex-end;margin-top:var(--sp-16);">
+      <button class="btn-outline" onclick="closeModal()">Cancelar</button>
+      <button class="btn-primary" id="modal-submit" onclick="sendProposal()">Enviar Proposta →</button>
+    </div>
+  </div>
+</div>
+
+<script src="../../assets/js/kubica.js"></script>
+<script src="../../assets/js/app.js"></script>
+<script src="../../assets/js/kubica-dashboard.js"></script>
+<script>
+let allBuilders = [], selectedBuilderId = null, myIdeas = [];
+
+(async () => {
+  await KubicaDash.init('inventor', 'colaboracoes');
+  await loadBuilders();
+
+  // Carregar ideias do inventor para o select do modal
+  try {
+    const res = await KubicaApp.api('/ideas?inventor=me');
+    myIdeas = res?.data?.ideas ?? [];
+    const sel = document.getElementById('modal-idea');
+    if (myIdeas.length > 0) {
+      sel.innerHTML = myIdeas.map(i => `<option value="${i.id}">${i.title} (${i.status})</option>`).join('');
+    } else {
+      sel.innerHTML = '<option value="">Cria um projecto primeiro</option>';
+    }
+  } catch(_) {}
+})();
+
+async function loadBuilders() {
+  const fac  = document.getElementById('filter-faculty').value;
+  const uni  = document.getElementById('filter-university').value;
+  let url = '/builders';
+  const params = [];
+  if (fac) params.push('faculty=' + encodeURIComponent(fac));
+  if (uni) params.push('university=' + encodeURIComponent(uni));
+  if (params.length) url += '?' + params.join('&');
+
+  KubicaDash.showLoading('builders-grid');
+  try {
+    const res = await KubicaApp.api(url);
+    allBuilders = res?.data?.builders ?? [];
+    renderBuilders(allBuilders);
+  } catch(e) {
+    KubicaDash.showError('builders-grid', 'Erro ao carregar pool de builders.');
+  }
+}
+
+function filterBuilders() { loadBuilders(); }
+
+function renderBuilders(builders) {
+  if (!builders.length) {
+    document.getElementById('builders-grid').innerHTML = '<div class="k-empty" style="grid-column:span 3;"><span class="k-empty__icon">👥</span><p>Nenhum builder encontrado com estes filtros.</p></div>';
+    return;
+  }
+  document.getElementById('builders-grid').innerHTML = builders.map(b => {
+    const skills = Array.isArray(b.skills) ? b.skills : (b.skills ? JSON.parse(b.skills) : []);
+    return `
+      <div class="k-list-card">
+        <div class="k-list-card__body">
+          <div style="display:flex;align-items:center;gap:var(--sp-12);margin-bottom:var(--sp-12);">
+            <div class="k-sidebar__avatar" style="width:44px;height:44px;font-size:16px;">${(b.name || 'B').charAt(0)}</div>
+            <div>
+              <div style="font-weight:600;color:var(--color-warm-cream);font-size:14px;">${b.name}</div>
+              <div style="font-size:12px;color:var(--color-driftwood);">${b.faculty || 'Faculdade'} · ${b.university || 'Universidade'}</div>
+            </div>
+          </div>
+          <p style="font-size:13px;color:var(--color-driftwood);margin:0 0 var(--sp-12);line-height:1.5;">${(b.bio || 'Estudante builder FKCU disponível para co-criação.').substring(0, 110)}...</p>
+          <div style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:var(--sp-12);">
+            ${skills.slice(0,4).map(s => `<span class="k-badge k-badge--muted">${s}</span>`).join('')}
+          </div>
+          <div style="display:flex;align-items:center;justify-content:space-between;padding-top:var(--sp-8);border-top:1px solid rgba(67,57,45,0.4);">
+            <span style="font-size:12px;color:var(--color-driftwood);">⏱ ${b.availability_hours || '20'}h/semana</span>
+            <button class="btn-primary" style="font-size:12px;padding:7px 14px;" onclick="openModal(${b.id}, '${(b.name || '').replace(/'/g,"\\'")}')">Propor Parceria →</button>
+          </div>
+        </div>
+      </div>
+    `;
+  }).join('');
+}
+
+function openModal(builderId, builderName) {
+  selectedBuilderId = builderId;
+  document.getElementById('modal-builder-name').textContent = 'Para: ' + builderName;
+  document.getElementById('modal-feedback').style.display = 'none';
+  document.getElementById('proposal-modal').style.display = 'flex';
+}
+
+function closeModal() {
+  document.getElementById('proposal-modal').style.display = 'none';
+  selectedBuilderId = null;
+}
+
+async function sendProposal() {
+  const ideaId = document.getElementById('modal-idea').value;
+  if (!ideaId) {
+    document.getElementById('modal-feedback').style.display = 'block';
+    document.getElementById('modal-feedback').innerHTML = '<div style="color:#f87171;font-size:13px;">⚠ Selecciona um projecto primeiro.</div>';
+    return;
+  }
+
+  const payload = {
+    builder_id:    selectedBuilderId,
+    idea_id:       parseInt(ideaId),
+    proposed_role: document.getElementById('modal-role').value,
+    equity_pct:    parseFloat(document.getElementById('modal-equity').value),
+    hours_per_week: parseInt(document.getElementById('modal-hours').value),
+    message:       document.getElementById('modal-message').value.trim(),
+  };
+
+  const btn = document.getElementById('modal-submit');
+  btn.disabled = true;
+  btn.textContent = 'A enviar proposta...';
+
+  try {
+    const res = await KubicaApp.api('/proposals', 'POST', payload);
+    if (res && res.success) {
+      KubicaDash.toast('Proposta enviada com sucesso ao Builder!', 'success');
+      closeModal();
+    }
+  } catch(err) {
+    document.getElementById('modal-feedback').style.display = 'block';
+    document.getElementById('modal-feedback').innerHTML = `<div style="color:#f87171;font-size:13px;">⚠ ${err?.data?.message || 'Erro ao enviar proposta.'}</div>`;
+  } finally {
+    btn.disabled = false;
+    btn.textContent = 'Enviar Proposta →';
+  }
+}
+</script>
+</body>
+</html>

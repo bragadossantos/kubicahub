@@ -1,0 +1,23 @@
+{
+  "name": "kubica/hub",
+  "description": "Kubica Hub — Framework FKCU Backend PHP Puro MVC",
+  "version": "1.0.0",
+  "type": "project",
+  "require": {
+    "php": "^8.1"
+  },
+  "autoload": {
+    "psr-4": {
+      "App\\": "app/",
+      "Core\\": "app/core/"
+    },
+    "files": []
+  },
+  "scripts": {
+    "start": "php -S localhost:8000 -t public public/index.php"
+  },
+  "config": {
+    "optimize-autoloader": true,
+    "sort-packages": true
+  }
+}

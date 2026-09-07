@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="pt-AO">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>Notificações — Kubica Hub</title>
+  <link rel="stylesheet" href="../../kubica.css"/>
+</head>
+<body class="page-body">
+
+<div class="k-dash-layout">
+  <div id="k-sidebar-placeholder"></div>
+  <div class="k-dash-main">
+    <div id="k-header-placeholder"></div>
+    <div class="k-dash-content">
+
+      <div class="k-page-header">
+        <div class="k-page-header__eyebrow">FKCU</div>
+        <h1 class="k-page-header__title">Notificações</h1>
+        <p class="k-page-header__desc">Mantém-te a par das propostas de co-fundação, prazos de entregáveis e actualizações do sistema.</p>
+      </div>
+
+      <div style="display:flex;justify-content:flex-end;margin-bottom:var(--sp-16);">
+        <button class="btn-outline" onclick="markAllRead()" style="font-size:13px;">✓ Marcar todas como lidas</button>
+      </div>
+
+      <div id="notif-list">
+        <div class="k-loading"><div class="k-spinner"></div><p>A carregar notificações...</p></div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<script src="../../assets/js/kubica.js"></script>
+<script src="../../assets/js/app.js"></script>
+<script src="../../assets/js/kubica-dashboard.js"></script>
+<script>
+(async () => {
+  await KubicaDash.init(null, 'notificacoes');
+  await loadNotifications();
+})();
+
+async function loadNotifications() {
+  try {
+    const res = await KubicaApp.api('/notifications?limite=50');
+    const notifs = res?.data?.notifications ?? [];
+    const icons = { match:'🤝', idea:'💡', sandbox:'💰', deadline:'⏰', system:'⚙', mensagem:'💬' };
+
+    if (!notifs.length) { 
+      KubicaDash.showEmpty('notif-list', 'Sem notificações por enquanto.', '🔔'); 
+      return; 
+    }
+
+    document.getElementById('notif-list').innerHTML = notifs.map(n => `
+      <div class="k-list-card" style="margin-bottom:var(--sp-8);opacity:${n.is_read ? '0.65' : '1'};" id="notif-${n.id}">
+        <div class="k-list-card__body" style="${!n.is_read ? 'border-left:3px solid var(--color-amber-forge);padding-left:17px;' : ''}">
+          <div style="display:flex;align-items:flex-start;gap:var(--sp-12);">
+            <span style="font-size:22px;flex-shrink:0;">${icons[n.type] || '🔔'}</span>
+            <div style="flex:1;">
+              <div style="display:flex;align-items:center;gap:8px;margin-bottom:4px;">
+                <span style="font-size:14px;font-weight:600;color:var(--color-warm-cream);">${n.title}</span>
+                ${!n.is_read ? '<span class="k-badge k-badge--warning" style="font-size:10px;">Nova</span>' : ''}
+              </div>
+              <p style="font-size:13px;color:var(--color-driftwood);margin:0 0 var(--sp-8);line-height:1.4;">${n.message}</p>
+              <div style="display:flex;align-items:center;justify-content:space-between;">
+                <span style="font-size:11px;color:var(--color-driftwood);">${KubicaDash.formatDate(n.created_at)}</span>
+                <div style="display:flex;gap:8px;">
+                  ${n.action_url ? `<a href="${n.action_url}" class="btn-outline" style="font-size:12px;padding:4px 10px;">Ver →</a>` : ''}
+                  ${!n.is_read ? `<button class="btn-outline" style="font-size:12px;padding:4px 10px;" onclick="markRead(${n.id})">✓ Lida</button>` : ''}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    `).join('');
+  } catch(e) { 
+    KubicaDash.showError('notif-list', 'Erro ao carregar notificações.'); 
+  }
+}
+
+async function markRead(id) {
+  try {
+    await KubicaApp.api('/notifications/' + id + '/read', 'PATCH', {});
+    const el = document.getElementById('notif-' + id);
+    if (el) el.style.opacity = '0.65';
+  } catch(_) {}
+}
+
+async function markAllRead() {
+  try {
+    await KubicaApp.api('/notifications/read-all', 'PATCH', {});
+    await loadNotifications();
+    KubicaDash.toast('Notificações marcadas como lidas.', 'success');
+  } catch(_) {}
+}
+</script>
+</body>
+</html>

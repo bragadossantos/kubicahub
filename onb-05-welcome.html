@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="pt-AO">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>Bem-vindo ao Kubica Hub</title>
+  <meta name="description" content="A tua conta foi criada com sucesso. Bem-vindo ao ecossistema de co-criação universitária de Angola."/>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="kubica.css"/>
+  <style>
+    body { font-family: 'Manrope', var(--font-primary); overflow: hidden; }
+
+    .welcome-wrap {
+      min-height: 100vh;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      padding: var(--sp-32);
+      position: relative; z-index: 1;
+      text-align: center;
+    }
+
+    /* Score ring */
+    .score-ring-container {
+      position: relative; display: inline-flex;
+      align-items: center; justify-content: center;
+      margin: var(--sp-24) 0;
+    }
+    .score-ring-container svg { transform: rotate(-90deg); }
+    .ring-bg   { fill: none; stroke: var(--color-walnut); stroke-width: 6; }
+    .ring-fill {
+      fill: none; stroke: var(--color-amber-forge); stroke-width: 6;
+      stroke-linecap: round;
+      transition: stroke-dashoffset 1.8s var(--motion-spring);
+    }
+    .ring-inner {
+      position: absolute; display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+    }
+    .ring-score { font-size: 38px; font-weight: 500; color: var(--color-warm-cream); letter-spacing: -1px; line-height: 1; }
+    .ring-label { font-size: 10px; color: var(--color-driftwood); letter-spacing: .1em; text-transform: uppercase; margin-top: 4px; }
+
+    /* Next steps cards */
+    .next-steps {
+      display: grid; grid-template-columns: repeat(3,1fr); gap: var(--sp-12);
+      max-width: 640px; width: 100%; margin: var(--sp-24) auto 0;
+    }
+    .next-step-card {
+      background: var(--color-midnight-cocoa); border: 1px solid var(--color-walnut);
+      border-radius: var(--radius-card); padding: var(--sp-16);
+      text-align: left; transition: border-color .2s;
+    }
+    .next-step-card:hover { border-color: var(--color-cedar); }
+    .next-step-number { font-size: 11px; color: var(--color-amber-forge); font-weight: 500; margin-bottom: 6px; letter-spacing: .08em; }
+    .next-step-title  { font-size: 13px; color: var(--color-warm-cream); font-weight: 500; margin-bottom: 3px; }
+    .next-step-desc   { font-size: 11px; color: var(--color-driftwood); line-height: 1.5; }
+
+    /* Pulse dot on logo */
+    .logo-pulse {
+      position: relative; display: inline-flex;
+    }
+    .logo-pulse::after {
+      content: ''; position: absolute; inset: -6px; border-radius: 9999px;
+      border: 1px solid rgba(255,180,66,.4);
+      animation: k-pulse-ring 2s ease infinite;
+    }
+
+    @media (max-width: 640px) {
+      .next-steps { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- Confetti launched by JS -->
+
+<div class="welcome-wrap">
+
+  <!-- Logo with pulse -->
+  <div class="logo-pulse reveal-scale">
+    <div style="width:64px;height:64px;background:var(--color-amber-forge);border-radius:var(--radius-card);display:flex;align-items:center;justify-content:center;font-size:30px;font-weight:500;color:var(--color-espresso);">K</div>
+  </div>
+
+  <!-- Headline -->
+  <h1 class="text-heading-lg weight-medium color-cream reveal-up delay-1" style="margin-top:var(--sp-24);letter-spacing:-.5px;line-height:1.15;">
+    Bem-vindo ao Kubica Hub.
+  </h1>
+  <p class="text-body-lg color-driftwood reveal-up delay-2" style="margin-top:var(--sp-8);max-width:460px;line-height:1.6;">
+    A tua conta foi criada com sucesso. O teu perfil foi analisado pelo Motor FKCU — aqui está o teu Score de Inovação inicial.
+  </p>
+
+  <!-- Score Ring -->
+  <div class="score-ring-container reveal-scale delay-3">
+    <svg width="160" height="160" viewBox="0 0 160 160">
+      <circle class="ring-bg"   cx="80" cy="80" r="68"/>
+      <circle class="ring-fill" cx="80" cy="80" r="68" id="score-ring"
+              style="stroke-dasharray: 427.26; stroke-dashoffset: 427.26;"/>
+    </svg>
+    <div class="ring-inner">
+      <div class="ring-score" id="score-num">0</div>
+      <div class="ring-label">FKCU Score</div>
+    </div>
+  </div>
+
+  <!-- Score context -->
+  <div class="phase-pill active reveal-fade delay-4" style="margin-bottom:var(--sp-16);">
+    <div class="phase-pill__dot"></div>
+    Fase 1 — Captação &amp; Matchmaking
+  </div>
+
+  <!-- CTA -->
+  <div class="reveal-up delay-4" style="display:flex;gap:var(--sp-12);flex-wrap:wrap;justify-content:center;">
+    <a id="cta-main" href="ide-02-feed.html" class="btn-primary btn-lg">
+      Explorar Banco de Ideias
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+    </a>
+    <a href="mat-01-builders.html" class="btn-secondary btn-lg">
+      Ver Construtores
+    </a>
+  </div>
+
+  <!-- Next Steps -->
+  <div class="next-steps reveal-fade delay-5">
+    <div class="next-step-card">
+      <div class="next-step-number">01</div>
+      <div class="next-step-title">Completa o Perfil</div>
+      <div class="next-step-desc">Adiciona competências, CV e foto para aumentar o teu Score.</div>
+    </div>
+    <div class="next-step-card">
+      <div class="next-step-number">02</div>
+      <div class="next-step-title">Speed Dating</div>
+      <div class="next-step-desc">Conecta-te com co-founders em sessões de 5 minutos.</div>
+    </div>
+    <div class="next-step-card">
+      <div class="next-step-number">03</div>
+      <div class="next-step-title">Assina o MoU</div>
+      <div class="next-step-desc">Formaliza a tua equipa com contrato de vesting FKCU.</div>
+    </div>
+  </div>
+
+  <p class="text-caption color-driftwood reveal-fade" style="margin-top:var(--sp-24);opacity:.5;">
+    Kubica Hub &copy; 2026 · Framework FKCU v2.0 · Angola
+  </p>
+
+</div>
+
+<script src="assets/js/kubica-animations.js"></script>
+<script>
+  // ── Launch confetti ───────────────────────────────────────────
+  document.addEventListener('DOMContentLoaded', () => {
+    setTimeout(() => KubicaAnimate.fireConfetti({ count: 80, duration: 3500 }), 400);
+
+    // ── Animate score ring ────────────────────────────────────
+    const targetScore  = 72;
+    const circumference= 427.26;
+    const ring         = document.getElementById('score-ring');
+    const num          = document.getElementById('score-num');
+
+    setTimeout(() => {
+      const offset = circumference - (targetScore / 100) * circumference;
+      ring.style.strokeDashoffset = offset;
+      KubicaAnimate.tickNumber(num, 1800);
+      num.dataset.target = targetScore;
+    }, 600);
+
+    // ── Adjust CTA based on profile ──────────────────────────
+    const intent = sessionStorage.getItem('kubica_onboarding_intent');
+    if (intent === 'inventor') {
+      document.getElementById('cta-main').href = 'ide-01-submit.html';
+      document.getElementById('cta-main').innerHTML = `
+        Submeter Primeira Ideia
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>`;
+    }
+  });
+</script>
+</body>
+</html>

@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="pt-AO">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>Gerir Projectos — Kubica Hub Admin</title>
+  <link rel="stylesheet" href="../../kubica.css"/>
+  <style>
+    .k-filter-btn--active { border-color:var(--color-amber-forge)!important;color:var(--color-amber-forge)!important;background:var(--color-amber-dim)!important; }
+  </style>
+</head>
+<body class="page-body">
+
+<div class="k-dash-layout">
+  <div id="k-sidebar-placeholder"></div>
+  <div class="k-dash-main">
+    <div id="k-header-placeholder"></div>
+    <div class="k-dash-content">
+
+      <div class="k-page-header">
+        <div class="k-page-header__eyebrow">Admin · Screening FKCU</div>
+        <h1 class="k-page-header__title">Gerir & Triar Projectos</h1>
+        <p class="k-page-header__desc">Avalia as ideias submetidas pelos inventores para aprovação no Banco de Ideias FKCU.</p>
+      </div>
+
+      <div style="display:flex;gap:var(--sp-8);margin-bottom:var(--sp-24);flex-wrap:wrap;">
+        <button class="btn-outline k-filter-btn k-filter-btn--active" data-status="pending" onclick="switchStatus('pending')">⏳ Pendentes de Triagem</button>
+        <button class="btn-outline k-filter-btn" data-status="approved" onclick="switchStatus('approved')">✅ Aprovadas</button>
+        <button class="btn-outline k-filter-btn" data-status="incubating" onclick="switchStatus('incubating')">🚀 Em Incubação</button>
+        <button class="btn-outline k-filter-btn" data-status="rejected" onclick="switchStatus('rejected')">❌ Rejeitadas</button>
+      </div>
+
+      <div id="ideas-container">
+        <div class="k-loading"><div class="k-spinner"></div><p>A carregar projectos...</p></div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- Modal de Decisão de Triagem -->
+<div id="feedback-modal" class="k-modal-backdrop" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.8);z-index:999;align-items:center;justify-content:center;">
+  <div class="k-modal" style="background:var(--color-midnight-cocoa);border:1px solid var(--color-walnut);border-radius:12px;padding:var(--sp-24);max-width:480px;width:90%;">
+    <h2 class="k-modal__title" id="modal-title" style="font-size:18px;color:var(--color-warm-cream);margin:0 0 12px;">Decisão de Screening</h2>
+    <input type="hidden" id="modal-idea-id"/>
+    <input type="hidden" id="modal-action"/>
+    
+    <div class="input-group">
+      <label class="input-label">Feedback para o Inventor (Obrigatório em caso de rejeição)</label>
+      <textarea id="modal-feedback" class="input-pill" rows="4" placeholder="Ex: Projecto aprovado para a fase de Matchmaking com excelente alinhamento ao PDN..."></textarea>
+    </div>
+    <div style="display:flex;gap:var(--sp-12);justify-content:flex-end;margin-top:var(--sp-16);">
+      <button class="btn-outline" onclick="closeFeedbackModal()">Cancelar</button>
+      <button class="btn-primary" id="confirm-btn" onclick="confirmDecision()">Confirmar Decisão →</button>
+    </div>
+  </div>
+</div>
+
+<script src="../../assets/js/kubica.js"></script>
+<script src="../../assets/js/app.js"></script>
+<script src="../../assets/js/kubica-dashboard.js"></script>
+<script>
+let allIdeas = [], currentStatus = 'pending';
+
+(async () => {
+  await KubicaDash.init('admin', 'projetos');
+  await loadIdeas('pending');
+})();
+
+async function loadIdeas(status) {
+  currentStatus = status;
+  KubicaDash.showLoading('ideas-container');
+
+  let url = status === 'pending' ? '/admin/ideas/pending' : '/ideas?status=' + status + '&limite=50';
+  try {
+    const res = await KubicaApp.api(url);
+    allIdeas = res?.data?.ideas ?? [];
+    renderIdeas(allIdeas);
+  } catch(e) {
+    KubicaDash.showError('ideas-container', 'Erro ao carregar projectos.');
+  }
+}
+
+function switchStatus(status) {
+  document.querySelectorAll('.k-filter-btn').forEach(b => b.classList.toggle('k-filter-btn--active', b.dataset.status === status));
+  loadIdeas(status);
+}
+
+function renderIdeas(ideas) {
+  if (!ideas.length) {
+    KubicaDash.showEmpty('ideas-container', 'Nenhum projecto encontrado nesta categoria.', '💡');
+    return;
+  }
+  document.getElementById('ideas-container').innerHTML = ideas.map(idea => {
+    const roles = Array.isArray(idea.roles_needed) ? idea.roles_needed : (idea.roles_needed ? JSON.parse(idea.roles_needed) : []);
+    return `
+    <div class="k-list-card" style="margin-bottom:var(--sp-12);">
+      <div class="k-list-card__body">
+        <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:var(--sp-16);flex-wrap:wrap;">
+          <div style="flex:1;min-width:280px;">
+            <div style="display:flex;align-items:center;gap:8px;margin-bottom:var(--sp-8);">
+              <h3 style="font-size:16px;font-weight:700;color:var(--color-warm-cream);margin:0;">${idea.title}</h3>
+              ${KubicaDash.statusBadge(idea.status)}
+            </div>
+            <div style="font-size:12px;color:var(--color-amber-forge);margin-bottom:var(--sp-8);">${idea.sector} · ${idea.pdn_axis}</div>
+            
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:var(--sp-12);margin-bottom:var(--sp-12);">
+              <div style="background:var(--color-midnight-cocoa);padding:10px 12px;border-radius:6px;border:1px solid var(--color-walnut);">
+                <div style="font-size:11px;color:var(--color-driftwood);margin-bottom:4px;font-weight:600;">PROBLEMA</div>
+                <p style="font-size:13px;color:var(--color-warm-cream);margin:0;line-height:1.4;">${(idea.problem || '').substring(0, 150)}...</p>
+              </div>
+              <div style="background:var(--color-midnight-cocoa);padding:10px 12px;border-radius:6px;border:1px solid var(--color-walnut);">
+                <div style="font-size:11px;color:var(--color-driftwood);margin-bottom:4px;font-weight:600;">SOLUÇÃO</div>
+                <p style="font-size:13px;color:var(--color-warm-cream);margin:0;line-height:1.4;">${(idea.solution || '').substring(0, 150)}...</p>
+              </div>
+            </div>
+
+            <div style="display:flex;gap:6px;flex-wrap:wrap;align-items:center;">
+              <span style="font-size:12px;color:var(--color-driftwood);">Roles:</span>
+              ${roles.map(r => `<span class="k-badge k-badge--info">${r}</span>`).join('')}
+              <span style="font-size:12px;color:var(--color-driftwood);margin-left:var(--sp-8);">👤 ${idea.inventor_name || 'Inventor'} (${idea.inventor_university || 'UAN'})</span>
+              <span style="font-size:12px;color:var(--color-driftwood);">📅 ${KubicaDash.formatDate(idea.created_at)}</span>
+            </div>
+            
+            ${idea.screening_feedback ? `<div style="font-size:12px;color:var(--color-warning);margin-top:8px;padding:6px 10px;background:rgba(251,191,36,0.08);border-radius:4px;">Feedback: ${idea.screening_feedback}</div>` : ''}
+          </div>
+          
+          <div style="display:flex;flex-direction:column;gap:var(--sp-8);flex-shrink:0;">
+            ${idea.status === 'pending' ? `
+              <button class="btn-primary" onclick="openDecision(${idea.id}, 'approved')" style="font-size:12px;padding:6px 14px;">✓ Aprovar Ideia</button>
+              <button class="btn-outline" onclick="openDecision(${idea.id}, 'rejected')" style="font-size:12px;padding:6px 14px;color:#f87171;border-color:#f87171;">✗ Rejeitar</button>
+            ` : `
+              <button class="btn-outline" onclick="openDecision(${idea.id}, 'approved')" style="font-size:12px;padding:6px 12px;">Editar Feedback</button>
+            `}
+          </div>
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function openDecision(ideaId, action) {
+  document.getElementById('modal-idea-id').value = ideaId;
+  document.getElementById('modal-action').value = action;
+  document.getElementById('modal-title').textContent = action === 'approved' ? '✅ Aprovar Ideia para o Hub' : '❌ Rejeitar Ideia';
+  document.getElementById('confirm-btn').className = action === 'approved' ? 'btn-primary' : 'btn-outline';
+  document.getElementById('confirm-btn').style.color = action === 'rejected' ? '#f87171' : '';
+  document.getElementById('modal-feedback').value = '';
+  document.getElementById('feedback-modal').style.display = 'flex';
+}
+
+function closeFeedbackModal() { 
+  document.getElementById('feedback-modal').style.display = 'none'; 
+}
+
+async function confirmDecision() {
+  const ideaId   = document.getElementById('modal-idea-id').value;
+  const action   = document.getElementById('modal-action').value;
+  const feedback = document.getElementById('modal-feedback').value.trim();
+
+  if (action === 'rejected' && !feedback) {
+    alert('O feedback explicativo é obrigatório para rejeição.');
+    return;
+  }
+
+  try {
+    await KubicaApp.api('/admin/ideas/' + ideaId + '/status', 'PATCH', { status: action, screening_feedback: feedback });
+    KubicaDash.toast(action === 'approved' ? '✅ Ideia aprovada com sucesso!' : '❌ Ideia rejeitada.', action === 'approved' ? 'success' : 'info');
+    closeFeedbackModal();
+    await loadIdeas(currentStatus);
+  } catch(err) {
+    KubicaDash.toast('Erro ao processar decisão.', 'error');
+  }
+}
+</script>
+</body>
+</html>

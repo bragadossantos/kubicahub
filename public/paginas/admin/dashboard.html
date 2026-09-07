@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="pt-AO">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>Painel de Administração — Kubica Hub</title>
+  <link rel="stylesheet" href="../../kubica.css"/>
+</head>
+<body class="page-body">
+
+<div class="k-dash-layout">
+  <div id="k-sidebar-placeholder"></div>
+  <div class="k-dash-main">
+    <div id="k-header-placeholder"></div>
+    <div class="k-dash-content">
+
+      <div class="k-page-header">
+        <div class="k-page-header__eyebrow">Coordenação Geral · FKCU</div>
+        <h1 class="k-page-header__title">Painel de Controlo Executivo</h1>
+        <p class="k-page-header__desc">Visão consolidada da plataforma Kubica Hub — métricas de impacto, triagem e operações de financiamento.</p>
+      </div>
+
+      <!-- KPIs gerais -->
+      <div class="k-kpi-grid" id="kpi-grid">
+        <div class="k-loading"><div class="k-spinner"></div><p>A carregar métricas...</p></div>
+      </div>
+
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:var(--sp-16);" class="k-two-col">
+
+        <!-- Ideias Pendentes de Aprovação -->
+        <div class="k-list-card">
+          <div class="k-list-card__header">
+            <h2 class="k-list-card__title">⏳ Triagem de Ideias Pendentes</h2>
+            <a href="projetos.html" class="text-caption color-amber">Gerir fila →</a>
+          </div>
+          <div class="k-list-card__body" id="pending-ideas">
+            <div class="k-loading"><div class="k-spinner"></div></div>
+          </div>
+        </div>
+
+        <!-- Sandbox Pendente -->
+        <div class="k-list-card">
+          <div class="k-list-card__header">
+            <h2 class="k-list-card__title">💰 Sandbox / Funding Pendente</h2>
+            <a href="relatorios.html" class="text-caption color-amber">Gerir pedidos →</a>
+          </div>
+          <div class="k-list-card__body" id="pending-sandbox">
+            <div class="k-loading"><div class="k-spinner"></div></div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Acção rápida: Executar Algoritmo de Matching -->
+      <div class="k-form-section" style="margin-top:var(--sp-24);">
+        <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:var(--sp-16);">
+          <div style="flex:1;min-width:280px;">
+            <div style="font-size:15px;font-weight:600;color:var(--color-warm-cream);">🤖 Algoritmo de Matching FKCU</div>
+            <div style="font-size:13px;color:var(--color-driftwood);margin-top:4px;">Gera sugestões de equipa e propostas automáticas cruzando o perfil dos Builders com as necessidades das ideias aprovadas.</div>
+          </div>
+          <button class="btn-primary" id="run-matching-btn" onclick="runMatching()">Executar Matching Automático →</button>
+        </div>
+        <div id="matching-result" style="display:none;margin-top:var(--sp-12);"></div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<script src="../../assets/js/kubica.js"></script>
+<script src="../../assets/js/app.js"></script>
+<script src="../../assets/js/kubica-dashboard.js"></script>
+<script>
+(async () => {
+  await KubicaDash.init('admin', 'dashboard');
+
+  const [kpisRes, pendingRes, sandboxRes] = await Promise.allSettled([
+    KubicaApp.api('/admin/kpis'),
+    KubicaApp.api('/admin/ideas/pending'),
+    KubicaApp.api('/admin/sandbox/pending'),
+  ]);
+
+  // KPIs
+  if (kpisRes.status === 'fulfilled' && kpisRes.value?.success) {
+    const k = kpisRes.value.data;
+    document.getElementById('kpi-grid').innerHTML = `
+      ${KubicaDash.kpiCard('Total Membros', k.total_users ?? 0, '👥')}
+      ${KubicaDash.kpiCard('Ideias Submetidas', k.total_ideas ?? 0, '💡')}
+      ${KubicaDash.kpiCard('Equipas Formadas', k.total_teams ?? 0, '🤝')}
+      ${KubicaDash.kpiCard('Em Incubação', k.incubating_count ?? 0, '🚀')}
+      ${KubicaDash.kpiCard('Sandbox Total', KubicaDash.formatCurrency(k.sandbox_total_usd ?? 0), '💰')}
+      ${KubicaDash.kpiCard('Sessões Speed Dating', k.demo_day_sessions ?? 0, '🎤')}
+    `;
+  } else {
+    KubicaDash.showError('kpi-grid', 'Erro ao carregar métricas.');
+  }
+
+  // Ideias pendentes
+  if (pendingRes.status === 'fulfilled') {
+    const ideas = pendingRes.value?.data?.ideas ?? [];
+    if (!ideas.length) {
+      KubicaDash.showEmpty('pending-ideas', 'Nenhuma ideia pendente de triagem.', '✅');
+    } else {
+      document.getElementById('pending-ideas').innerHTML = ideas.slice(0, 4).map(i => `
+        <div class="k-list-row">
+          <div style="flex:1;">
+            <div class="k-list-row__title">${i.title}</div>
+            <div class="k-list-row__meta">${i.inventor_name || 'Inventor'} · ${i.sector}</div>
+          </div>
+          <span class="k-badge k-badge--warning">Pendente</span>
+        </div>
+      `).join('');
+    }
+  }
+
+  // Sandbox pendente
+  if (sandboxRes.status === 'fulfilled') {
+    const txns = sandboxRes.value?.data?.transactions ?? [];
+    if (!txns.length) {
+      KubicaDash.showEmpty('pending-sandbox', 'Nenhum pedido de funding pendente.', '✅');
+    } else {
+      document.getElementById('pending-sandbox').innerHTML = txns.slice(0, 4).map(t => `
+        <div class="k-list-row">
+          <div style="flex:1;">
+            <div class="k-list-row__title">${(t.description || 'Pedido').substring(0, 45)}...</div>
+            <div class="k-list-row__meta">${t.team_name || 'Equipa'} · ${t.category}</div>
+          </div>
+          <span style="font-size:13px;color:var(--color-amber-forge);font-weight:600;">${KubicaDash.formatCurrency(t.amount_usd)}</span>
+        </div>
+      `).join('');
+    }
+  }
+})();
+
+async function runMatching() {
+  const btn = document.getElementById('run-matching-btn');
+  btn.disabled = true;
+  btn.textContent = 'A processar algoritmo...';
+  try {
+    const res = await KubicaApp.api('/admin/matching/run', 'POST', {});
+    document.getElementById('matching-result').style.display = 'block';
+    document.getElementById('matching-result').innerHTML = `
+      <div style="padding:var(--sp-12) var(--sp-16);background:rgba(74,222,128,0.12);border:1px solid #4ade80;border-radius:8px;color:#4ade80;font-size:13px;">
+        ✓ ${res.data?.message || 'Algoritmo executado com sucesso.'} ${res.data?.proposals_created ? `Foram geradas ${res.data.proposals_created} novas propostas de co-criação.` : ''}
+      </div>`;
+    KubicaDash.toast('Matching FKCU executado!', 'success');
+  } catch(err) {
+    document.getElementById('matching-result').style.display = 'block';
+    document.getElementById('matching-result').innerHTML = `<div style="color:#f87171;font-size:13px;padding:var(--sp-12);">⚠ ${err?.data?.message || 'Erro ao executar algoritmo.'}</div>`;
+  } finally {
+    btn.disabled = false;
+    btn.textContent = 'Executar Matching Automático →';
+  }
+}
+</script>
+</body>
+</html>

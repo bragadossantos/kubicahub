@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="pt-AO">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>Explorar Ideias — Kubica Hub</title>
+  <link rel="stylesheet" href="../../kubica.css"/>
+</head>
+<body class="page-body">
+
+<div class="k-dash-layout">
+  <div id="k-sidebar-placeholder"></div>
+  <div class="k-dash-main">
+    <div id="k-header-placeholder"></div>
+    <div class="k-dash-content">
+
+      <div class="k-page-header">
+        <div class="k-page-header__eyebrow">Builder · Explorar</div>
+        <h1 class="k-page-header__title">Banco de Ideias FKCU</h1>
+        <p class="k-page-header__desc">Explora as ideias aprovadas pela coordenação e junta-te como co-fundador nas áreas de Tecnologia, Gestão, Direito e Marketing.</p>
+      </div>
+
+      <!-- Filtros -->
+      <div class="k-form-section" style="margin-bottom:var(--sp-24);">
+        <div class="k-form-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:var(--sp-16);">
+          <div class="input-group">
+            <label class="input-label" for="filter-sector">Sector de Actividade</label>
+            <select id="filter-sector" class="select-pill" onchange="loadIdeas()">
+              <option value="">Todos os sectores</option>
+              <option>Agritech</option><option>Fintech</option><option>Healthtech</option>
+              <option>Edtech</option><option>Energia</option><option>Logística</option>
+              <option>Turismo</option><option>E-Commerce</option>
+            </select>
+          </div>
+          <div class="input-group">
+            <label class="input-label" for="filter-role">Papel pretendido</label>
+            <select id="filter-role" class="select-pill" onchange="applyFilters()">
+              <option value="">Todos os papéis</option>
+              <option value="CTO">⚙ CTO — Tecnologia / Engenharia</option>
+              <option value="CFO">📊 CFO — Finanças / Gestão</option>
+              <option value="CLO">⚖ CLO — Jurídico / Direito</option>
+              <option value="CMO">📣 CMO — Marketing / Comunicação</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <div id="ideas-grid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:var(--sp-16);">
+        <div class="k-loading" style="grid-column:span 3;"><div class="k-spinner"></div><p>A carregar ideias...</p></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="../../assets/js/kubica.js"></script>
+<script src="../../assets/js/app.js"></script>
+<script src="../../assets/js/kubica-dashboard.js"></script>
+<script>
+let allIdeas = [];
+
+(async () => {
+  await KubicaDash.init('builder', 'explorar');
+  await loadIdeas();
+})();
+
+async function loadIdeas() {
+  const sector = document.getElementById('filter-sector').value;
+  let url = '/ideas?status=approved';
+  if (sector) url += '&sector=' + encodeURIComponent(sector);
+
+  KubicaDash.showLoading('ideas-grid');
+  try {
+    const res = await KubicaApp.api(url);
+    allIdeas = res?.data?.ideas ?? [];
+    applyFilters();
+  } catch(e) {
+    document.getElementById('ideas-grid').innerHTML = '<div class="k-error-block" style="grid-column:span 3;"><p>⚠ Erro ao carregar banco de ideias.</p></div>';
+  }
+}
+
+function applyFilters() {
+  const roleFilter = document.getElementById('filter-role').value;
+  let filtered = allIdeas;
+  if (roleFilter) {
+    filtered = filtered.filter(i => {
+      const roles = Array.isArray(i.roles_needed) ? i.roles_needed : JSON.parse(i.roles_needed || '[]');
+      return roles.includes(roleFilter);
+    });
+  }
+  renderIdeas(filtered);
+}
+
+function renderIdeas(ideas) {
+  if (!ideas.length) {
+    document.getElementById('ideas-grid').innerHTML = '<div class="k-empty" style="grid-column:span 3;"><span class="k-empty__icon">💡</span><p>Nenhuma ideia encontrada para estes filtros.</p></div>';
+    return;
+  }
+
+  document.getElementById('ideas-grid').innerHTML = ideas.map(idea => {
+    const roles = Array.isArray(idea.roles_needed) ? idea.roles_needed : JSON.parse(idea.roles_needed || '[]');
+    return `
+      <div class="k-list-card">
+        <div class="k-list-card__body">
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:var(--sp-8);">
+            <span style="font-size:11px;color:var(--color-amber-forge);font-weight:600;text-transform:uppercase;letter-spacing:.5px;">${idea.sector}</span>
+            <span style="font-size:11px;color:var(--color-driftwood);">${KubicaDash.formatDate(idea.created_at)}</span>
+          </div>
+          <h3 style="font-size:16px;font-weight:700;color:var(--color-warm-cream);margin:0 0 var(--sp-8);">${idea.title}</h3>
+          <p style="font-size:13px;color:var(--color-driftwood);margin:0 0 var(--sp-12);line-height:1.5;">${(idea.problem || '').substring(0, 130)}...</p>
+          <div style="margin-bottom:var(--sp-12);">
+            <div style="font-size:11px;color:var(--color-driftwood);margin-bottom:6px;">Papéis necessários na equipa:</div>
+            <div style="display:flex;gap:6px;flex-wrap:wrap;">
+              ${roles.length ? roles.map(r => `<span class="k-badge k-badge--info">${r}</span>`).join('') : '<span class="k-badge k-badge--muted">Equipa aberta</span>'}
+            </div>
+          </div>
+          <div style="font-size:11px;color:var(--color-driftwood);margin-bottom:var(--sp-16);">📍 ${idea.pdn_axis}</div>
+          <div style="display:flex;align-items:center;justify-content:space-between;padding-top:var(--sp-8);border-top:1px solid rgba(67,57,45,0.4);">
+            <span style="font-size:12px;color:var(--color-driftwood);">👤 ${idea.inventor_name || 'Inventor FKCU'}</span>
+            <a href="propostas.html" class="btn-primary" style="font-size:12px;padding:6px 12px;">Ver Propostas →</a>
+          </div>
+        </div>
+      </div>
+    `;
+  }).join('');
+}
+</script>
+</body>
+</html>

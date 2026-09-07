@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="pt-AO">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>Ficha Técnica & Radar FKCU (IDE-03) — Kubica Hub</title>
+  <meta name="description" content="Visão completa do projecto com Radar da Matriz 4 Faculdades e candidatura direta às vagas de co-founder."/>
+  <link rel="stylesheet" href="kubica.css"/>
+  <style>
+    .detail-grid {
+      display: grid;
+      grid-template-columns: 1.3fr 1fr;
+      gap: 36px;
+      align-items: flex-start;
+    }
+    @media (max-width: 900px) {
+      .detail-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+    .radar-quadrant-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin: 20px 0;
+    }
+    .radar-slot {
+      background: var(--color-espresso, #140b00);
+      border: 1px solid var(--color-walnut, #43392d);
+      border-radius: var(--radius-card, 6px);
+      padding: 16px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      position: relative;
+    }
+    .radar-slot.filled {
+      border-color: rgba(74, 222, 128, 0.4);
+      background: rgba(74, 222, 128, 0.04);
+    }
+    .radar-slot.vacant {
+      border: 1px dashed var(--color-amber-forge, #ffb442);
+      background: rgba(255, 180, 66, 0.05);
+      animation: pulseOutline 2.5s infinite;
+    }
+    .radar-slot.selected {
+      box-shadow: 0 0 0 2px var(--color-amber-forge, #ffb442);
+      background: rgba(255, 180, 66, 0.12);
+    }
+    @keyframes pulseOutline {
+      0%, 100% { border-color: rgba(255, 180, 66, 0.4); }
+      50% { border-color: rgba(255, 180, 66, 0.9); }
+    }
+  </style>
+</head>
+<body class="page-body">
+  <div id="k-nav-placeholder"></div>
+
+  <main id="main-content">
+    <section class="section-sm" style="border-bottom: 1px solid var(--color-walnut, #43392d);">
+      <div class="container">
+        <div class="section-eyebrow">IDE-03 — Ficha Técnica & Radar de Sinergia</div>
+        <div class="flex-between" style="flex-wrap: wrap; gap: 16px; align-items: center;">
+          <div>
+            <h1 class="text-heading-lg weight-medium color-cream" id="detail-title" style="letter-spacing: var(--tracking-heading-lg, -0.8px);">
+              AgroLink Angola
+            </h1>
+            <div class="flex flex-gap-8 mt-8">
+              <span class="badge badge-amber" id="detail-sector">Agritech</span>
+              <span class="badge badge-success">Triagem Aprovada ✓</span>
+              <span class="badge badge-walnut">Fase 1: Captação & Match</span>
+            </div>
+          </div>
+          <a href="mat-03-speeddate.html" class="btn-primary" id="direct-apply-btn">
+            Candidatar-me a este Projecto →
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <div class="detail-grid">
+          
+          <!-- Coluna Esquerda: Tese e Dados Técnicos -->
+          <div>
+            <div class="card card-surface mb-24" style="padding: 28px; border-radius: var(--radius-card, 6px); border: 1px solid var(--color-walnut, #43392d);">
+              <h2 class="text-subheading weight-medium color-cream mb-16" style="font-size: 18px;">
+                Tese do Projecto & Dor de Mercado
+              </h2>
+              <p class="text-body color-driftwood" id="detail-problem" style="line-height: 1.8; font-size: 14px;">
+                O comércio agrícola em Angola é dominado por 3 a 5 camadas de intermediários físicos que absorvem 60-70% da margem do pequeno agricultor familiar. A AgroLink Angola desenvolve uma plataforma de ligação digital direta entre produtores das províncias e redes de supermercados em Luanda, assegurando rastreabilidade, pagamentos automáticos e redução de preços no consumidor.
+              </p>
+            </div>
+
+            <!-- Impacto e Métricas Estimadas -->
+            <div class="card card-surface mb-24" style="padding: 24px; border-radius: var(--radius-card, 6px); border: 1px solid var(--color-walnut, #43392d);">
+              <h2 class="text-subheading weight-medium color-cream mb-16" style="font-size: 16px;">
+                Impacto Esperado (PDN 2023–2027)
+              </h2>
+              <div class="grid-2" style="gap: 12px;">
+                <div class="card" style="padding: 16px; background: var(--color-espresso, #140b00); border: 1px solid var(--color-walnut, #43392d);">
+                  <div class="kpi-card__value" style="font-size: 24px; color: var(--color-amber-forge, #ffb442);">500+</div>
+                  <div class="text-caption color-driftwood mt-4">Agricultores Beneficiados</div>
+                </div>
+                <div class="card" style="padding: 16px; background: var(--color-espresso, #140b00); border: 1px solid var(--color-walnut, #43392d);">
+                  <div class="kpi-card__value" style="font-size: 24px; color: var(--color-amber-forge, #ffb442);">-40%</div>
+                  <div class="text-caption color-driftwood mt-4">Redução no Custo de Intermediação</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Autor / Inventor -->
+            <div class="card card-surface" style="padding: 24px; border-radius: var(--radius-card, 6px); border: 1px solid var(--color-walnut, #43392d);">
+              <h2 class="text-subheading weight-medium color-cream mb-16" style="font-size: 16px;">
+                Dados do Inventor Fundador
+              </h2>
+              <div class="flex flex-gap-16" style="align-items: center;">
+                <div style="width: 48px; height: 48px; border-radius: 50%; background: var(--color-espresso, #140b00); border: 1px solid var(--color-walnut, #43392d); display: flex; align-items: center; justify-content: center; color: var(--color-amber-forge, #ffb442); font-weight: 600;">
+                  RA
+                </div>
+                <div>
+                  <p class="text-subheading weight-medium color-cream" style="font-size: 15px;">Rodrigo Augusto</p>
+                  <p class="text-caption color-driftwood">Engenharia Informática · 4º Ano · UAN (Universidade Agostinho Neto)</p>
+                  <div class="flex flex-gap-8 mt-6">
+                    <span class="badge badge-amber" style="font-size: 10px;">Inventor</span>
+                    <span class="badge badge-walnut" style="font-size: 10px;">Founding Member</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Coluna Direita: Radar da Matriz 4 Faculdades FKCU -->
+          <div>
+            <div class="card card-surface mb-20" style="padding: 28px; border-radius: var(--radius-card, 6px); border: 1px solid var(--color-walnut, #43392d);">
+              <h2 class="text-subheading weight-medium color-cream mb-4" style="font-size: 16px;">
+                Radar da Equipa — Matriz FKCU
+              </h2>
+              <p class="text-caption color-driftwood mb-16" style="font-size: 12px;">
+                Princípio de Gestalt (Closure): clica numa vaga pontilhada para te candidatares diretamente.
+              </p>
+
+              <div class="radar-quadrant-grid">
+                
+                <!-- CTO (Preenchido pelo Inventor) -->
+                <div class="radar-slot filled" onclick="selectRadarSlot('CTO', this)">
+                  <div style="font-size: 12px; font-weight: 600; color: #4ade80; margin-bottom: 4px;">CTO · Tech</div>
+                  <p class="text-caption color-driftwood" style="font-size: 10px;">Preenchido (Rodrigo A.)</p>
+                  <span class="badge badge-success" style="font-size: 9px; margin-top: 6px;">Ativo</span>
+                </div>
+
+                <!-- CLO (Vaga Aberta) -->
+                <div class="radar-slot vacant selected" id="slot-clo" onclick="selectRadarSlot('CLO', this)">
+                  <div style="font-size: 12px; font-weight: 600; color: var(--color-amber-forge, #ffb442); margin-bottom: 4px;">CLO · Direito</div>
+                  <p class="text-caption color-driftwood" style="font-size: 10px;">IAPI & Termos Societários</p>
+                  <span class="badge badge-amber" style="font-size: 9px; margin-top: 6px;">Vaga Aberta</span>
+                </div>
+
+                <!-- CFO (Vaga Aberta) -->
+                <div class="radar-slot vacant" id="slot-cfo" onclick="selectRadarSlot('CFO', this)">
+                  <div style="font-size: 12px; font-weight: 600; color: var(--color-amber-forge, #ffb442); margin-bottom: 4px;">CFO · Gestão</div>
+                  <p class="text-caption color-driftwood" style="font-size: 10px;">Unit Economics & Finanças</p>
+                  <span class="badge badge-amber" style="font-size: 9px; margin-top: 6px;">Vaga Aberta</span>
+                </div>
+
+                <!-- CMO (Vaga Aberta) -->
+                <div class="radar-slot vacant" id="slot-cmo" onclick="selectRadarSlot('CMO', this)">
+                  <div style="font-size: 12px; font-weight: 600; color: var(--color-amber-forge, #ffb442); margin-bottom: 4px;">CMO · Marketing</div>
+                  <p class="text-caption color-driftwood" style="font-size: 10px;">Crescimento & Pitch</p>
+                  <span class="badge badge-amber" style="font-size: 9px; margin-top: 6px;">Vaga Aberta</span>
+                </div>
+
+              </div>
+
+              <div class="mt-20">
+                <a href="mat-04-proposal.html" class="btn-primary" style="width: 100%; justify-content: center;" id="action-slot-btn">
+                  Candidatar-me como CLO →
+                </a>
+              </div>
+            </div>
+
+            <!-- Parecer de Triagem Rápido -->
+            <div class="card card-surface" style="padding: 20px; border-radius: var(--radius-card, 6px); border: 1px solid var(--color-walnut, #43392d);">
+              <div class="flex-between mb-8">
+                <span class="text-caption color-amber" style="font-weight: 500;">Parecer da Comissão FKCU</span>
+                <span class="badge badge-success" style="font-size: 10px;">Nota: 8.2 / 10</span>
+              </div>
+              <p class="text-body color-driftwood" style="font-size: 12px; line-height: 1.5; margin-bottom: 12px;">
+                Projecto aprovado por unanimidade no Eixo 3 do PDN. Recomendação prioritária: integrar co-founder com especialização jurídica (CLO).
+              </p>
+              <a href="ide-04-feedback.html" class="text-caption color-amber" style="text-decoration: none; font-size: 12px; font-weight: 500;">
+                Ver Relatório Completo de Avaliação →
+              </a>
+            </div>
+
+          </div>
+
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <div id="k-footer-placeholder"></div>
+
+  <script src="assets/js/kubica.js"></script>
+  <script>
+    KubicaNav.init('ide-02-feed.html');
+
+    function selectRadarSlot(role, el) {
+      document.querySelectorAll('.radar-slot').forEach(s => s.classList.remove('selected'));
+      el.classList.add('selected');
+
+      const btn = document.getElementById('action-slot-btn');
+      if (role === 'CTO') {
+        btn.textContent = 'Papel já Preenchido pelo Fundador';
+        btn.classList.add('btn-secondary');
+        btn.classList.remove('btn-primary');
+        btn.href = 'javascript:void(0)';
+      } else {
+        btn.textContent = `Candidatar-me como ${role} →`;
+        btn.classList.remove('btn-secondary');
+        btn.classList.add('btn-primary');
+        btn.href = `mat-04-proposal.html?role=${role}`;
+        showToast(`Papel ${role} selecionado no Radar FKCU!`, 'info');
+      }
+    }
+  </script>
+</body>
+</html>

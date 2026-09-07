@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="pt-AO"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Acordo de Co-Founders &amp; Vesting — Kubica Hub</title>
+<meta name="description" content="Configurador interactivo do acordo de co-founders com simulador de vesting e gerador automático de minutas."/>
+<link rel="stylesheet" href="kubica.css"/>
+<style>
+.equity-bar { height: 32px; border-radius: 4px; overflow: hidden; display: flex; }
+.equity-segment { display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 500; color: #140b00; transition: width .4s ease; }
+</style>
+</head>
+<body class="page-body"><div id="k-nav-placeholder"></div>
+<main>
+<section class="section-sm" style="border-bottom:1px solid var(--color-walnut);">
+  <div class="container"><div class="section-eyebrow">GOV-01 — Blindagem Societária</div>
+  <h1 class="text-heading-lg weight-medium color-cream" style="letter-spacing:var(--tracking-heading-lg);">Acordo de Co-Founders &amp; Simulador de Vesting</h1>
+  <p class="text-body-lg color-driftwood mt-16">Concrete Commitment: visão transparente da cap table antes da assinatura. Alinha incentivos de longo prazo.</p></div>
+</section>
+<section class="section">
+  <div class="container">
+    <div class="grid-2" style="gap:32px;align-items:flex-start;">
+      <!-- Cap Table Editor -->
+      <div>
+        <div class="card card-surface" style="padding:24px;margin-bottom:16px;">
+          <h2 class="text-subheading weight-medium color-cream mb-24">Simulador de Cap Table</h2>
+          <div id="equity-vis" style="margin-bottom:24px;">
+            <div class="equity-bar mb-8">
+              <div class="equity-segment" id="seg-cto" style="width:30%;background:var(--color-amber-forge);">CTO 30%</div>
+              <div class="equity-segment" id="seg-cfo" style="width:25%;background:#e6962b;">CFO 25%</div>
+              <div class="equity-segment" id="seg-clo" style="width:25%;background:#cc7f1e;">CLO 25%</div>
+              <div class="equity-segment" id="seg-cmo" style="width:20%;background:#b36611;">CMO 20%</div>
+            </div>
+            <p class="text-caption color-driftwood">Arrasta os sliders para simular a distribuição</p>
+          </div>
+
+          <div style="display:flex;flex-direction:column;gap:16px;">
+            <div><label class="input-label" style="display:flex;justify-content:space-between;">CTO — Rodrigo Augusto<span id="cto-val" class="badge badge-amber">30%</span></label>
+            <input type="range" min="10" max="50" value="30" class="equity-slider" id="sl-cto" oninput="updateEquity()"/></div>
+            <div><label class="input-label" style="display:flex;justify-content:space-between;">CFO — Paulo Carvalho<span id="cfo-val" class="badge badge-amber">25%</span></label>
+            <input type="range" min="10" max="50" value="25" class="equity-slider" id="sl-cfo" oninput="updateEquity()"/></div>
+            <div><label class="input-label" style="display:flex;justify-content:space-between;">CLO — Maria Antónia<span id="clo-val" class="badge badge-amber">25%</span></label>
+            <input type="range" min="10" max="50" value="25" class="equity-slider" id="sl-clo" oninput="updateEquity()"/></div>
+            <div><label class="input-label" style="display:flex;justify-content:space-between;">CMO — Luísa Santos<span id="cmo-val" class="badge badge-amber">20%</span></label>
+            <input type="range" min="5" max="40" value="20" class="equity-slider" id="sl-cmo" oninput="updateEquity()"/></div>
+          </div>
+          <div id="equity-total" class="flex-between mt-16 text-body color-cream"><span>Total:</span><span id="total-val" style="color:var(--color-amber-forge);">100%</span></div>
+        </div>
+      </div>
+
+      <!-- Vesting Config -->
+      <div>
+        <div class="card card-surface" style="padding:24px;margin-bottom:16px;">
+          <h2 class="text-subheading weight-medium color-cream mb-16">Configurar Vesting</h2>
+          <div class="input-group"><label class="input-label">Período de vesting</label><select class="select-pill" onchange="updateTimeline()"><option value="3">3 anos (Standard MIT/Stanford)</option><option value="4">4 anos (Silicon Valley standard)</option><option value="2">2 anos (Startups pré-seed)</option></select></div>
+          <div class="input-group"><label class="input-label">Cliff inicial</label><select class="select-pill"><option>12 meses (1 ano) — Recomendado</option><option>6 meses</option><option>Sem cliff</option></select></div>
+          <div class="input-group"><label class="input-label">Cadência de vesting pós-cliff</label><select class="select-pill"><option>Mensal (mais comum)</option><option>Trimestral</option><option>Anual</option></select></div>
+          <div class="input-group"><label class="input-label">Cláusula de aceleração</label><select class="select-pill"><option>Double trigger (aquisição + demissão)</option><option>Single trigger (apenas aquisição)</option><option>Sem aceleração</option></select></div>
+        </div>
+
+        <div class="card card-surface" style="padding:24px;margin-bottom:16px;">
+          <h2 class="text-subheading weight-medium color-cream mb-16">Linha de Tempo do Vesting</h2>
+          <div class="k-timeline" id="vesting-timeline">
+            <div class="k-timeline__item done"><div class="k-timeline__dot"></div><p class="k-timeline__title">Mês 0 — Hoje</p><p class="k-timeline__desc">Acordo de co-founders assinado. 0% equity desbloqueado.</p></div>
+            <div class="k-timeline__item active"><div class="k-timeline__dot"></div><p class="k-timeline__title">Mês 12 — Cliff</p><p class="k-timeline__desc">33% do equity desbloqueado se membro continua activo.</p></div>
+            <div class="k-timeline__item"><div class="k-timeline__dot"></div><p class="k-timeline__title">Meses 13–36 — Vesting mensal</p><p class="k-timeline__desc">2.78% / mês. Total de 67% em 24 meses restantes.</p></div>
+            <div class="k-timeline__item"><div class="k-timeline__dot"></div><p class="k-timeline__title">Mês 36 — Fully vested</p><p class="k-timeline__desc">100% do equity conferido. Equity acumulado é permanente.</p></div>
+          </div>
+        </div>
+
+        <button class="btn-primary" style="width:100%;justify-content:center;" onclick="generateMoU()">📄 Gerar rascunho do Acordo</button>
+      </div>
+    </div>
+  </div>
+</section>
+</main>
+<div id="k-footer-placeholder"></div>
+<script src="assets/js/kubica.js"></script>
+<script>
+KubicaNav.init('inc-01-dashboard.html');
+function updateEquity() {
+  const vals = { cto: +document.getElementById('sl-cto').value, cfo: +document.getElementById('sl-cfo').value, clo: +document.getElementById('sl-clo').value, cmo: +document.getElementById('sl-cmo').value };
+  const total = Object.values(vals).reduce((a,b)=>a+b,0);
+  Object.keys(vals).forEach(k => {
+    const pct = Math.round(vals[k]/total*100);
+    document.getElementById('seg-'+k).style.width = pct+'%';
+    document.getElementById('seg-'+k).textContent = k.toUpperCase()+' '+pct+'%';
+    document.getElementById(k+'-val').textContent = pct+'%';
+  });
+  document.getElementById('total-val').textContent = total + '%';
+  document.getElementById('total-val').style.color = total===100?'var(--color-amber-forge)':'#f87171';
+}
+function generateMoU() {
+  showModal('Acordo de Co-Founders — AgroLink Angola', '<p style="color:var(--color-driftwood);line-height:1.7;">Documento gerado pela plataforma Kubica Hub. Revê os termos com o CLO da equipa antes de assinar. O documento inclui: distribuição de equity, cláusula de vesting, cliff, aceleração, drag-along e tag-along rights adaptados à Lei n.º 1/04 de Angola.</p>', [{ label:'Descarregar PDF', action:'showToast("PDF em preparação...","success")', primary:true },{ label:'Enviar ao CLO', action:'showToast("Enviado a Maria Antónia (CLO) por email","success")', primary:false }]);
+}
+</script>
+</body></html>

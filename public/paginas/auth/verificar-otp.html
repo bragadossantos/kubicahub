@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="pt-AO">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>Verificar Código OTP — Kubica Hub</title>
+  <meta name="description" content="Verifica a tua conta institucional no Kubica Hub."/>
+  <link rel="stylesheet" href="../../kubica.css"/>
+  <style>
+    .k-alert { padding: 12px 16px; border-radius: 8px; margin-bottom: 16px; font-size: 14px; line-height: 1.4; }
+    .k-alert--error { background: rgba(248, 113, 113, 0.12); color: #f87171; border: 1px solid rgba(248, 113, 113, 0.3); }
+    .k-alert--success { background: rgba(74, 222, 128, 0.12); color: #4ade80; border: 1px solid rgba(74, 222, 128, 0.3); }
+  </style>
+</head>
+<body class="page-body">
+  <div id="k-nav-placeholder"></div>
+  
+  <main>
+    <section class="section" style="min-height: 80vh; display: flex; align-items: center;">
+      <div class="container">
+        <div style="max-width:440px;margin:auto;">
+          <div style="text-align:center;margin-bottom:var(--sp-24);">
+            <a href="../landing.html" style="display:inline-flex;align-items:center;gap:8px;text-decoration:none;margin-bottom:var(--sp-12);">
+              <span style="background:var(--color-amber-forge);color:#000;font-weight:700;padding:4px 10px;border-radius:6px;font-size:16px;">K</span>
+              <span style="font-size:18px;font-weight:600;color:var(--color-warm-cream);">Kubica Hub</span>
+            </a>
+            <h1 class="text-heading-lg weight-medium color-cream">Verificar Código</h1>
+            <p class="text-body color-driftwood" style="margin-top:4px;">Introduz o código OTP de 6 dígitos enviado para o teu e-mail institucional.</p>
+          </div>
+          
+          <div class="card card-surface" style="padding:var(--sp-32);border:1px solid var(--color-walnut);">
+            <div id="form-errors" style="display:none;"></div>
+            
+            <form id="otp-form" onsubmit="handleVerify(event)">
+              <div class="input-group">
+                <label class="input-label" for="otp">Código OTP (6 dígitos)</label>
+                <input type="text" id="otp" class="input-pill" placeholder="000000" maxlength="6" inputmode="numeric" style="text-align:center;font-size:20px;letter-spacing:4px;font-weight:600;" required/>
+              </div>
+              
+              <button type="submit" class="btn-primary mt-24" style="width:100%;justify-content:center;" id="submit-btn">
+                Verificar e Continuar →
+              </button>
+            </form>
+            
+            <div class="text-center mt-24" style="padding-top:var(--sp-16);border-top:1px solid var(--color-walnut);">
+              <p class="text-caption color-driftwood">Não recebeste o código? <a href="registo.html" class="color-amber weight-medium">Voltar ao registo</a></p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script src="../../assets/js/kubica.js"></script>
+  <script src="../../assets/js/app.js"></script>
+  <script>
+    const pendingUserId = sessionStorage.getItem('pending_otp_user_id');
+    
+    if (!pendingUserId) {
+      // Se não há user pendente, volta ao login
+      window.location.href = 'login.html';
+    }
+
+    async function handleVerify(e) {
+      e.preventDefault();
+      
+      const payload = {
+        user_id: parseInt(pendingUserId),
+        otp: document.getElementById('otp').value.trim()
+      };
+
+      const btn = document.getElementById('submit-btn');
+      btn.disabled = true;
+      btn.textContent = 'A validar código...';
+      document.getElementById('form-errors').style.display = 'none';
+
+      try {
+        const res = await KubicaApp.api('/auth/otp', 'POST', payload);
+        if (res && res.success) {
+          KubicaApp.mostrarSucesso(res.message + ' A redireccionar para o login...');
+          sessionStorage.removeItem('pending_otp_user_id');
+          setTimeout(() => {
+            window.location.href = 'login.html';
+          }, 1500);
+        }
+      } catch (error) {
+        let msg = 'Código OTP inválido ou expirado. Tenta novamente.';
+        if (error.data && error.data.message) {
+          msg = error.data.message;
+        }
+        KubicaApp.mostrarErro(msg);
+        btn.disabled = false;
+        btn.textContent = 'Verificar e Continuar →';
+      }
+    }
+  </script>
+</body>
+</html>

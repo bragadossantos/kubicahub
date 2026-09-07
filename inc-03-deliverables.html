@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="pt-AO"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Entregáveis C-Level — Kubica Hub</title>
+<meta name="description" content="Repositório de entregáveis por papel executivo com checklists de progresso e partilha de documentos."/>
+<link rel="stylesheet" href="kubica.css"/>
+</head>
+<body class="page-body"><div id="k-nav-placeholder"></div>
+<main>
+<section class="section-sm" style="border-bottom:1px solid var(--color-walnut);">
+  <div class="container"><div class="section-eyebrow">INC-03 — Entregáveis</div>
+  <h1 class="text-heading-lg weight-medium color-cream" style="letter-spacing:var(--tracking-heading-lg);">Repositório de Entregáveis C-Level</h1>
+  <p class="text-body-lg color-driftwood mt-16">Accountability e Division of Labor: cada membro vê o seu progresso e o impacto no grupo.</p></div>
+</section>
+<section class="section">
+  <div class="container">
+    <div class="grid-2" style="gap:24px;">
+      <div class="card card-surface" style="padding:24px;">
+        <div class="flex-between mb-16"><div class="flex flex-gap-12" style="align-items:center;"><span style="font-size:24px;">💻</span><h2 class="text-subheading weight-medium color-cream">Painel CTO</h2></div><span class="badge badge-success">Concluído ✓</span></div>
+        <div class="k-progress mb-8"><div class="k-progress__fill" style="width:100%;background:linear-gradient(90deg,var(--color-amber-forge),#ffd966);"></div></div>
+        <div class="divider"></div>
+        <div style="display:flex;flex-direction:column;gap:8px;margin-top:16px;">
+          <a href="#" class="btn-ghost" style="justify-content:flex-start;gap:12px;" onclick="return false;"><span>🔗</span>Repositório GitHub — AgroLink MVP<span class="badge badge-success" style="margin-left:auto;">Entregue</span></a>
+          <a href="#" class="btn-ghost" style="justify-content:flex-start;gap:12px;" onclick="return false;"><span>🏗</span>Diagrama Arquitectura v2.1<span class="badge badge-success" style="margin-left:auto;">Entregue</span></a>
+          <a href="#" class="btn-ghost" style="justify-content:flex-start;gap:12px;" onclick="return false;"><span>🌐</span>MVP funcional — agrolink.vercel.app<span class="badge badge-success" style="margin-left:auto;">Entregue</span></a>
+          <a href="#" class="btn-ghost" style="justify-content:flex-start;gap:12px;" onclick="return false;"><span>📋</span>Análise IP Tecnológica<span class="badge badge-success" style="margin-left:auto;">Entregue</span></a>
+        </div>
+        <div class="divider"></div>
+        <button class="btn-secondary btn-sm mt-8" onclick="showToast('Upload em preparação...','success')" style="width:100%;justify-content:center;">+ Adicionar entregável</button>
+      </div>
+
+      <div class="card card-surface" style="padding:24px;">
+        <div class="flex-between mb-16"><div class="flex flex-gap-12" style="align-items:center;"><span style="font-size:24px;">💰</span><h2 class="text-subheading weight-medium color-cream">Painel CFO</h2></div><span class="badge badge-success">Concluído ✓</span></div>
+        <div class="k-progress mb-8"><div class="k-progress__fill" style="width:100%;background:linear-gradient(90deg,var(--color-amber-forge),#ffd966);"></div></div>
+        <div class="divider"></div>
+        <div style="display:flex;flex-direction:column;gap:8px;margin-top:16px;">
+          <a href="#" class="btn-ghost" style="justify-content:flex-start;gap:12px;" onclick="return false;"><span>📊</span>Business Model Canvas Angola<span class="badge badge-success" style="margin-left:auto;">Entregue</span></a>
+          <a href="#" class="btn-ghost" style="justify-content:flex-start;gap:12px;" onclick="return false;"><span>📈</span>Previsão financeira 3 anos (Kz + USD)<span class="badge badge-success" style="margin-left:auto;">Entregue</span></a>
+          <a href="#" class="btn-ghost" style="justify-content:flex-start;gap:12px;" onclick="return false;"><span>💵</span>Orçamento Sandbox Q3 2026<span class="badge badge-success" style="margin-left:auto;">Entregue</span></a>
+          <a href="#" class="btn-ghost" style="justify-content:flex-start;gap:12px;" onclick="return false;"><span>🎯</span>Estratégia Go-to-Market Angola<span class="badge badge-success" style="margin-left:auto;">Entregue</span></a>
+        </div>
+      </div>
+
+      <div class="card card-surface" style="padding:24px;">
+        <div class="flex-between mb-16"><div class="flex flex-gap-12" style="align-items:center;"><span style="font-size:24px;">⚖️</span><h2 class="text-subheading weight-medium color-cream">Painel CLO</h2></div><span class="badge badge-walnut">65% — Em progresso</span></div>
+        <div class="k-progress mb-8"><div class="k-progress__fill" style="width:65%;"></div></div>
+        <div class="divider"></div>
+        <div class="k-checklist mt-16">
+          <div class="k-checklist__item checked" onclick="updateProgress()"><div class="k-checklist__checkbox"></div><div><p class="text-body color-cream">Acordo de Co-Founders assinado</p><p class="text-caption color-driftwood">Entregue: 18 Jul 2026</p></div></div>
+          <div class="k-checklist__item checked" onclick="updateProgress()"><div class="k-checklist__checkbox"></div><div><p class="text-body color-cream">Memorando de Entendimento (MoU)</p><p class="text-caption color-driftwood">Entregue: 20 Jul 2026</p></div></div>
+          <div class="k-checklist__item" onclick="updateProgress()"><div class="k-checklist__checkbox"></div><div><p class="text-body color-cream">Submissão IAPI — Pedido de registo de marca</p><p class="text-caption color-driftwood">Prazo: 31 Ago 2026</p></div></div>
+          <div class="k-checklist__item" onclick="updateProgress()"><div class="k-checklist__checkbox"></div><div><p class="text-body color-cream">Checklist de Compliance INAPEM</p><p class="text-caption color-driftwood">Prazo: 15 Set 2026</p></div></div>
+        </div>
+      </div>
+
+      <div class="card card-surface" style="padding:24px;">
+        <div class="flex-between mb-16"><div class="flex flex-gap-12" style="align-items:center;"><span style="font-size:24px;">📢</span><h2 class="text-subheading weight-medium color-cream">Painel CMO</h2></div><span class="badge badge-walnut">40% — Em progresso</span></div>
+        <div class="k-progress mb-8"><div class="k-progress__fill" style="width:40%;"></div></div>
+        <div class="divider"></div>
+        <div class="k-checklist mt-16">
+          <div class="k-checklist__item checked" onclick="updateProgress()"><div class="k-checklist__checkbox"></div><div><p class="text-body color-cream">Manual de Identidade de Marca</p><p class="text-caption color-driftwood">Entregue: 22 Jul 2026</p></div></div>
+          <div class="k-checklist__item" onclick="updateProgress()"><div class="k-checklist__checkbox"></div><div><p class="text-body color-cream">Pitch Deck 12 slides (PT + EN)</p><p class="text-caption color-driftwood">Prazo: 1 Set 2026</p></div></div>
+          <div class="k-checklist__item" onclick="updateProgress()"><div class="k-checklist__checkbox"></div><div><p class="text-body color-cream">Estratégia de Aquisição + Lista 50 utilizadores</p><p class="text-caption color-driftwood">Prazo: 15 Set 2026</p></div></div>
+          <div class="k-checklist__item" onclick="updateProgress()"><div class="k-checklist__checkbox"></div><div><p class="text-body color-cream">Pitch Internacional (Inglês / Francês)</p><p class="text-caption color-driftwood">Prazo: Demo Day</p></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+</main>
+<div id="k-footer-placeholder"></div>
+<script src="assets/js/kubica.js"></script>
+<script>
+KubicaNav.init('inc-01-dashboard.html');
+function updateProgress() {
+  const checked = document.querySelectorAll('.k-checklist__item.checked').length;
+  const total   = document.querySelectorAll('.k-checklist__item').length;
+  const pct = Math.round(checked / total * 100);
+  showToast('Progresso actualizado: ' + pct + '%', 'success');
+}
+</script>
+</body></html>

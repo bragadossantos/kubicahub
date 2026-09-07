@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="pt-AO">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>Painel do Builder — Kubica Hub</title>
+  <link rel="stylesheet" href="../../kubica.css"/>
+</head>
+<body class="page-body">
+
+<div class="k-dash-layout">
+  <div id="k-sidebar-placeholder"></div>
+  <div class="k-dash-main">
+    <div id="k-header-placeholder"></div>
+    <div class="k-dash-content">
+
+      <div class="k-page-header">
+        <div class="k-page-header__eyebrow">Builder · FKCU</div>
+        <h1 class="k-page-header__title" id="greeting">Painel do Builder</h1>
+        <p class="k-page-header__desc">Acompanha as tuas propostas, projectos activos e contribuições de co-criação.</p>
+      </div>
+
+      <!-- KPIs -->
+      <div class="k-kpi-grid" id="kpi-grid">
+        <div class="k-loading"><div class="k-spinner"></div></div>
+      </div>
+
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:var(--sp-16);" class="k-two-col">
+
+        <!-- Propostas pendentes -->
+        <div class="k-list-card">
+          <div class="k-list-card__header">
+            <h2 class="k-list-card__title">Propostas Recebidas</h2>
+            <a href="propostas.html" class="text-caption color-amber">Ver todas →</a>
+          </div>
+          <div class="k-list-card__body" id="proposals-list">
+            <div class="k-loading"><div class="k-spinner"></div></div>
+          </div>
+        </div>
+
+        <!-- Projectos activos -->
+        <div class="k-list-card">
+          <div class="k-list-card__header">
+            <h2 class="k-list-card__title">Projectos Activos</h2>
+            <a href="projetos-activos.html" class="text-caption color-amber">Ver todos →</a>
+          </div>
+          <div class="k-list-card__body" id="active-projects">
+            <div class="k-loading"><div class="k-spinner"></div></div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="../../assets/js/kubica.js"></script>
+<script src="../../assets/js/app.js"></script>
+<script src="../../assets/js/kubica-dashboard.js"></script>
+<script>
+(async () => {
+  await KubicaDash.init('builder', 'dashboard');
+  const user = KubicaDash.getUser();
+  if (!user) return;
+
+  document.getElementById('greeting').textContent = `Painel de ${(user.name || 'Builder').split(' ')[0]}`;
+
+  try {
+    const res = await KubicaApp.api('/proposals');
+    const proposals = res?.data?.proposals ?? [];
+
+    const pendingCount  = proposals.filter(p => p.status === 'pending').length;
+    const acceptedCount = proposals.filter(p => p.status === 'accepted').length;
+
+    document.getElementById('kpi-grid').innerHTML = `
+      ${KubicaDash.kpiCard('Propostas Pendentes', pendingCount, '📋')}
+      ${KubicaDash.kpiCard('Propostas Aceites', acceptedCount, '✅')}
+      ${KubicaDash.kpiCard('Faculdade', user.faculty || 'Engenharia', '🎓')}
+      ${KubicaDash.kpiCard('Universidade', user.university || 'UAN', '🏛')}
+    `;
+
+    // Lista de propostas
+    const pendingProposals = proposals.filter(p => p.status === 'pending').slice(0, 4);
+    if (!pendingProposals.length) {
+      KubicaDash.showEmpty('proposals-list', 'Sem propostas pendentes de momento.', '📋');
+    } else {
+      document.getElementById('proposals-list').innerHTML = pendingProposals.map(p => `
+        <div class="k-list-row">
+          <div style="flex:1;">
+            <div class="k-list-row__title">${p.idea_title || 'Projecto FKCU'}</div>
+            <div class="k-list-row__meta">${p.inventor_name || 'Inventor'} · ${p.equity_pct}% equity</div>
+          </div>
+          <span class="k-badge k-badge--info">${p.proposed_role}</span>
+        </div>
+      `).join('');
+    }
+
+    // Projectos activos
+    const acceptedProposals = proposals.filter(p => p.status === 'accepted').slice(0, 4);
+    if (!acceptedProposals.length) {
+      KubicaDash.showEmpty('active-projects', 'Ainda não tens projectos activos. Explora o Banco de Ideias!', '🚀');
+    } else {
+      document.getElementById('active-projects').innerHTML = acceptedProposals.map(p => `
+        <div class="k-list-row">
+          <div style="flex:1;">
+            <div class="k-list-row__title">${p.idea_title || 'Projecto'}</div>
+            <div class="k-list-row__meta">${p.proposed_role} · ${p.equity_pct}% equity</div>
+          </div>
+          <span class="k-badge k-badge--success">Incubação</span>
+        </div>
+      `).join('');
+    }
+  } catch(e) {
+    KubicaDash.showError('kpi-grid', 'Erro ao carregar dados.');
+  }
+})();
+</script>
+</body>
+</html>

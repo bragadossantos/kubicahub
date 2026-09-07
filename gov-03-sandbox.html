@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="pt-AO"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Sandbox de Financiamento — Kubica Hub</title>
+<meta name="description" content="Gestão das tranches do Sandbox não dilutivo de até USD 25.000. Dial de saldo e pedidos de disbursement."/>
+<link rel="stylesheet" href="kubica.css"/>
+</head>
+<body class="page-body"><div id="k-nav-placeholder"></div>
+<main>
+<section class="section-sm" style="border-bottom:1px solid var(--color-walnut);">
+  <div class="container"><div class="section-eyebrow">GOV-03 — Sandbox Funding</div>
+  <h1 class="text-heading-lg weight-medium color-cream" style="letter-spacing:var(--tracking-heading-lg);">Sandbox de Financiamento</h1>
+  <p class="text-body-lg color-driftwood mt-16">Funding Dial Widget: visão permanente do saldo disponível. Fundos não dilutivos — a startup mantém 100% do equity.</p></div>
+</section>
+<section class="section">
+  <div class="container">
+    <!-- Main widget row -->
+    <div class="grid-2" style="gap:32px;align-items:flex-start;margin-bottom:32px;">
+      <!-- Dial widget -->
+      <div class="card card-surface" style="padding:32px;text-align:center;">
+        <h2 class="text-subheading weight-medium color-cream mb-24">Saldo Sandbox</h2>
+        <div id="sandbox-dial-container" style="margin:0 auto 24px;"></div>
+        <div class="grid-2" style="gap:12px;text-align:center;">
+          <div class="kpi-card" style="padding:16px;"><div class="kpi-card__value" style="font-size:var(--text-heading-sm);">USD 1.200</div><div class="kpi-card__label">Utilizado</div></div>
+          <div class="kpi-card" style="padding:16px;"><div class="kpi-card__value" style="font-size:var(--text-heading-sm);">USD 23.800</div><div class="kpi-card__label">Disponível</div></div>
+        </div>
+        <div class="k-progress mt-16 mb-8"><div class="k-progress__fill" style="width:4.8%;"></div></div>
+        <p class="text-caption color-driftwood">USD 1.200 de USD 25.000 utilizados (4.8%)</p>
+      </div>
+
+      <!-- Request form -->
+      <div class="card card-surface" style="padding:32px;">
+        <h2 class="text-subheading weight-medium color-cream mb-24">Solicitar Disbursement</h2>
+        <div class="input-group"><label class="input-label">Tranche</label><select class="select-pill"><option>Tranche 1 — Até USD 5.000 (Protótipo)</option><option>Tranche 2 — Até USD 10.000 (MVP + Tração)</option><option>Tranche 3 — Até USD 10.000 (Escala)</option></select></div>
+        <div class="input-group"><label class="input-label" for="sbx-amount">Montante solicitado (USD)</label><input type="number" id="sbx-amount" class="input-pill" placeholder="Ex: 2500" max="5000" min="100" oninput="updateDisbursement()"/></div>
+        <div class="input-group"><label class="input-label">Categoria de despesa elegível</label><select class="select-pill"><option>Infraestrutura tecnológica (Cloud, domínios)</option><option>Pesquisa de mercado e field research</option><option>Design e prototipagem</option><option>Propriedade industrial (IAPI)</option><option>Eventos e Demo Day</option></select></div>
+        <div class="input-group"><label class="input-label" for="sbx-justif">Justificação e impacto esperado</label><textarea class="textarea-card" id="sbx-justif" placeholder="Como este investimento acelera o MVP ou a validação de mercado? Qual o resultado esperado?"></textarea></div>
+        <div id="sbx-preview" style="background:var(--color-midnight-cocoa);border:1px solid var(--color-walnut);border-radius:6px;padding:16px;margin-bottom:16px;display:none;">
+          <div class="flex-between"><span class="text-body color-driftwood">Novo saldo disponível:</span><span class="text-body weight-medium color-amber" id="sbx-new-balance">USD 23.800</span></div>
+        </div>
+        <button class="btn-primary" style="width:100%;justify-content:center;" onclick="submitDisbursement()">💰 Submeter pedido de disbursement</button>
+      </div>
+    </div>
+
+    <!-- Transaction history -->
+    <div class="card card-surface" style="padding:24px;">
+      <h2 class="text-subheading weight-medium color-cream mb-16">Histórico de Transacções</h2>
+      <table class="k-table">
+        <thead><tr><th>Data</th><th>Categoria</th><th>Montante</th><th>Estado</th><th>Aprovado por</th></tr></thead>
+        <tbody>
+          <tr><td>15 Jul 2026</td><td>Infraestrutura Cloud (AWS)</td><td style="color:var(--color-amber-forge);">USD 800</td><td><span class="badge badge-success">Aprovado</span></td><td>Coordenação FKCU</td></tr>
+          <tr><td>22 Jul 2026</td><td>Domínio e hosting</td><td style="color:var(--color-amber-forge);">USD 200</td><td><span class="badge badge-success">Aprovado</span></td><td>Coordenação FKCU</td></tr>
+          <tr><td>1 Ago 2026</td><td>Registo IAPI — Marca AgroLink</td><td style="color:var(--color-amber-forge);">USD 200</td><td><span class="badge badge-walnut">Pendente</span></td><td>Em análise</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+</main>
+<div id="k-footer-placeholder"></div>
+<script src="assets/js/kubica.js"></script>
+<script>
+KubicaNav.init('inc-01-dashboard.html');
+document.addEventListener('DOMContentLoaded', () => {
+  buildDial('sandbox-dial-container', 1200, 25000, 'USD');
+});
+function updateDisbursement() {
+  const amt = +document.getElementById('sbx-amount').value || 0;
+  const remaining = 23800 - amt;
+  document.getElementById('sbx-preview').style.display = amt > 0 ? 'block' : 'none';
+  document.getElementById('sbx-new-balance').textContent = 'USD ' + remaining.toLocaleString('pt-AO');
+}
+function submitDisbursement() {
+  showToast('Pedido de disbursement enviado. Aprovação em 5 dias úteis.', 'success', 4000);
+}
+</script>
+</body></html>

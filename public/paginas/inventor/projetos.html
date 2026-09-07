@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="pt-AO">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>Os meus Projectos — Kubica Hub</title>
+  <link rel="stylesheet" href="../../kubica.css"/>
+  <style>
+    .k-filter-btn--active { border-color:var(--color-amber-forge)!important;color:var(--color-amber-forge)!important;background:var(--color-amber-dim)!important; }
+  </style>
+</head>
+<body class="page-body">
+
+<div class="k-dash-layout">
+  <div id="k-sidebar-placeholder"></div>
+  <div class="k-dash-main">
+    <div id="k-header-placeholder"></div>
+    <div class="k-dash-content">
+
+      <div class="k-page-header">
+        <div class="k-page-header__eyebrow">Inventor · FKCU</div>
+        <h1 class="k-page-header__title">Os meus Projectos</h1>
+        <p class="k-page-header__desc">Acompanha o estado das tuas ideias submetidas ao Framework FKCU.</p>
+      </div>
+
+      <div style="display:flex;justify-content:flex-end;margin-bottom:var(--sp-16);">
+        <a href="projeto-criar.html" class="btn-primary">＋ Novo Projecto</a>
+      </div>
+
+      <!-- Filtros -->
+      <div style="display:flex;gap:var(--sp-8);margin-bottom:var(--sp-24);flex-wrap:wrap;" id="filter-bar">
+        <button class="btn-outline k-filter-btn k-filter-btn--active" data-status="">Todos</button>
+        <button class="btn-outline k-filter-btn" data-status="pending">Pendentes</button>
+        <button class="btn-outline k-filter-btn" data-status="approved">Aprovados</button>
+        <button class="btn-outline k-filter-btn" data-status="incubating">Em Incubação</button>
+        <button class="btn-outline k-filter-btn" data-status="rejected">Rejeitados</button>
+      </div>
+
+      <div id="ideas-container">
+        <div class="k-loading"><div class="k-spinner"></div><p>A carregar projectos...</p></div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<script src="../../assets/js/kubica.js"></script>
+<script src="../../assets/js/app.js"></script>
+<script src="../../assets/js/kubica-dashboard.js"></script>
+<script>
+let allIdeas = [];
+
+(async () => {
+  await KubicaDash.init('inventor', 'projetos');
+
+  try {
+    const res = await KubicaApp.api('/ideas?inventor=me');
+    allIdeas = res?.data?.ideas ?? [];
+    renderIdeas(allIdeas);
+  } catch (e) {
+    KubicaDash.showError('ideas-container', 'Erro ao carregar projectos.');
+  }
+
+  // Filtros
+  document.getElementById('filter-bar').addEventListener('click', e => {
+    const btn = e.target.closest('.k-filter-btn');
+    if (!btn) return;
+    document.querySelectorAll('.k-filter-btn').forEach(b => b.classList.remove('k-filter-btn--active'));
+    btn.classList.add('k-filter-btn--active');
+    const status = btn.dataset.status;
+    renderIdeas(status ? allIdeas.filter(i => i.status === status) : allIdeas);
+  });
+})();
+
+function renderIdeas(ideas) {
+  if (!ideas.length) {
+    KubicaDash.showEmpty('ideas-container', 'Nenhum projecto encontrado para este filtro.', '💡');
+    return;
+  }
+  document.getElementById('ideas-container').innerHTML = ideas.map(idea => `
+    <div class="k-list-card" style="margin-bottom:var(--sp-12);">
+      <div class="k-list-card__body">
+        <div style="display:flex;align-items:flex-start;gap:var(--sp-16);flex-wrap:wrap;">
+          <div style="flex:1;min-width:280px;">
+            <div style="display:flex;align-items:center;gap:var(--sp-8);margin-bottom:var(--sp-6);">
+              <h3 style="font-size:16px;font-weight:600;color:var(--color-warm-cream);margin:0;">${idea.title}</h3>
+              ${KubicaDash.statusBadge(idea.status)}
+            </div>
+            <div style="font-size:12px;color:var(--color-amber-forge);margin-bottom:var(--sp-8);">${idea.sector} · ${idea.pdn_axis}</div>
+            <p style="font-size:13px;color:var(--color-driftwood);margin:0 0 var(--sp-12);line-height:1.5;">${(idea.problem || '').substring(0, 160)}...</p>
+            ${idea.screening_feedback ? `<div style="padding:var(--sp-8) var(--sp-12);background:rgba(251,191,36,0.08);border-left:3px solid var(--color-warning);border-radius:4px;font-size:12px;color:var(--color-driftwood);margin-top:8px;"><strong>Feedback da Coordenação:</strong> ${idea.screening_feedback}</div>` : ''}
+          </div>
+          <div style="display:flex;flex-direction:column;gap:var(--sp-8);align-items:flex-end;flex-shrink:0;">
+            <span style="font-size:11px;color:var(--color-driftwood);">${KubicaDash.formatDate(idea.created_at)}</span>
+            ${idea.status === 'approved' || idea.status === 'matched' ? `<a href="colaboracoes.html" class="btn-primary" style="font-size:12px;padding:6px 14px;">Encontrar Builders →</a>` : ''}
+          </div>
+        </div>
+      </div>
+    </div>
+  `).join('');
+}
+</script>
+</body>
+</html>

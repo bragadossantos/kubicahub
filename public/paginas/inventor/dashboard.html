@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="pt-AO">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>Painel do Inventor — Kubica Hub</title>
+  <meta name="description" content="Painel de controlo do Inventor FKCU — acompanha os teus projectos, colaborações e métricas de impacto."/>
+  <link rel="stylesheet" href="../../kubica.css"/>
+</head>
+<body class="page-body">
+
+<div class="k-dash-layout">
+  <!-- Sidebar injectada pelo JS -->
+  <div id="k-sidebar-placeholder"></div>
+
+  <div class="k-dash-main">
+    <div id="k-header-placeholder"></div>
+
+    <div class="k-dash-content">
+
+      <!-- Page Header -->
+      <div class="k-page-header">
+        <div class="k-page-header__eyebrow">Inventor · FKCU</div>
+        <h1 class="k-page-header__title" id="greeting">Bem-vindo ao Hub</h1>
+        <p class="k-page-header__desc">O teu painel de controlo para acompanhar projectos, equipas e impacto.</p>
+      </div>
+
+      <!-- KPIs -->
+      <div class="k-kpi-grid" id="kpi-grid">
+        <div class="k-loading"><div class="k-spinner"></div></div>
+      </div>
+
+      <!-- Grid 2 colunas -->
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:var(--sp-16);" class="k-two-col">
+
+        <!-- Projectos Recentes -->
+        <div class="k-list-card">
+          <div class="k-list-card__header">
+            <h2 class="k-list-card__title">Os meus Projectos</h2>
+            <a href="projetos.html" class="text-caption color-amber">Ver todos →</a>
+          </div>
+          <div class="k-list-card__body" id="projects-list">
+            <div class="k-loading"><div class="k-spinner"></div></div>
+          </div>
+        </div>
+
+        <!-- Actividade Recente / Notificações -->
+        <div class="k-list-card">
+          <div class="k-list-card__header">
+            <h2 class="k-list-card__title">Actividade Recente</h2>
+            <a href="notificacoes.html" class="text-caption color-amber">Ver todas →</a>
+          </div>
+          <div class="k-list-card__body" id="activity-list">
+            <div class="k-loading"><div class="k-spinner"></div></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Startup em Incubação (se existir) -->
+      <div id="startup-section" style="margin-top:var(--sp-16);display:none;">
+        <div class="k-list-card">
+          <div class="k-list-card__header">
+            <h2 class="k-list-card__title">🚀 Startup em Incubação</h2>
+            <span class="k-badge k-badge--info" id="startup-phase">Em Co-Criação</span>
+          </div>
+          <div class="k-list-card__body" id="startup-details"></div>
+        </div>
+      </div>
+
+    </div><!-- /.k-dash-content -->
+  </div><!-- /.k-dash-main -->
+</div><!-- /.k-dash-layout -->
+
+<script src="../../assets/js/kubica.js"></script>
+<script src="../../assets/js/app.js"></script>
+<script src="../../assets/js/kubica-dashboard.js"></script>
+<script>
+(async () => {
+  await KubicaDash.init('inventor', 'dashboard');
+  const user = KubicaDash.getUser();
+  if (!user) return;
+
+  document.getElementById('greeting').textContent = `Bem-vindo, ${(user.name || 'Inventor').split(' ')[0]}!`;
+
+  // ── Carregar Ideias do Inventor ──────────────────────────
+  try {
+    const res = await KubicaApp.api('/ideas?inventor=me');
+    const ideas = res?.data?.ideas ?? [];
+
+    // KPIs
+    const totalIdeas  = ideas.length;
+    const approved    = ideas.filter(i => i.status === 'approved' || i.status === 'matched' || i.status === 'incubating').length;
+    const incubating  = ideas.filter(i => i.status === 'incubating').length;
+
+    document.getElementById('kpi-grid').innerHTML = `
+      ${KubicaDash.kpiCard('Projectos Submetidos', totalIdeas, '💡')}
+      ${KubicaDash.kpiCard('Aprovados FKCU', approved, '✅')}
+      ${KubicaDash.kpiCard('Em Incubação', incubating, '🚀')}
+      ${KubicaDash.kpiCard('Universidade', user.university || 'UAN', '🎓')}
+    `;
+
+    // Lista de projectos
+    if (ideas.length === 0) {
+      KubicaDash.showEmpty('projects-list', 'Ainda não submeteste nenhum projecto.', '💡');
+    } else {
+      document.getElementById('projects-list').innerHTML = ideas.slice(0, 5).map(idea => `
+        <div class="k-list-row">
+          <div style="flex:1;">
+            <div class="k-list-row__title">${idea.title}</div>
+            <div class="k-list-row__meta">${idea.sector || 'Sector'} · ${KubicaDash.formatDate(idea.created_at)}</div>
+          </div>
+          <div>${KubicaDash.statusBadge(idea.status)}</div>
+        </div>
+      `).join('');
+    }
+
+    // Startup em incubação
+    const activeIdea = ideas.find(i => i.status === 'incubating' || i.status === 'matched');
+    if (activeIdea) {
+      document.getElementById('startup-section').style.display = 'block';
+      document.getElementById('startup-phase').textContent = activeIdea.status === 'incubating' ? '🚀 Em Incubação' : '🤝 Matched';
+      document.getElementById('startup-details').innerHTML = `
+        <div class="k-list-row">
+          <span style="font-size:24px;">💡</span>
+          <div style="flex:1;">
+            <div class="k-list-row__title" style="margin-bottom:4px;">${activeIdea.title}</div>
+            <div class="k-list-row__meta">${activeIdea.sector} · ${activeIdea.pdn_axis}</div>
+          </div>
+          <a href="projetos.html" class="btn-outline" style="font-size:12px;padding:6px 12px;">Ver detalhes →</a>
+        </div>
+      `;
+    }
+  } catch (e) {
+    KubicaDash.showError('kpi-grid', 'Erro ao carregar métricas.');
+    KubicaDash.showError('projects-list');
+  }
+
+  // ── Actividade Recente (Notificações) ────────────────────
+  try {
+    const nRes = await KubicaApp.api('/notifications?limite=5');
+    const notifs = nRes?.data?.notifications ?? [];
+    if (notifs.length === 0) {
+      KubicaDash.showEmpty('activity-list', 'Sem actividade recente.', '📭');
+    } else {
+      document.getElementById('activity-list').innerHTML = notifs.map(n => `
+        <div class="k-list-row" style="${!n.is_read ? 'border-left:2px solid var(--color-amber-forge);padding-left:10px;' : ''}">
+          <div style="flex:1;">
+            <div class="k-list-row__title" style="font-size:13px;">${n.title}</div>
+            <div class="k-list-row__meta">${(n.message || '').substring(0, 65)}...</div>
+          </div>
+        </div>
+      `).join('');
+    }
+  } catch(e) {
+    KubicaDash.showEmpty('activity-list', 'Sem actividade recente.', '📭');
+  }
+})();
+</script>
+</body>
+</html>

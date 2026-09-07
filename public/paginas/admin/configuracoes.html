@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="pt-AO">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>Configurações do Sistema — Kubica Hub Admin</title>
+  <link rel="stylesheet" href="../../kubica.css"/>
+</head>
+<body class="page-body">
+
+<div class="k-dash-layout">
+  <div id="k-sidebar-placeholder"></div>
+  <div class="k-dash-main">
+    <div id="k-header-placeholder"></div>
+    <div class="k-dash-content">
+
+      <div class="k-page-header">
+        <div class="k-page-header__eyebrow">Admin · Governança & Parâmetros</div>
+        <h1 class="k-page-header__title">Configurações do Sistema</h1>
+        <p class="k-page-header__desc">Gere eventos institucionais, sessões de Speed Dating e parâmetros operacionais do Framework FKCU.</p>
+      </div>
+
+      <!-- Sessões de Speed Dating -->
+      <div class="k-form-section">
+        <h2 class="k-form-section__title">📅 Criar Sessão de Speed Dating</h2>
+        <p style="font-size:13px;color:var(--color-driftwood);margin-bottom:var(--sp-16);">Agenda uma sessão presencial ou virtual de matchmaking entre inventores e builders com limite de 14 equipas por sessão.</p>
+        <div id="session-feedback" style="display:none;margin-bottom:var(--sp-12);"></div>
+        <div class="k-form-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:var(--sp-16);">
+          <div class="input-group">
+            <label class="input-label">Data da Sessão *</label>
+            <input type="date" id="sd-date" class="input-pill"/>
+          </div>
+          <div class="input-group">
+            <label class="input-label">Hora de Início *</label>
+            <input type="time" id="sd-time" class="input-pill" value="18:00"/>
+          </div>
+        </div>
+        <div class="input-group" style="margin-top:var(--sp-12);">
+          <label class="input-label">Localização / Notas da Sessão</label>
+          <textarea id="sd-notes" class="input-pill" rows="2" placeholder="Ex: Auditório Principal da Faculdade de Engenharia da UAN — Edifício B, Piso 2."></textarea>
+        </div>
+        <div style="display:flex;justify-content:flex-end;margin-top:var(--sp-16);">
+          <button class="btn-primary" onclick="createSession()">Criar Sessão de Speed Dating →</button>
+        </div>
+      </div>
+
+      <!-- Parâmetros Operacionais -->
+      <div class="k-form-section">
+        <h2 class="k-form-section__title">⚙ Parâmetros Operacionais do Ciclo FKCU</h2>
+        <div class="k-form-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:var(--sp-16);">
+          <div>
+            <div class="k-kpi" style="margin-bottom:var(--sp-12);">
+              <div class="k-kpi__icon">⏱</div>
+              <div>
+                <div class="k-kpi__value" style="font-size:15px;">7 dias</div>
+                <div class="k-kpi__label">Validade das propostas societárias</div>
+              </div>
+            </div>
+            <div class="k-kpi">
+              <div class="k-kpi__icon">🔒</div>
+              <div>
+                <div class="k-kpi__value" style="font-size:15px;">5 tentativas</div>
+                <div class="k-kpi__label">Rate limit de login (bloqueio 15m)</div>
+              </div>
+            </div>
+          </div>
+          <div>
+            <div class="k-kpi" style="margin-bottom:var(--sp-12);">
+              <div class="k-kpi__icon">💰</div>
+              <div>
+                <div class="k-kpi__value" style="font-size:15px;">USD 5.000</div>
+                <div class="k-kpi__label">Plafond Sandbox inicial por equipa</div>
+              </div>
+            </div>
+            <div class="k-kpi">
+              <div class="k-kpi__icon">📅</div>
+              <div>
+                <div class="k-kpi__value" style="font-size:15px;">36 meses / 12m cliff</div>
+                <div class="k-kpi__label">Período de Vesting padrão</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Info do sistema -->
+      <div class="k-list-card">
+        <div class="k-list-card__header">
+          <h3 class="k-list-card__title">ℹ Informação da Plataforma</h3>
+        </div>
+        <div class="k-list-card__body" id="system-info">
+          <div class="k-list-row">
+            <div class="k-list-row__title">Versão do Sistema</div>
+            <div class="k-list-row__meta">Kubica Hub v2.2.0 (Pure PHP MVC + Vanilla JS)</div>
+          </div>
+          <div class="k-list-row">
+            <div class="k-list-row__title">Metodologia</div>
+            <div class="k-list-row__meta">FKCU — Framework KUBICA de Co-Criação Universitária</div>
+          </div>
+          <div class="k-list-row">
+            <div class="k-list-row__title">Fuso Horário Operacional</div>
+            <div class="k-list-row__meta">Africa/Luanda (WAT, UTC+1)</div>
+          </div>
+          <div class="k-list-row">
+            <div class="k-list-row__title">Estado da Base de Dados</div>
+            <div class="k-list-row__meta"><span class="k-badge k-badge--success">MySQL Activo</span></div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<script src="../../assets/js/kubica.js"></script>
+<script src="../../assets/js/app.js"></script>
+<script src="../../assets/js/kubica-dashboard.js"></script>
+<script>
+(async () => {
+  await KubicaDash.init('admin', 'configuracoes');
+  const tmr = new Date(); tmr.setDate(tmr.getDate() + 1);
+  const dateInput = document.getElementById('sd-date');
+  if (dateInput) dateInput.min = tmr.toISOString().split('T')[0];
+})();
+
+async function createSession() {
+  const date  = document.getElementById('sd-date').value;
+  const time  = document.getElementById('sd-time').value;
+  const notes = document.getElementById('sd-notes').value.trim();
+
+  if (!date || !time) {
+    document.getElementById('session-feedback').style.display = 'block';
+    document.getElementById('session-feedback').innerHTML = '<div style="color:#f87171;font-size:13px;padding:8px 0;">⚠ Data e hora são obrigatórias.</div>';
+    return;
+  }
+
+  try {
+    const res = await KubicaApp.api('/admin/speeddate/session', 'POST', { date, time, notes, capacity: 14 });
+    if (res && res.success) {
+      document.getElementById('session-feedback').style.display = 'block';
+      document.getElementById('session-feedback').innerHTML = `<div style="padding:10px 14px;background:rgba(74,222,128,0.12);border:1px solid #4ade80;border-radius:6px;color:#4ade80;font-size:13px;">✓ Sessão criada para ${date} às ${time}!</div>`;
+      KubicaDash.toast('Sessão Speed Dating criada com sucesso!', 'success');
+      document.getElementById('sd-date').value = '';
+      document.getElementById('sd-notes').value = '';
+    }
+  } catch(err) {
+    document.getElementById('session-feedback').style.display = 'block';
+    document.getElementById('session-feedback').innerHTML = `<div style="color:#f87171;font-size:13px;padding:8px 0;">⚠ ${err?.data?.message || 'Erro ao criar sessão.'}</div>`;
+  }
+}
+</script>
+</body>
+</html>

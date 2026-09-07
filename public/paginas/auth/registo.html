@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="pt-AO">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>Criar Conta — Kubica Hub</title>
+  <meta name="description" content="Cria a tua conta no Kubica Hub e junta-te ao ecossistema de co-criação universitária de Angola."/>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="../../kubica.css"/>
+  <style>
+    body { font-family: 'Manrope', var(--font-primary); overflow-x: hidden; }
+
+    .k-alert-inline { display: none; padding: 12px 14px; border-radius: var(--radius-card); font-size: 13px; line-height: 1.4; margin-bottom: var(--sp-16); }
+    .k-alert-inline.visible { display: flex; align-items: flex-start; gap: 10px; }
+    .k-alert-inline--error   { background: rgba(248,113,113,.1); color: var(--color-danger);  border: 1px solid rgba(248,113,113,.3); }
+    .k-alert-inline--success { background: rgba(74,222,128,.1);  color: var(--color-success); border: 1px solid rgba(74,222,128,.3); }
+
+    .auth-split__form  { overflow-y: auto; align-items: flex-start; padding-top: 60px; padding-bottom: 60px; }
+    @media (min-width: 769px) {
+      .auth-split { height: 100vh; overflow: hidden; }
+      .auth-split__form { height: 100vh; }
+    }
+
+    /* Password strength */
+    .strength-bar  { height: 2px; background: var(--color-walnut); border-radius: 9999px; margin-top: 6px; overflow: hidden; }
+    .strength-fill { height: 100%; border-radius: 9999px; width: 0%; transition: width .35s, background .35s; }
+
+    /* Stepper at top */
+    .reg-stepper { display: flex; gap: 0; align-items: center; margin-bottom: var(--sp-32); }
+
+    /* University search dropdown */
+    .uni-dropdown {
+      position: absolute; top: 100%; left: 0; right: 0; z-index: 20;
+      background: var(--color-midnight-cocoa); border: 1px solid var(--color-cedar);
+      border-radius: var(--radius-card); max-height: 200px; overflow-y: auto;
+      display: none;
+    }
+    .uni-dropdown.open { display: block; animation: k-reveal-scale .2s var(--motion-spring); }
+    .uni-option { padding: 10px 14px; font-size: 13px; color: var(--color-driftwood); cursor: pointer; transition: background .1s; }
+    .uni-option:hover { background: var(--color-walnut); color: var(--color-warm-cream); }
+    .uni-option.new-entry { color: var(--color-amber-forge); border-top: 1px solid var(--color-walnut); }
+  </style>
+</head>
+<body>
+
+<div class="auth-split">
+
+  <!-- ── PAINEL VISUAL ESQUERDO ─────────────────────────────── -->
+  <div class="auth-split__panel" aria-hidden="true">
+    <div>
+      <a href="../landing.html" style="display:inline-flex;align-items:center;gap:10px;text-decoration:none;">
+        <div class="auth-split__panel-mark">K</div>
+        <span style="font-size:15px;font-weight:500;color:var(--color-warm-cream);letter-spacing:.12em;text-transform:uppercase;">Kubica Hub</span>
+      </a>
+    </div>
+
+    <div style="position:relative;z-index:1;">
+      <p class="auth-split__panel-headline reveal-up">
+        Junta-te ao<br>ecossistema.
+      </p>
+      <p class="auth-split__panel-sub reveal-up delay-1">
+        Escolhe o teu papel — Inventor ou Construtor — e começa a forjar o futuro de Angola dentro da universidade.
+      </p>
+
+      <!-- Progress dos passos -->
+      <div style="margin-bottom:var(--sp-24); position:relative;z-index:1;" class="reveal-up delay-2">
+        <div style="font-size:11px;color:var(--color-driftwood);letter-spacing:.1em;text-transform:uppercase;margin-bottom:12px;">Registo em 3 passos</div>
+        <div class="progress-rail">
+          <div class="progress-rail__segment active" id="rail-1"></div>
+          <div class="progress-rail__segment" id="rail-2"></div>
+          <div class="progress-rail__segment" id="rail-3"></div>
+        </div>
+        <div style="display:flex;justify-content:space-between;margin-top:8px;">
+          <span class="progress-rail__label active">Conta</span>
+          <span class="progress-rail__label">Perfil</span>
+          <span class="progress-rail__label">Verificação</span>
+        </div>
+      </div>
+
+      <div class="auth-split__panel-bullets">
+        <div class="auth-split__bullet reveal-up delay-3">
+          <div class="auth-split__bullet-icon">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2"/><circle cx="12" cy="12" r="5"/></svg>
+          </div>
+          <div>
+            <div style="color:var(--color-warm-cream);font-size:13px;font-weight:500;margin-bottom:2px;">Gratuito &amp; Institucional</div>
+            <div style="font-size:12px;">Acesso completo para estudantes de universidades parceiras.</div>
+          </div>
+        </div>
+        <div class="auth-split__bullet reveal-up delay-4">
+          <div class="auth-split__bullet-icon">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+          </div>
+          <div>
+            <div style="color:var(--color-warm-cream);font-size:13px;font-weight:500;margin-bottom:2px;">12+ Papéis C-Level</div>
+            <div style="font-size:12px;">CTO, CEO, CLO, CMO, CSO, CHRO, CRO e mais funções disponíveis.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="auth-split__panel-footer">
+      Kubica Hub &copy; 2026 &middot; FKCU v2.0 &middot; Angola
+    </div>
+  </div>
+
+  <!-- ── FORMULÁRIO DE REGISTO ───────────────────────────────── -->
+  <div class="auth-split__form">
+    <div class="auth-split__form-inner reveal-scale">
+
+      <div style="margin-bottom:var(--sp-24);">
+        <h1 class="auth-split__title">Criar conta</h1>
+        <p class="auth-split__sub">Preenche os dados para aceder à plataforma.</p>
+      </div>
+
+      <!-- Alert -->
+      <div id="form-alert" class="k-alert-inline" role="alert" aria-live="polite">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+        <span id="alert-text"></span>
+      </div>
+
+      <form id="reg-form" novalidate onsubmit="handleRegisto(event)">
+
+        <!-- Nome completo -->
+        <div class="input-float-wrap" style="margin-bottom:var(--sp-12);">
+          <input type="text" id="nome" class="input-float" placeholder=" " autocomplete="name" required/>
+          <label class="input-float-label" for="nome">Nome completo</label>
+        </div>
+
+        <!-- Email Institucional -->
+        <div class="input-float-wrap" style="margin-bottom:var(--sp-12);">
+          <input type="email" id="email-inst" class="input-float" placeholder=" " autocomplete="email" required/>
+          <label class="input-float-label" for="email-inst">E-mail Institucional (ex: nome@uan.ao)</label>
+        </div>
+
+        <!-- Email Pessoal -->
+        <div class="input-float-wrap" style="margin-bottom:var(--sp-12);">
+          <input type="email" id="email-pessoal" class="input-float" placeholder=" " autocomplete="email"/>
+          <label class="input-float-label" for="email-pessoal">E-mail Pessoal (opcional)</label>
+        </div>
+
+        <!-- Universidade com busca -->
+        <div style="position:relative;margin-bottom:var(--sp-12);">
+          <div class="input-float-wrap">
+            <input type="text" id="uni-search" class="input-float" placeholder=" " autocomplete="off" required
+                   oninput="filterUni(this.value)" onfocus="openUniDropdown()" onblur="setTimeout(closeUniDropdown,200)"/>
+            <label class="input-float-label" for="uni-search">Universidade</label>
+            <input type="hidden" id="uni-value"/>
+          </div>
+          <div id="uni-dropdown" class="uni-dropdown" role="listbox" aria-label="Universidades disponíveis"></div>
+        </div>
+
+        <!-- Senha -->
+        <div class="input-float-wrap input-eye-wrap" style="margin-bottom:var(--sp-4);">
+          <input type="password" id="password" class="input-float" placeholder=" " autocomplete="new-password" required minlength="8" style="padding-right:48px;" oninput="checkStrength(this.value)"/>
+          <label class="input-float-label" for="password">Palavra-passe (mín. 8 caracteres)</label>
+          <button type="button" class="input-eye-btn" data-target="password" aria-label="Mostrar palavra-passe">
+            <svg class="icon-eye-open" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+            <svg class="icon-eye-close" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true" style="display:none;"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></svg>
+          </button>
+        </div>
+        <!-- Strength bar -->
+        <div class="strength-bar" style="margin-bottom:var(--sp-12);">
+          <div id="strength-fill" class="strength-fill"></div>
+        </div>
+
+        <!-- Confirmar senha -->
+        <div class="input-float-wrap input-eye-wrap" style="margin-bottom:var(--sp-24);">
+          <input type="password" id="password-confirm" class="input-float" placeholder=" " autocomplete="new-password" required style="padding-right:48px;"/>
+          <label class="input-float-label" for="password-confirm">Confirmar palavra-passe</label>
+          <button type="button" class="input-eye-btn" data-target="password-confirm" aria-label="Mostrar confirmação">
+            <svg class="icon-eye-open" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+            <svg class="icon-eye-close" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true" style="display:none;"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></svg>
+          </button>
+        </div>
+
+        <!-- CTA -->
+        <button type="submit" id="submit-btn" class="btn-primary" style="width:100%;justify-content:center;height:52px;font-size:15px;">
+          Criar Conta Gratuita
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </button>
+
+        <p style="font-size:11px;color:var(--color-driftwood);opacity:.6;text-align:center;margin-top:12px;line-height:1.5;">
+          Ao criar conta, aceitas os <a href="#" style="color:inherit;text-decoration:underline;">Termos de Serviço</a> e a <a href="#" style="color:inherit;text-decoration:underline;">Política de Privacidade</a> do Kubica Hub.
+        </p>
+
+      </form>
+
+      <div class="k-divider" style="margin: var(--sp-20) 0;">ou</div>
+
+      <div style="text-align:center;">
+        <p style="font-size:13px;color:var(--color-driftwood);">
+          Já tens conta?
+          <a href="login.html" style="color:var(--color-amber-forge);font-weight:500;text-decoration:none;margin-left:4px;">Iniciar sessão</a>
+        </p>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<script src="../../assets/js/app.js"></script>
+<script src="../../assets/js/kubica-animations.js"></script>
+<script>
+  // ── Universidades ────────────────────────────────────────────
+  const UNIVERSIDADES = [
+    'Universidade Agostinho Neto (UAN)',
+    'Universidade Católica de Angola (UCAN)',
+    'Universidade Jean Piaget de Angola',
+    'Universidade Metodista de Angola (UMA)',
+    'Universidade Técnica de Angola (UTANGA)',
+    'Universidade Lusíada de Angola (ULA)',
+    'Universidade Kimpa Vita',
+    'Universidade 11 de Novembro',
+    'Universidade Mandume Ya Ndemufayo',
+    'Universidade Lueji A'Nkonde',
+    'Universidade José Eduardo dos Santos',
+    'Instituto Superior Politécnico de Malanje',
+    'Instituto Superior de Ciências da Educação (ISCED)',
+    'Instituto Superior de Tecnologias de Angola (ISTA)',
+    'Universidade Privada de Angola (UPRA)',
+    'Escola Superior Politécnica do Kuanza-Sul',
+    'Outra (introduza o nome)',
+  ];
+
+  function filterUni(val) {
+    const list = val
+      ? UNIVERSIDADES.filter(u => u.toLowerCase().includes(val.toLowerCase()))
+      : UNIVERSIDADES;
+    renderUniList(list, val);
+    openUniDropdown();
+  }
+
+  function renderUniList(list, query = '') {
+    const dd = document.getElementById('uni-dropdown');
+    const showNew = query && !UNIVERSIDADES.find(u => u.toLowerCase() === query.toLowerCase());
+
+    dd.innerHTML = list.map(u => `
+      <div class="uni-option" role="option" onclick="selectUni('${u.replace(/'/g,"\\'")}')">
+        ${u}
+      </div>`).join('') + (showNew ? `<div class="uni-option new-entry" role="option" onclick="selectUni('${query.replace(/'/g,"\\'")}')">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" style="display:inline;margin-right:4px;vertical-align:middle;"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        Usar "${query}"
+      </div>` : '');
+  }
+
+  function selectUni(val) {
+    document.getElementById('uni-search').value = val;
+    document.getElementById('uni-value').value  = val;
+    closeUniDropdown();
+  }
+
+  function openUniDropdown() {
+    const val = document.getElementById('uni-search').value;
+    renderUniList(val ? UNIVERSIDADES.filter(u => u.toLowerCase().includes(val.toLowerCase())) : UNIVERSIDADES, val);
+    document.getElementById('uni-dropdown').classList.add('open');
+  }
+
+  function closeUniDropdown() {
+    document.getElementById('uni-dropdown').classList.remove('open');
+  }
+
+  // ── Password Strength ────────────────────────────────────────
+  function checkStrength(val) {
+    const fill = document.getElementById('strength-fill');
+    let score = 0;
+    if (val.length >= 8)  score++;
+    if (/[A-Z]/.test(val)) score++;
+    if (/[0-9]/.test(val)) score++;
+    if (/[^A-Za-z0-9]/.test(val)) score++;
+    const pct   = (score / 4) * 100;
+    const color = score <= 1 ? '#f87171' : score === 2 ? '#fbbf24' : score === 3 ? '#4ade80' : '#22c55e';
+    fill.style.width      = pct + '%';
+    fill.style.background = color;
+  }
+
+  // ── Alert ────────────────────────────────────────────────────
+  function showAlert(msg, type = 'error') {
+    const el   = document.getElementById('form-alert');
+    const text = document.getElementById('alert-text');
+    el.className = `k-alert-inline k-alert-inline--${type} visible`;
+    text.textContent = msg;
+    el.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  }
+
+  // ── Registo Handler ──────────────────────────────────────────
+  async function handleRegisto(e) {
+    e.preventDefault();
+
+    const nome   = document.getElementById('nome').value.trim();
+    const email  = document.getElementById('email-inst').value.trim();
+    const emailP = document.getElementById('email-pessoal').value.trim();
+    const uni    = document.getElementById('uni-value').value || document.getElementById('uni-search').value.trim();
+    const pass   = document.getElementById('password').value;
+    const pass2  = document.getElementById('password-confirm').value;
+
+    if (!nome)  { KubicaAnimate.shakeInput('nome');    showAlert('Por favor indica o teu nome completo.'); return; }
+    if (!email) { KubicaAnimate.shakeInput('email-inst'); showAlert('Por favor indica o teu e-mail institucional.'); return; }
+    if (!uni)   { KubicaAnimate.shakeInput('uni-search'); showAlert('Por favor indica a tua universidade.'); return; }
+    if (pass.length < 8) { KubicaAnimate.shakeInput('password'); showAlert('A palavra-passe deve ter pelo menos 8 caracteres.'); return; }
+    if (pass !== pass2)  { KubicaAnimate.shakeInput('password-confirm'); showAlert('As palavras-passe não coincidem.'); return; }
+
+    document.getElementById('form-alert').className = 'k-alert-inline';
+    KubicaAnimate.setButtonLoading('submit-btn', true, 'A criar conta');
+
+    try {
+      const result = await KubicaApp.register({ nome, email, emailPessoal: emailP, universidade: uni, password: pass });
+      if (result) {
+        showAlert('Conta criada com sucesso! A redirecionar...', 'success');
+        setTimeout(() => window.location.href = '../../onb-01-gateway.html', 900);
+      }
+    } catch (err) {
+      let msg = 'Erro ao criar conta. Tenta novamente.';
+      if (err.data && err.data.message) msg = err.data.message;
+      showAlert(msg, 'error');
+      KubicaAnimate.setButtonLoading('submit-btn', false);
+    }
+  }
+</script>
+</body>
+</html>

@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="pt-AO">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>Sandbox / Financiamento — Kubica Hub Admin</title>
+  <link rel="stylesheet" href="../../kubica.css"/>
+  <style>
+    .k-filter-btn--active { border-color:var(--color-amber-forge)!important;color:var(--color-amber-forge)!important;background:var(--color-amber-dim)!important; }
+  </style>
+</head>
+<body class="page-body">
+
+<div class="k-dash-layout">
+  <div id="k-sidebar-placeholder"></div>
+  <div class="k-dash-main">
+    <div id="k-header-placeholder"></div>
+    <div class="k-dash-content">
+
+      <div class="k-page-header">
+        <div class="k-page-header__eyebrow">Admin · Funding Board FKCU</div>
+        <h1 class="k-page-header__title">Sandbox & Disbursements</h1>
+        <p class="k-page-header__desc">Gere e aprova as tranches de financiamento não-dilutivo solicitadas pelas equipas de startups em incubação.</p>
+      </div>
+
+      <!-- KPIs de sandbox -->
+      <div class="k-kpi-grid" id="sandbox-kpis">
+        <div class="k-loading"><div class="k-spinner"></div><p>A carregar dados financeiros...</p></div>
+      </div>
+
+      <div style="display:flex;gap:var(--sp-8);margin-bottom:var(--sp-24);">
+        <button class="btn-outline k-filter-btn k-filter-btn--active" data-status="pending" onclick="switchTab('pending')">⏳ Pendentes</button>
+        <button class="btn-outline k-filter-btn" data-status="approved" onclick="switchTab('approved')">✅ Aprovados</button>
+        <button class="btn-outline k-filter-btn" data-status="rejected" onclick="switchTab('rejected')">❌ Rejeitados</button>
+      </div>
+
+      <div id="transactions-container">
+        <div class="k-loading"><div class="k-spinner"></div><p>A carregar transacções...</p></div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- Modal de Rejeição de Financiamento -->
+<div id="reject-modal" class="k-modal-backdrop" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.8);z-index:999;align-items:center;justify-content:center;">
+  <div class="k-modal" style="background:var(--color-midnight-cocoa);border:1px solid var(--color-walnut);border-radius:12px;padding:var(--sp-24);max-width:480px;width:90%;">
+    <h2 class="k-modal__title" style="font-size:18px;color:var(--color-warm-cream);margin:0 0 12px;">❌ Rejeitar Pedido de Disbursement</h2>
+    <input type="hidden" id="reject-txn-id"/>
+    <div class="input-group">
+      <label class="input-label">Motivo da Rejeição (Obrigatório)</label>
+      <textarea id="reject-reason" class="input-pill" rows="3" placeholder="Ex: Montante acima do plafond previsto para a categoria seleccionada ou falta de comprovativos..."></textarea>
+    </div>
+    <div style="display:flex;gap:var(--sp-12);justify-content:flex-end;margin-top:var(--sp-16);">
+      <button class="btn-outline" onclick="document.getElementById('reject-modal').style.display='none'">Cancelar</button>
+      <button class="btn-outline" style="color:#f87171;border-color:#f87171;" onclick="confirmReject()">Confirmar Rejeição</button>
+    </div>
+  </div>
+</div>
+
+<script src="../../assets/js/kubica.js"></script>
+<script src="../../assets/js/app.js"></script>
+<script src="../../assets/js/kubica-dashboard.js"></script>
+<script>
+let allTxns = [], currentTab = 'pending';
+
+(async () => {
+  await KubicaDash.init('admin', 'relatorios');
+  await loadTransactions();
+})();
+
+async function loadTransactions() {
+  try {
+    const res = await KubicaApp.api('/admin/sandbox/pending');
+    allTxns = res?.data?.transactions ?? [];
+
+    const totalPending  = allTxns.filter(t => t.status === 'pending').reduce((s, t) => s + parseFloat(t.amount_usd || 0), 0);
+    const totalApproved = allTxns.filter(t => t.status === 'approved').reduce((s, t) => s + parseFloat(t.amount_usd || 0), 0);
+    const countPending  = allTxns.filter(t => t.status === 'pending').length;
+
+    document.getElementById('sandbox-kpis').innerHTML = `
+      ${KubicaDash.kpiCard('Pedidos Pendentes', countPending, '⏳')}
+      ${KubicaDash.kpiCard('Volume Pendente', KubicaDash.formatCurrency(totalPending), '💰')}
+      ${KubicaDash.kpiCard('Volume Processado', KubicaDash.formatCurrency(totalApproved), '✅')}
+    `;
+
+    renderByStatus('pending');
+  } catch(e) {
+    KubicaDash.showError('transactions-container', 'Erro ao carregar transacções.');
+    KubicaDash.showError('sandbox-kpis');
+  }
+}
+
+function switchTab(status) {
+  currentTab = status;
+  document.querySelectorAll('.k-filter-btn').forEach(b => b.classList.toggle('k-filter-btn--active', b.dataset.status === status));
+  renderByStatus(status);
+}
+
+function renderByStatus(status) {
+  const filtered = allTxns.filter(t => t.status === status);
+  if (!filtered.length) {
+    KubicaDash.showEmpty('transactions-container', `Sem transacções ${status === 'pending' ? 'pendentes' : status}.`, '💰');
+    return;
+  }
+  document.getElementById('transactions-container').innerHTML = filtered.map(t => `
+    <div class="k-list-card" style="margin-bottom:var(--sp-12);">
+      <div class="k-list-card__body">
+        <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:var(--sp-16);flex-wrap:wrap;">
+          <div style="flex:1;min-width:280px;">
+            <div style="display:flex;align-items:center;gap:var(--sp-8);margin-bottom:var(--sp-8);">
+              <span style="font-size:20px;font-weight:700;color:var(--color-amber-forge);">${KubicaDash.formatCurrency(t.amount_usd)}</span>
+              ${KubicaDash.statusBadge(t.status)}
+            </div>
+            <p style="font-size:14px;color:var(--color-warm-cream);margin:0 0 var(--sp-8);font-weight:500;">${t.description}</p>
+            <div style="display:flex;gap:var(--sp-16);font-size:12px;color:var(--color-driftwood);flex-wrap:wrap;">
+              <span>📁 Categoria: ${t.category}</span>
+              <span>🤝 Equipa: ${t.team_name || 'Equipa FKCU'}</span>
+              <span>👤 Solicitado por: ${t.requester_name || 'Membro'}</span>
+              <span>📅 ${KubicaDash.formatDate(t.requested_at)}</span>
+              ${t.reject_reason ? `<span style="color:#f87171;">Motivo: ${t.reject_reason}</span>` : ''}
+            </div>
+          </div>
+          ${t.status === 'pending' ? `
+          <div style="display:flex;flex-direction:column;gap:var(--sp-8);flex-shrink:0;">
+            <button class="btn-primary" style="font-size:12px;padding:6px 14px;" onclick="approve(${t.id})">✓ Aprovar Disbursement</button>
+            <button class="btn-outline" style="font-size:12px;padding:6px 14px;color:#f87171;border-color:#f87171;" onclick="openReject(${t.id})">✗ Rejeitar</button>
+          </div>` : ''}
+        </div>
+      </div>
+    </div>
+  `).join('');
+}
+
+async function approve(txnId) {
+  if (!confirm('Aprovar este pedido de financiamento Sandbox? O saldo será debitado e notificado à equipa.')) return;
+  try {
+    await KubicaApp.api('/admin/sandbox/' + txnId + '/approve', 'PATCH', {});
+    KubicaDash.toast('✅ Disbursement Sandbox aprovado com sucesso!', 'success');
+    await loadTransactions();
+  } catch(e) {
+    KubicaDash.toast('Erro ao aprovar financiamento.', 'error');
+  }
+}
+
+function openReject(txnId) {
+  document.getElementById('reject-txn-id').value = txnId;
+  document.getElementById('reject-reason').value = '';
+  document.getElementById('reject-modal').style.display = 'flex';
+}
+
+async function confirmReject() {
+  const txnId  = document.getElementById('reject-txn-id').value;
+  const reason = document.getElementById('reject-reason').value.trim();
+  if (!reason) { 
+    alert('O motivo de rejeição é obrigatório.'); 
+    return; 
+  }
+  try {
+    await KubicaApp.api('/admin/sandbox/' + txnId + '/reject', 'PATCH', { reject_reason: reason });
+    KubicaDash.toast('❌ Pedido de financiamento rejeitado.', 'info');
+    document.getElementById('reject-modal').style.display = 'none';
+    await loadTransactions();
+  } catch(e) {
+    KubicaDash.toast('Erro ao rejeitar pedido.', 'error');
+  }
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="pt-AO">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>Speed Dating FKCU — Kubica Hub</title>
+  <meta name="description" content="Sessões de Speed Dating de 5 minutos para matchmaking multidisciplinar entre Inventors e Builders no Framework FKCU."/>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="kubica.css"/>
+  <style>
+    body { font-family: 'Manrope', var(--font-primary); }
+
+    /* Timer area */
+    .timer-section {
+      background: var(--color-midnight-cocoa);
+      border-bottom: 1px solid var(--color-walnut);
+      padding: var(--sp-24) 0;
+    }
+    .timer-inner {
+      display: flex; align-items: center; justify-content: space-between;
+      gap: var(--sp-24); flex-wrap: wrap;
+    }
+
+    /* Compatibility bar */
+    .compat-bar {
+      height: 4px; background: var(--color-walnut);
+      border-radius: 9999px; overflow: hidden; margin-top: var(--sp-4);
+    }
+    .compat-fill {
+      height: 100%; background: var(--color-amber-forge);
+      border-radius: 9999px; transition: width .8s var(--motion-spring);
+    }
+
+    /* MSM Slots */
+    .msm-grid {
+      display: grid; grid-template-columns: repeat(auto-fill, minmax(130px,1fr)); gap: var(--sp-8);
+      margin-top: var(--sp-12);
+    }
+    .msm-slot {
+      padding: var(--sp-12); border-radius: var(--radius-card);
+      border: 1px solid var(--color-walnut); background: var(--color-midnight-cocoa);
+      text-align: center; transition: border-color .2s;
+    }
+    .msm-slot.filled { border-color: rgba(74,222,128,.4); }
+    .msm-slot.open   { border-color: var(--color-amber-forge); }
+    .msm-slot__role  { font-size: 12px; font-weight: 500; color: var(--color-warm-cream); margin-bottom: 2px; }
+    .msm-slot__name  { font-size: 10px; color: var(--color-driftwood); }
+    .msm-slot.open .msm-slot__name { color: var(--color-amber-forge); }
+
+    /* Session state banners */
+    .session-banner {
+      padding: var(--sp-12) var(--sp-16); border-radius: var(--radius-card);
+      display: flex; align-items: center; gap: var(--sp-12);
+      font-size: 13px; border: 1px solid;
+    }
+    .session-banner.waiting  { background: rgba(255,180,66,.07); border-color: rgba(255,180,66,.3); color: var(--color-amber-forge); }
+    .session-banner.active   { background: rgba(74,222,128,.07); border-color: rgba(74,222,128,.3); color: var(--color-success); }
+    .session-banner.ended    { background: rgba(248,113,113,.07); border-color: rgba(248,113,113,.3); color: var(--color-danger); }
+
+    /* Candidate queue */
+    .queue-label {
+      font-size: 11px; color: var(--color-driftwood); letter-spacing: .1em;
+      text-transform: uppercase; margin-bottom: var(--sp-12);
+      padding-bottom: var(--sp-8); border-bottom: 1px solid var(--color-walnut);
+    }
+
+    @media (max-width: 768px) {
+      .timer-inner { flex-direction: column; align-items: center; }
+    }
+  </style>
+</head>
+<body class="page-body">
+  <div id="k-nav-placeholder"></div>
+
+  <main id="main-content">
+
+    <!-- ── HEADER ────────────────────────────────────────────── -->
+    <section class="section-sm" style="border-bottom:1px solid var(--color-walnut);">
+      <div class="container reveal-up">
+        <div class="section-eyebrow">MAT-03 — Fase 1: Speed Dating FKCU</div>
+        <h1 class="text-heading-lg weight-medium color-cream" style="letter-spacing:-.5px;margin-top:var(--sp-4);">
+          Speed Dating Multidisciplinar
+        </h1>
+        <p class="text-body-lg color-driftwood" style="margin-top:var(--sp-8);max-width:560px;">
+          Sessões de 5 minutos com candidatos seleccionados pelo Motor FKCU. Avalia compatibilidade e decide — Like ou Pass.
+        </p>
+      </div>
+    </section>
+
+    <!-- ── TIMER BAR ──────────────────────────────────────────── -->
+    <div class="timer-section">
+      <div class="container">
+        <div class="timer-inner">
+
+          <!-- Progress ring + timer -->
+          <div style="display:flex;align-items:center;gap:var(--sp-20);">
+            <div class="progress-ring-wrap">
+              <svg width="100" height="100" viewBox="0 0 100 100">
+                <circle class="progress-ring__bg"   cx="50" cy="50" r="44" stroke-width="5"/>
+                <circle class="progress-ring__fill" cx="50" cy="50" r="44" stroke-width="5" id="timer-ring"
+                        style="stroke-dasharray:276.46;stroke-dashoffset:0;"/>
+              </svg>
+              <div class="progress-ring__label" id="timer-label">05:00</div>
+              <div class="progress-ring__sub">restante</div>
+            </div>
+
+            <div>
+              <div style="font-size:12px;color:var(--color-driftwood);letter-spacing:.06em;text-transform:uppercase;margin-bottom:4px;">Sessão actual</div>
+              <div style="font-size:22px;font-weight:500;color:var(--color-warm-cream);letter-spacing:-.3px;" id="session-num">1 / 8</div>
+              <div style="font-size:12px;color:var(--color-driftwood);margin-top:4px;">candidatos agendados</div>
+            </div>
+          </div>
+
+          <!-- Phase rail -->
+          <div style="flex:1;max-width:360px;">
+            <div style="font-size:11px;color:var(--color-driftwood);letter-spacing:.08em;text-transform:uppercase;margin-bottom:8px;">Progresso da sessão</div>
+            <div class="progress-rail" id="session-rail" style="padding:0;"></div>
+          </div>
+
+          <!-- Actions -->
+          <div style="display:flex;gap:var(--sp-12);align-items:center;">
+            <button onclick="startSession()" id="btn-start" class="btn-primary">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+              Iniciar sessão
+            </button>
+            <button onclick="pauseSession()" id="btn-pause" class="btn-ghost" style="display:none;">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true"><rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/></svg>
+              Pausar
+            </button>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- ── MAIN LAYOUT ────────────────────────────────────────── -->
+    <section class="section">
+      <div class="container">
+        <div class="grid-split-55" style="gap:var(--sp-32);">
+
+          <!-- LEFT: Candidate card + actions -->
+          <div>
+
+            <!-- Session status banner -->
+            <div class="session-banner waiting reveal-fade" id="session-banner" style="margin-bottom:var(--sp-20);">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+              A aguardar início da sessão. Clica em "Iniciar" para começar o cronómetro.
+            </div>
+
+            <!-- Candidate card -->
+            <div class="candidate-card reveal-scale" id="candidate-card">
+              <div class="candidate-card__cover">
+                <!-- Initials avatar placeholder -->
+                <div class="candidate-card__avatar" id="candidate-avatar">CS</div>
+                <div class="candidate-card__compat" id="candidate-compat">92% match</div>
+              </div>
+
+              <div class="candidate-card__body">
+                <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:var(--sp-12);">
+                  <div>
+                    <div style="font-size:18px;font-weight:500;color:var(--color-warm-cream);letter-spacing:-.2px;" id="candidate-name">Carlos Santos</div>
+                    <div style="font-size:13px;color:var(--color-driftwood);margin-top:2px;" id="candidate-meta">CTO Candidate · UCAN · 3º Ano</div>
+                  </div>
+                  <span class="badge badge-outline" id="candidate-role">CTO</span>
+                </div>
+
+                <!-- Compatibility bar -->
+                <div style="margin-bottom:var(--sp-12);">
+                  <div style="display:flex;justify-content:space-between;margin-bottom:3px;">
+                    <span style="font-size:11px;color:var(--color-driftwood);letter-spacing:.06em;text-transform:uppercase;">Compatibilidade MSM</span>
+                    <span style="font-size:11px;color:var(--color-amber-forge);font-weight:500;" id="compat-pct">92%</span>
+                  </div>
+                  <div class="compat-bar">
+                    <div class="compat-fill" id="compat-fill" style="width:92%;"></div>
+                  </div>
+                </div>
+
+                <p style="font-size:13px;color:var(--color-driftwood);line-height:1.6;margin-bottom:var(--sp-16);" id="candidate-bio">
+                  Engenheiro de Software especializado em sistemas embarcados e IoT. Experiência com Arduino, Python e APIs de dados em tempo real. TFC em sensor networks para monitorização agrícola.
+                </p>
+
+                <!-- Skills -->
+                <div style="display:flex;flex-wrap:wrap;gap:5px;margin-bottom:var(--sp-16);">
+                  <span style="font-size:10px;color:var(--color-driftwood);background:rgba(67,57,45,.4);padding:2px 8px;border-radius:9999px;">Python</span>
+                  <span style="font-size:10px;color:var(--color-driftwood);background:rgba(67,57,45,.4);padding:2px 8px;border-radius:9999px;">IoT</span>
+                  <span style="font-size:10px;color:var(--color-driftwood);background:rgba(67,57,45,.4);padding:2px 8px;border-radius:9999px;">React</span>
+                  <span style="font-size:10px;color:var(--color-driftwood);background:rgba(67,57,45,.4);padding:2px 8px;border-radius:9999px;">Node.js</span>
+                  <span style="font-size:10px;color:var(--color-driftwood);background:rgba(67,57,45,.4);padding:2px 8px;border-radius:9999px;">SQL</span>
+                </div>
+
+                <!-- Actions -->
+                <div class="speed-actions">
+                  <button class="btn-pass" onclick="pass()" id="btn-pass-action" aria-label="Dispensar candidato">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+                    Pass
+                  </button>
+                  <button class="btn-like" onclick="like()" id="btn-like-action" aria-label="Aceitar candidato">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+                    Like
+                  </button>
+                </div>
+
+                <!-- Contact note (optional) -->
+                <div style="margin-top:var(--sp-12);">
+                  <textarea id="session-note" class="input-pill" style="height:72px;resize:none;font-size:12px;" placeholder="Nota privada sobre este candidato (opcional)..."></textarea>
+                </div>
+
+              </div>
+            </div>
+
+          </div>
+
+          <!-- RIGHT: MSM + Queue -->
+          <div>
+
+            <!-- MSM Status -->
+            <div style="background:var(--color-midnight-cocoa);border:1px solid var(--color-walnut);border-radius:var(--radius-card);padding:var(--sp-20);margin-bottom:var(--sp-20);" class="reveal-up delay-1">
+              <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:var(--sp-12);">
+                <div style="font-size:14px;font-weight:500;color:var(--color-warm-cream);">Matriz de Sinergia (MSM)</div>
+                <span class="phase-pill active"><div class="phase-pill__dot"></div>Em construção</span>
+              </div>
+              <div class="msm-grid" id="msm-grid">
+                <!-- Filled by JS -->
+              </div>
+            </div>
+
+            <!-- Candidate Queue -->
+            <div style="background:var(--color-midnight-cocoa);border:1px solid var(--color-walnut);border-radius:var(--radius-card);padding:var(--sp-20);" class="reveal-up delay-2">
+              <div class="queue-label">Fila de Candidatos</div>
+              <div id="candidate-queue"></div>
+            </div>
+
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <script src="assets/js/kubica.js"></script>
+  <script src="assets/js/app.js"></script>
+  <script src="assets/js/kubica-animations.js"></script>
+  <script>
+    KubicaNav.init('mat-03-speeddate.html');
+
+    // ── Data ────────────────────────────────────────────────────
+    const CANDIDATES = [
+      { id:1, name:'Carlos Santos',  initials:'CS', role:'CTO', compat:92, meta:'CTO · UCAN · 3º Ano',     bio:'Engenheiro de Software em IoT e sistemas embarcados. TFC em sensor networks agrícolas.', skills:['Python','IoT','React','Node.js','SQL'] },
+      { id:2, name:'Ana Ferreira',   initials:'AF', role:'CMO', compat:85, meta:'CMO · UAN · Finalista',    bio:'Especialista em Marketing Digital e Branding. Experiência com campanhas no mercado angolano.', skills:['SEO','Social Media','Canva','Analytics','Copywriting'] },
+      { id:3, name:'Pedro Lima',     initials:'PL', role:'CLO', compat:78, meta:'CLO · UCAN · Mestrando',   bio:'Advogado em formação especializado em Direito Comercial e Propriedade Intelectual angolana.', skills:['Lei 3/92','Contratos','Arbitragem','IAPI','Direito Comercial'] },
+      { id:4, name:'Sofia Monteiro', initials:'SM', role:'CEO', compat:88, meta:'CEO · ISTA · Finalista',   bio:'Gestão de Empresas com foco em estratégia de crescimento e modelos de negócio sustentáveis.', skills:['Lean Canvas','OKRs','Excel','Pitch','Finance'] },
+      { id:5, name:'João Baptista',  initials:'JB', role:'CSO', compat:81, meta:'CSO · UAN · Mestrando',    bio:'Estrategista de negócios com experiência em consultoria e expansão de mercado em Angola.', skills:['Business Dev','Parcerias','CRM','Strategy','Excel'] },
+    ];
+
+    const MSM_ROLES = [
+      { role:'CTO', filled:false }, { role:'CEO', filled:false },
+      { role:'CLO', filled:false }, { role:'CMO', filled:false },
+      { role:'CSO', filled:false }, { role:'CFO', filled:false },
+    ];
+
+    let _current = 0;
+    let _matches = [];
+    let _running = false;
+    const TIMER_SECS = 5 * 60;
+
+    // ── Init ───────────────────────────────────────────────────
+    document.addEventListener('DOMContentLoaded', () => {
+      renderMSM();
+      renderQueue();
+      loadCandidate(0);
+      renderRail();
+    });
+
+    function renderMSM() {
+      document.getElementById('msm-grid').innerHTML = MSM_ROLES.map(s => `
+        <div class="msm-slot ${s.filled ? 'filled' : 'open'}">
+          <div class="msm-slot__role">${s.role}</div>
+          <div class="msm-slot__name">${s.filled ? s.person : 'Vaga em aberto'}</div>
+        </div>`).join('');
+    }
+
+    function renderQueue() {
+      const q = document.getElementById('candidate-queue');
+      q.innerHTML = CANDIDATES.map((c, i) => `
+        <div style="display:flex;align-items:center;gap:var(--sp-12);padding:var(--sp-10) 0;
+             border-bottom:1px solid var(--color-walnut);opacity:${i === _current ? 1 : i < _current ? .4 : .7};
+             transition:opacity .3s;">
+          <div style="width:36px;height:36px;border-radius:9999px;background:var(--color-walnut);
+               display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:500;
+               color:var(--color-warm-cream);flex-shrink:0;
+               ${i === _current ? 'border:1px solid var(--color-amber-forge)' : ''}">${c.initials}</div>
+          <div style="flex:1;">
+            <div style="font-size:13px;font-weight:500;color:var(--color-warm-cream);">${c.name}</div>
+            <div style="font-size:11px;color:var(--color-driftwood);">${c.role}</div>
+          </div>
+          <div style="font-size:11px;color:${i < _current ? 'var(--color-success)' : i === _current ? 'var(--color-amber-forge)' : 'var(--color-driftwood)'};">
+            ${i < _current ? 'Avaliado' : i === _current ? 'Agora' : `#${i+1}`}
+          </div>
+        </div>`).join('');
+    }
+
+    function renderRail() {
+      const rail = document.getElementById('session-rail');
+      rail.innerHTML = CANDIDATES.map((_, i) => `
+        <div class="progress-rail__segment ${i < _current ? 'done' : i === _current ? 'active' : ''}"></div>
+      `).join('');
+    }
+
+    function loadCandidate(idx) {
+      if (idx >= CANDIDATES.length) { endAllSessions(); return; }
+      const c = CANDIDATES[idx];
+      document.getElementById('candidate-name').textContent   = c.name;
+      document.getElementById('candidate-meta').textContent   = c.meta;
+      document.getElementById('candidate-role').textContent   = c.role;
+      document.getElementById('candidate-bio').textContent    = c.bio;
+      document.getElementById('candidate-avatar').textContent = c.initials;
+      document.getElementById('candidate-compat').textContent = c.compat + '% match';
+      document.getElementById('compat-pct').textContent       = c.compat + '%';
+      document.getElementById('compat-fill').style.width      = c.compat + '%';
+      document.getElementById('session-num').textContent      = `${idx+1} / ${CANDIDATES.length}`;
+      document.getElementById('session-note').value = '';
+    }
+
+    // ── Timer ─────────────────────────────────────────────────
+    function startSession() {
+      if (_running) return;
+      _running = true;
+      document.getElementById('btn-start').style.display = 'none';
+      document.getElementById('btn-pause').style.display = 'inline-flex';
+      setBanner('active', 'Sessão em curso. Avalia o candidato e decide antes do tempo esgotar.');
+
+      KubicaAnimate.startCountdown({
+        totalSeconds: TIMER_SECS,
+        ringId: 'timer-ring',
+        labelId: 'timer-label',
+        onEnd: () => { autoAdvance(); }
+      });
+    }
+
+    function pauseSession() {
+      _running = false;
+      KubicaAnimate.stopCountdown();
+      document.getElementById('btn-start').style.display = 'inline-flex';
+      document.getElementById('btn-pause').style.display = 'none';
+      setBanner('waiting', 'Sessão pausada. Clica em "Iniciar" para retomar.');
+    }
+
+    function autoAdvance() {
+      nextCandidate('auto');
+    }
+
+    function like() {
+      const c = CANDIDATES[_current];
+      _matches.push({ ...c, decision: 'like' });
+      // Mark MSM
+      const slot = MSM_ROLES.find(s => s.role === c.role && !s.filled);
+      if (slot) { slot.filled = true; slot.person = c.name; renderMSM(); }
+      nextCandidate('like');
+    }
+
+    function pass() {
+      nextCandidate('pass');
+    }
+
+    function nextCandidate(action) {
+      KubicaAnimate.stopCountdown();
+      _running = false;
+      _current++;
+      renderQueue();
+      renderRail();
+
+      if (_current >= CANDIDATES.length) { endAllSessions(); return; }
+
+      loadCandidate(_current);
+      document.getElementById('btn-start').style.display = 'inline-flex';
+      document.getElementById('btn-pause').style.display = 'none';
+      setBanner('waiting', `Candidato ${_current+1}/${CANDIDATES.length} pronto. Clica em "Iniciar" para a próxima sessão.`);
+    }
+
+    function endAllSessions() {
+      setBanner('ended', `Sessões concluídas! ${_matches.length} matches encontrados. A redirecionar para as propostas...`);
+      setTimeout(() => window.location.href = `mat-04-proposal.html?matches=${_matches.length}`, 2500);
+    }
+
+    function setBanner(type, msg) {
+      const b = document.getElementById('session-banner');
+      b.className = `session-banner ${type}`;
+      b.querySelector('svg + *') ? null : null;
+      b.lastChild.textContent = msg;
+    }
+
+    // Re-use the ring with 276.46 = 2π×44
+    document.addEventListener('DOMContentLoaded', () => {
+      const ring = document.getElementById('timer-ring');
+      ring.style.strokeDasharray  = '276.46';
+      ring.style.strokeDashoffset = '0';
+    });
+  </script>
+</body>
+</html>

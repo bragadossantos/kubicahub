@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="pt-AO">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>O meu Perfil — Kubica Hub</title>
+  <link rel="stylesheet" href="../../kubica.css"/>
+</head>
+<body class="page-body">
+
+<div class="k-dash-layout">
+  <div id="k-sidebar-placeholder"></div>
+  <div class="k-dash-main">
+    <div id="k-header-placeholder"></div>
+    <div class="k-dash-content">
+
+      <div class="k-page-header">
+        <div class="k-page-header__eyebrow">Perfil · FKCU</div>
+        <h1 class="k-page-header__title">O meu Perfil</h1>
+        <p class="k-page-header__desc">O teu perfil de Builder é a tua montra para ser encontrado por inventores e selecionado pelo algoritmo de matching.</p>
+      </div>
+
+      <div id="profile-container">
+        <div class="k-loading"><div class="k-spinner"></div><p>A carregar perfil...</p></div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<script src="../../assets/js/kubica.js"></script>
+<script src="../../assets/js/app.js"></script>
+<script src="../../assets/js/kubica-dashboard.js"></script>
+<script>
+(async () => {
+  await KubicaDash.init(null, 'perfil');
+  const user = KubicaDash.getUser();
+  if (!user) return;
+
+  try {
+    const res = await KubicaApp.api('/profile/' + user.id);
+    if (res && res.success) renderProfile(res.data.profile, res.data.badges, res.data.stats);
+  } catch(e) {
+    KubicaDash.showError('profile-container', 'Erro ao carregar perfil.');
+  }
+})();
+
+function renderProfile(profile, badges, stats) {
+  const skills = Array.isArray(profile.skills) ? profile.skills : (profile.skills ? JSON.parse(profile.skills) : []);
+  document.getElementById('profile-container').innerHTML = `
+    <div class="k-list-card" style="margin-bottom:var(--sp-16);">
+      <div class="k-list-card__body">
+        <div style="display:flex;gap:var(--sp-24);align-items:flex-start;flex-wrap:wrap;">
+          <div class="k-sidebar__avatar" style="width:72px;height:72px;font-size:28px;flex-shrink:0;">${(profile.name || 'B').charAt(0)}</div>
+          <div style="flex:1;min-width:280px;">
+            <h2 style="font-size:22px;font-weight:700;color:var(--color-warm-cream);margin:0 0 4px;">${profile.name}</h2>
+            <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:var(--sp-12);align-items:center;">
+              <span class="k-badge k-badge--builder">Builder</span>
+              <span style="font-size:13px;color:var(--color-driftwood);">🎓 ${profile.faculty} · ${profile.university}</span>
+              ${profile.profile_type ? `<span class="k-badge k-badge--info">${profile.profile_type}</span>` : ''}
+              ${profile.availability_hours ? `<span style="font-size:13px;color:var(--color-driftwood);">⏱ ${profile.availability_hours}h/semana</span>` : ''}
+            </div>
+            <p style="font-size:14px;color:var(--color-driftwood);margin:0;">${profile.bio || 'Sem biografia. Adiciona uma para destacar a tua experiência e competências!'}</p>
+          </div>
+        </div>
+        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:var(--sp-16);margin-top:var(--sp-24);padding-top:var(--sp-16);border-top:1px solid var(--color-walnut);">
+          <div style="text-align:center;"><div style="font-size:22px;font-weight:700;color:var(--color-warm-cream);">${stats.propostas_aceites || 0}</div><div style="font-size:12px;color:var(--color-driftwood);">Propostas Aceites</div></div>
+          <div style="text-align:center;"><div style="font-size:22px;font-weight:700;color:var(--color-warm-cream);">${stats.equipas_activas || 0}</div><div style="font-size:12px;color:var(--color-driftwood);">Equipas Activas</div></div>
+          <div style="text-align:center;"><div style="font-size:22px;font-weight:700;color:var(--color-warm-cream);">${(badges || []).length}</div><div style="font-size:12px;color:var(--color-driftwood);">Badges FKCU</div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="k-list-card" style="margin-bottom:var(--sp-16);">
+      <div class="k-list-card__header"><h3 class="k-list-card__title">Competências Técnicas</h3></div>
+      <div class="k-list-card__body">${skills.length ? skills.map(s => `<span class="k-badge k-badge--muted" style="margin:3px;">${s}</span>`).join('') : '<p style="font-size:13px;color:var(--color-driftwood);">Nenhuma competência registada.</p>'}</div>
+    </div>
+
+    ${badges?.length ? `<div class="k-list-card" style="margin-bottom:var(--sp-16);">
+      <div class="k-list-card__header"><h3 class="k-list-card__title">🏅 Badges FKCU</h3></div>
+      <div class="k-list-card__body">${badges.map(b => `<span class="k-badge k-badge--warning" style="margin:3px;">🏅 ${b.badge_type.replace(/_/g,' ')}</span>`).join('')}</div>
+    </div>` : ''}
+
+    <div class="k-form-section">
+      <h3 class="k-form-section__title">Editar Perfil de Builder</h3>
+      <div id="edit-feedback" style="display:none;margin-bottom:var(--sp-12);"></div>
+      <div class="input-group">
+        <label class="input-label">Biografia & Apresentação (visível para Inventors)</label>
+        <textarea id="edit-bio" class="input-pill" rows="3" style="resize:vertical;">${profile.bio || ''}</textarea>
+      </div>
+      <div class="k-form-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:var(--sp-16);margin-top:var(--sp-12);">
+        <div class="input-group">
+          <label class="input-label">Horas disponíveis por semana</label>
+          <input type="number" id="edit-hours" class="input-pill" min="0" max="40" value="${profile.availability_hours || ''}"/>
+        </div>
+        <div class="input-group">
+          <label class="input-label">Papel de Co-Fundador Pretendido</label>
+          <select id="edit-profile-type" class="select-pill">
+            <option value="">Seleccionar</option>
+            ${['CTO','CFO','CLO','CMO','CEO'].map(r => `<option ${profile.profile_type===r?'selected':''}>${r}</option>`).join('')}
+          </select>
+        </div>
+      </div>
+      <div style="display:flex;justify-content:flex-end;margin-top:var(--sp-16);">
+        <button class="btn-primary" onclick="saveProfile(${profile.id})">Guardar Alterações →</button>
+      </div>
+    </div>
+  `;
+}
+
+async function saveProfile(userId) {
+  const payload = { 
+    bio: document.getElementById('edit-bio').value.trim(), 
+    availability_hours: parseInt(document.getElementById('edit-hours').value) || null, 
+    profile_type: document.getElementById('edit-profile-type').value 
+  };
+  try {
+    await KubicaApp.api('/profile/' + userId, 'PATCH', payload);
+    document.getElementById('edit-feedback').style.display='block';
+    document.getElementById('edit-feedback').innerHTML='<div style="padding:10px 14px;background:rgba(74,222,128,0.12);border:1px solid #4ade80;border-radius:6px;color:#4ade80;font-size:13px;">✓ Perfil de Builder actualizado com sucesso!</div>';
+    KubicaDash.toast('Perfil actualizado!', 'success');
+  } catch(e) {
+    document.getElementById('edit-feedback').style.display='block';
+    document.getElementById('edit-feedback').innerHTML='<div style="padding:10px 14px;background:rgba(248,113,113,0.12);border:1px solid #f87171;border-radius:6px;color:#f87171;font-size:13px;">⚠ Erro ao guardar.</div>';
+  }
+}
+</script>
+</body>
+</html>

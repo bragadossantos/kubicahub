@@ -1,0 +1,40 @@
+# ─── Composer ───────────────────────────────────────────────
+/vendor/
+composer.lock
+
+# ─── Ambiente & Credenciais ──────────────────────────────────
+.env
+.env.local
+.env.production
+*.env
+
+# ─── Logs ───────────────────────────────────────────────────
+/logs/
+*.log
+
+# ─── Uploads de utilizadores ────────────────────────────────
+/public/uploads/*
+!/public/uploads/.gitkeep
+
+# ─── Temporários do projecto ────────────────────────────────
+/.tmp/
+*.tmp
+*.cache
+
+# ─── IDEs e Editores ────────────────────────────────────────
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# ─── Sistema Operativo ──────────────────────────────────────
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# ─── PHP ────────────────────────────────────────────────────
+*.phar
+
+# ─── Node (caso venha a ser usado) ──────────────────────────
+node_modules/
+npm-debug.log

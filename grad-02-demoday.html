@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="pt-AO"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Demo Day — Kubica Hub</title>
+<meta name="description" content="Evento de graduação e apresentação pública das startups incubadas no FKCU perante investidores e parceiros."/>
+<link rel="stylesheet" href="kubica.css"/>
+<style>
+.speaker-card { background:var(--color-midnight-cocoa); border:1px solid var(--color-walnut); border-radius:8px; padding:20px; }
+.agenda-row { display:flex; align-items:center; gap:16px; padding:16px; border-bottom:1px solid var(--color-burnt-edge); }
+.agenda-row:last-child { border-bottom:none; }
+.agenda-time { font-size:var(--text-caption); font-weight:var(--font-weight-medium); color:var(--color-amber-forge); min-width:60px; }
+</style>
+</head>
+<body class="page-body"><div id="k-nav-placeholder"></div>
+<main>
+<section style="padding-block:var(--sp-72);background:radial-gradient(ellipse at 30% 50%,rgba(255,180,66,.08) 0%,transparent 70%);">
+  <div class="container">
+    <div class="section-eyebrow" style="justify-content:center;margin-bottom:var(--sp-24);">GRAD-02 — Demo Day 2026</div>
+    <div style="text-align:center;max-width:760px;margin:auto;">
+      <h1 class="text-hero weight-medium color-cream mb-16" style="letter-spacing:var(--tracking-hero);line-height:var(--leading-hero);">Kubica Demo Day<br><em style="color:var(--color-amber-forge);font-style:normal;">Luanda 2026</em></h1>
+      <p class="text-body-lg color-driftwood mb-32" style="line-height:1.7;">As startups apresentam ao mercado. O pico da jornada FKCU — perante investidores, mentores e parceiros corporativos de Angola e de África.</p>
+      <div class="flex-center flex-gap-24" style="flex-wrap:wrap;margin-bottom:var(--sp-48);">
+        <div class="stat-item"><div class="stat-item__value">15 Out</div><div class="stat-item__label">Data do evento</div></div>
+        <div class="stat-divider"></div>
+        <div class="stat-item"><div class="stat-item__value">Luanda</div><div class="stat-item__label">Centro de Conferências</div></div>
+        <div class="stat-divider"></div>
+        <div class="stat-item"><div class="stat-item__value">12</div><div class="stat-item__label">Startups a apresentar</div></div>
+        <div class="stat-divider"></div>
+        <div class="stat-item"><div class="stat-item__value">+30</div><div class="stat-item__label">Investidores presentes</div></div>
+      </div>
+      <div class="flex-center flex-gap-16" style="flex-wrap:wrap;">
+        <button class="btn-primary btn-lg" onclick="showToast('Inscrição confirmada! Aguarda confirmação por e-mail.','success')">Inscrever-me no Demo Day</button>
+        <button class="btn-secondary" onclick="showToast('Link de streaming enviado por e-mail!','success')">📺 Assistir online</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section" style="border-top:1px solid var(--color-walnut);">
+  <div class="container">
+    <div class="grid-2" style="gap:32px;align-items:flex-start;">
+      <!-- Agenda -->
+      <div>
+        <h2 class="text-subheading weight-medium color-cream mb-16">Agenda do Dia</h2>
+        <div class="card card-surface" style="padding:0;">
+          <div class="agenda-row"><div class="agenda-time">09h00</div><div><p class="text-body weight-medium color-cream">Abertura — Reitor + Coordenação FKCU</p><p class="text-caption color-driftwood">45 minutos</p></div></div>
+          <div class="agenda-row"><div class="agenda-time">09h45</div><div><p class="text-body weight-medium color-cream">Pitch Bloco 1 — 4 Startups (10 min cada)</p><p class="text-caption color-driftwood">AgroLink, PaguiFácil, AcademIQ, LogiRota</p></div></div>
+          <div class="agenda-row"><div class="agenda-time">11h00</div><div><p class="text-body weight-medium color-cream">Pausa + Networking</p><p class="text-caption color-driftwood">30 minutos</p></div></div>
+          <div class="agenda-row"><div class="agenda-time">11h30</div><div><p class="text-body weight-medium color-cream">Pitch Bloco 2 — 4 Startups</p><p class="text-caption color-driftwood">SaúdeDesk, SolAngola + mais 2</p></div></div>
+          <div class="agenda-row"><div class="agenda-time">13h00</div><div><p class="text-body weight-medium color-cream">Almoço + Q&amp;A com investidores</p><p class="text-caption color-driftwood">Sessões privadas de 15 min por startup</p></div></div>
+          <div class="agenda-row"><div class="agenda-time">14h30</div><div><p class="text-body weight-medium color-cream">Pitch Bloco 3 — 4 Startups</p><p class="text-caption color-driftwood">Últimas 4 equipas graduadas</p></div></div>
+          <div class="agenda-row"><div class="agenda-time">16h00</div><div><p class="text-body weight-medium color-cream">Cerimónia de Atribuição do Selo INAPEM</p><p class="text-caption color-driftwood">Entrega oficial de certificados</p></div></div>
+          <div class="agenda-row"><div class="agenda-time">17h00</div><div><p class="text-body weight-medium color-cream">Cocktail &amp; Networking final</p><p class="text-caption color-driftwood">Oportunidade de follow-up com investidores</p></div></div>
+        </div>
+      </div>
+
+      <!-- Speakers + Info -->
+      <div>
+        <h2 class="text-subheading weight-medium color-cream mb-16">Oradores Confirmados</h2>
+        <div style="display:flex;flex-direction:column;gap:12px;margin-bottom:24px;">
+          <div class="speaker-card flex flex-gap-16" style="align-items:center;"><div class="avatar-placeholder avatar-md">MA</div><div><p class="text-body weight-medium color-cream">Min. da Economia — Angola</p><p class="text-caption color-driftwood">Abertura institucional</p></div></div>
+          <div class="speaker-card flex flex-gap-16" style="align-items:center;"><div class="avatar-placeholder avatar-md">SB</div><div><p class="text-body weight-medium color-cream">CEO — Sonangol Ventures</p><p class="text-caption color-driftwood">Perspectiva do investidor angolano</p></div></div>
+          <div class="speaker-card flex flex-gap-16" style="align-items:center;"><div class="avatar-placeholder avatar-md">KI</div><div><p class="text-body weight-medium color-cream">Partner — Partech Africa</p><p class="text-caption color-driftwood">Ecossistema de startups africanas</p></div></div>
+          <div class="speaker-card flex flex-gap-16" style="align-items:center;"><div class="avatar-placeholder avatar-md">RM</div><div><p class="text-body weight-medium color-cream">Director INAPEM</p><p class="text-caption color-driftwood">Apresentação do novo regime Startup Angola</p></div></div>
+        </div>
+        <div class="card" style="padding:20px;border-color:rgba(255,180,66,.3);">
+          <p class="text-body weight-medium color-amber mb-8">🎯 Para as startups a apresentar</p>
+          <p class="text-body color-driftwood" style="line-height:1.6;">Pitch de 8 minutos + 2 minutos de Q&amp;A. Pitch Deck enviado ao júri até 8 Out. Ensaio geral: 14 Out às 15h.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+</main>
+<div id="k-footer-placeholder"></div>
+<script src="assets/js/kubica.js"></script>
+<script>KubicaNav.init('index.html');</script>
+</body></html>

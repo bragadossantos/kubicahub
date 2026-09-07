@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="pt-AO"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Compliance INAPEM — Kubica Hub</title>
+<meta name="description" content="Checklist de conformidade INAPEM para acesso ao Selo Startup e benefícios fiscais para startups universitárias angolanas."/>
+<link rel="stylesheet" href="kubica.css"/>
+</head>
+<body class="page-body"><div id="k-nav-placeholder"></div>
+<main>
+<section class="section-sm" style="border-bottom:1px solid var(--color-walnut);">
+  <div class="container">
+    <div class="section-eyebrow">GOV-05 — Compliance INAPEM</div>
+    <h1 class="text-heading-lg weight-medium color-cream" style="letter-spacing:var(--tracking-heading-lg);">Checklist de Conformidade INAPEM</h1>
+    <p class="text-body-lg color-driftwood mt-16">Conformidade pré-candidatura ao Selo Startup — isenções fiscais para 3 anos após formatura e lançamento.</p>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <!-- Score card -->
+    <div class="card" style="padding:32px;border-color:rgba(255,180,66,.3);margin-bottom:32px;text-align:center;max-width:480px;margin-left:auto;margin-right:auto;margin-bottom:32px;">
+      <p class="text-caption color-driftwood mb-12" style="letter-spacing:.1em;text-transform:uppercase;">Score de Conformidade</p>
+      <div style="font-size:72px;font-weight:500;color:var(--color-amber-forge);letter-spacing:-1px;line-height:1;" id="score-display">62%</div>
+      <p class="text-body color-driftwood mt-8">8 de 13 critérios cumpridos</p>
+      <div class="k-progress mt-16"><div class="k-progress__fill" id="score-bar" style="width:62%;"></div></div>
+      <p class="text-caption color-amber mt-8">Mínimo para candidatura: 80%</p>
+    </div>
+
+    <div class="grid-2" style="gap:24px;align-items:flex-start;">
+      <!-- Section 1: Académica -->
+      <div>
+        <div class="card card-surface mb-16" style="padding:24px;">
+          <h2 class="text-subheading weight-medium color-cream mb-4">🎓 Conformidade Académica</h2>
+          <p class="text-caption color-driftwood mb-16">Critérios relacionados com o estatuto universitário dos co-founders</p>
+          <div class="k-checklist" id="academic-checklist">
+            <div class="k-checklist__item checked" onclick="updateScore()"><div class="k-checklist__checkbox"></div><div><p class="text-body color-cream">Todos os co-founders são estudantes activos em universidades angolanas</p></div></div>
+            <div class="k-checklist__item checked" onclick="updateScore()"><div class="k-checklist__checkbox"></div><div><p class="text-body color-cream">Certidões de matrícula válidas (emitidas nos últimos 3 meses)</p></div></div>
+            <div class="k-checklist__item checked" onclick="updateScore()"><div class="k-checklist__checkbox"></div><div><p class="text-body color-cream">Mínimo de 4 faculdades distintas representadas na equipa</p></div></div>
+            <div class="k-checklist__item checked" onclick="updateScore()"><div class="k-checklist__checkbox"></div><div><p class="text-body color-cream">Docente tutor formal designado pela universidade</p></div></div>
+          </div>
+        </div>
+
+        <!-- Section 2: Societária -->
+        <div class="card card-surface mb-16" style="padding:24px;">
+          <h2 class="text-subheading weight-medium color-cream mb-4">⚖️ Conformidade Societária</h2>
+          <p class="text-caption color-driftwood mb-16">Acordos e estrutura legal da startup</p>
+          <div class="k-checklist" id="legal-checklist">
+            <div class="k-checklist__item checked" onclick="updateScore()"><div class="k-checklist__checkbox"></div><div><p class="text-body color-cream">Acordo de Co-Founders assinado e autenticado</p></div></div>
+            <div class="k-checklist__item checked" onclick="updateScore()"><div class="k-checklist__checkbox"></div><div><p class="text-body color-cream">Memorando de Entendimento (MoU) em vigor</p></div></div>
+            <div class="k-checklist__item" onclick="updateScore()"><div class="k-checklist__checkbox"></div><div><p class="text-body color-cream">Pedido de registo de marca submetido ao IAPI</p><p class="text-caption color-driftwood">Prazo: 31 Ago 2026</p></div></div>
+            <div class="k-checklist__item" onclick="updateScore()"><div class="k-checklist__checkbox"></div><div><p class="text-body color-cream">NBI — Número Único de Identificação (em processo)</p></div></div>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <!-- Section 3: Projecto -->
+        <div class="card card-surface mb-16" style="padding:24px;">
+          <h2 class="text-subheading weight-medium color-cream mb-4">💡 Conformidade do Projecto</h2>
+          <p class="text-caption color-driftwood mb-16">Requisitos de inovação e alinhamento estratégico</p>
+          <div class="k-checklist" id="project-checklist">
+            <div class="k-checklist__item checked" onclick="updateScore()"><div class="k-checklist__checkbox"></div><div><p class="text-body color-cream">Protótipo funcional ou MVP documentado</p></div></div>
+            <div class="k-checklist__item" onclick="updateScore()"><div class="k-checklist__checkbox"></div><div><p class="text-body color-cream">Plano de negócio com projecções financeiras Angola</p></div></div>
+            <div class="k-checklist__item" onclick="updateScore()"><div class="k-checklist__checkbox"></div><div><p class="text-body color-cream">Alinhamento demonstrado com PDN 2023–2027</p></div></div>
+            <div class="k-checklist__item" onclick="updateScore()"><div class="k-checklist__checkbox"></div><div><p class="text-body color-cream">Declaração de impacto social / ambiental</p></div></div>
+            <div class="k-checklist__item" onclick="updateScore()"><div class="k-checklist__checkbox"></div><div><p class="text-body color-cream">Estratégia de criação de emprego angolano documentada</p></div></div>
+          </div>
+        </div>
+
+        <!-- Benefits info -->
+        <div class="card" style="padding:24px;border-color:rgba(255,180,66,.3);">
+          <p class="text-body weight-medium color-amber mb-12">🏅 Benefícios do Selo INAPEM</p>
+          <div style="display:flex;flex-direction:column;gap:8px;">
+            <div class="flex flex-gap-12"><span style="color:var(--color-amber-forge);">→</span><p class="text-body color-driftwood">Isenção de IRT por 3 anos para os co-founders</p></div>
+            <div class="flex flex-gap-12"><span style="color:var(--color-amber-forge);">→</span><p class="text-body color-driftwood">Redução de 50% no Imposto Industrial (IRC)</p></div>
+            <div class="flex flex-gap-12"><span style="color:var(--color-amber-forge);">→</span><p class="text-body color-driftwood">Acesso prioritário a programas de financiamento público</p></div>
+            <div class="flex flex-gap-12"><span style="color:var(--color-amber-forge);">→</span><p class="text-body color-driftwood">Marca "Startup Angola" em materiais de comunicação</p></div>
+            <div class="flex flex-gap-12"><span style="color:var(--color-amber-forge);">→</span><p class="text-body color-driftwood">Acesso a espaços de cowork da rede INAPEM em Luanda</p></div>
+          </div>
+          <button class="btn-primary mt-20" style="width:100%;justify-content:center;" onclick="checkReadiness()">Verificar prontidão para candidatura</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+</main>
+<div id="k-footer-placeholder"></div>
+<script src="assets/js/kubica.js"></script>
+<script>
+KubicaNav.init('gov-01-vesting.html');
+function updateScore() {
+  const all   = document.querySelectorAll('.k-checklist__item');
+  const done  = document.querySelectorAll('.k-checklist__item.checked');
+  const pct   = Math.round(done.length / all.length * 100);
+  document.getElementById('score-display').textContent = pct + '%';
+  document.getElementById('score-bar').style.width = pct + '%';
+  document.querySelector('[style*="8 de 13"]') && (document.querySelector('[style*="8 de 13"]').textContent = done.length + ' de ' + all.length + ' critérios cumpridos');
+}
+function checkReadiness() {
+  const done = document.querySelectorAll('.k-checklist__item.checked').length;
+  const all  = document.querySelectorAll('.k-checklist__item').length;
+  const pct  = Math.round(done / all * 100);
+  if (pct >= 80) {
+    showToast('Pronto para candidatura INAPEM! Score: ' + pct + '%', 'success', 4000);
+  } else {
+    showToast('Score ' + pct + '% — necessário 80% para candidatura.', 'warning', 4000);
+  }
+}
+</script>
+</body></html>
