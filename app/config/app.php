@@ -32,19 +32,27 @@ if (APP_DEBUG) {
     error_reporting(0);
     ini_set('display_errors', '0');
     ini_set('log_errors', '1');
-    ini_set('error_log', BASE_PATH . '/logs/errors.log');
+    $logsDir = BASE_PATH . '/logs';
+    if (is_dir($logsDir) && is_writable($logsDir)) {
+        ini_set('error_log', $logsDir . '/errors.log');
+    }
 }
 
 // ── Timezone ────────────────────────────────────────────────────────────────
 date_default_timezone_set('Africa/Luanda');
 
-// ── Origens permitidas (CORS restrito) ────────────────────────────────────
+// ── Origens permitidas (CORS restrito com suporte a Vercel e locais) ────────
+$origemPedido = $_SERVER['HTTP_ORIGIN'] ?? '';
 $origensPermitidas = APP_DEBUG
     ? ['http://localhost', 'http://localhost:8000', 'http://127.0.0.1', 'http://localhost:80']
     : [APP_URL];
 
-$origemPedido = $_SERVER['HTTP_ORIGIN'] ?? '';
-if (in_array($origemPedido, $origensPermitidas, true)) {
+$origemHost = parse_url($origemPedido, PHP_URL_HOST) ?? '';
+if (
+    in_array($origemPedido, $origensPermitidas, true) ||
+    str_ends_with($origemHost, '.vercel.app') ||
+    (!empty($_SERVER['HTTP_HOST']) && $origemHost === $_SERVER['HTTP_HOST'])
+) {
     header('Access-Control-Allow-Origin: ' . $origemPedido);
     header('Vary: Origin');
 }
