@@ -14,7 +14,7 @@ define('APP_VERSION', '2.0.0');
 
 // ── URLs base ──────────────────────────────────────────────────────────────
 define('APP_URL',     getenv('APP_URL')  ?: 'http://localhost');
-define('BASE_PATH',   dirname(__DIR__));
+define('BASE_PATH',   dirname(__DIR__, 2));
 define('PUBLIC_PATH', BASE_PATH . '/public');
 define('APP_PATH',    BASE_PATH . '/app');
 define('VIEW_PATH',   APP_PATH  . '/views');
