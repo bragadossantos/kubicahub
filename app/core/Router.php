@@ -194,15 +194,47 @@ class Router
         return '/' . trim($uri, '/');
     }
 
+    private function querHtml(): bool
+    {
+        $uri = $this->obterUri();
+        if (str_starts_with($uri, '/api/')) {
+            return false;
+        }
+
+        $accept = $_SERVER['HTTP_ACCEPT'] ?? '';
+        return str_contains($accept, 'text/html');
+    }
+
     private function naoEncontrado(): void
     {
         http_response_code(404);
+        if ($this->querHtml()) {
+            header('Content-Type: text/html; charset=UTF-8');
+            $viewPath = defined('VIEW_PATH') ? VIEW_PATH . '/errors/404.php' : dirname(__DIR__) . '/views/errors/404.php';
+            if (file_exists($viewPath)) {
+                require $viewPath;
+                return;
+            }
+        }
+
+        header('Content-Type: application/json; charset=UTF-8');
         echo json_encode(['success' => false, 'message' => 'Rota não encontrada.', 'codigo' => 404], JSON_UNESCAPED_UNICODE);
     }
 
     private function erroServidor(string $msg): void
     {
         http_response_code(500);
+        if ($this->querHtml()) {
+            header('Content-Type: text/html; charset=UTF-8');
+            $mensagemErro = $msg;
+            $viewPath = defined('VIEW_PATH') ? VIEW_PATH . '/errors/500.php' : dirname(__DIR__) . '/views/errors/500.php';
+            if (file_exists($viewPath)) {
+                require $viewPath;
+                return;
+            }
+        }
+
+        header('Content-Type: application/json; charset=UTF-8');
         echo json_encode([
             'success' => false,
             'message' => APP_DEBUG ? $msg : 'Erro interno do servidor.',

@@ -12,28 +12,33 @@ require dirname(__DIR__) . '/app/config/app.php';
 // ── Helpers de funções globais ────────────────────────────────────────────
 require_once dirname(__DIR__) . '/app/helpers/funcoes.php';
 
-// ── Auto-loader PSR-4 manual ──────────────────────────────────────────────
-spl_autoload_register(function (string $class): void {
-    $mapa = [
-        'App\\Core\\'        => dirname(__DIR__) . '/app/core/',
-        'App\\Controllers\\' => dirname(__DIR__) . '/app/controllers/',
-        'App\\Models\\'      => dirname(__DIR__) . '/app/models/',
-        'App\\Middleware\\'  => dirname(__DIR__) . '/app/middleware/',
-        'App\\Helpers\\'     => dirname(__DIR__) . '/app/helpers/',
-        'App\\'              => dirname(__DIR__) . '/app/',
-    ];
+// ── Auto-loader (Composer com fallback PSR-4 nativo) ────────────────────────
+$composerAutoload = dirname(__DIR__) . '/vendor/autoload.php';
+if (file_exists($composerAutoload)) {
+    require_once $composerAutoload;
+} else {
+    spl_autoload_register(function (string $class): void {
+        $mapa = [
+            'App\\Core\\'        => dirname(__DIR__) . '/app/core/',
+            'App\\Controllers\\' => dirname(__DIR__) . '/app/controllers/',
+            'App\\Models\\'      => dirname(__DIR__) . '/app/models/',
+            'App\\Middleware\\'  => dirname(__DIR__) . '/app/middleware/',
+            'App\\Helpers\\'     => dirname(__DIR__) . '/app/helpers/',
+            'App\\'              => dirname(__DIR__) . '/app/',
+        ];
 
-    foreach ($mapa as $prefixo => $dir) {
-        if (str_starts_with($class, $prefixo)) {
-            $relativo = substr($class, strlen($prefixo));
-            $ficheiro = $dir . str_replace('\\', '/', $relativo) . '.php';
-            if (file_exists($ficheiro)) {
-                require $ficheiro;
+        foreach ($mapa as $prefixo => $dir) {
+            if (str_starts_with($class, $prefixo)) {
+                $relativo = substr($class, strlen($prefixo));
+                $ficheiro = $dir . str_replace('\\', '/', $relativo) . '.php';
+                if (file_exists($ficheiro)) {
+                    require $ficheiro;
+                }
+                return;
             }
-            return;
         }
-    }
-});
+    });
+}
 
 // ── Session global ─────────────────────────────────────────────────────────
 session_name('KUBICA_SESSION');
@@ -58,6 +63,7 @@ $router = new Router();
 $router->grupo('/api/v1', [], function (Router $api): void {
 
     // ── Públicas (Sem Autenticação) ────────────────────────────────────────
+    $api->get('/auth/csrf-token', 'AuthController@csrfToken');
     $api->post('/auth/register',  'AuthController@register');
     $api->post('/auth/otp',       'AuthController@verifyOtp');
     $api->post('/auth/login',     'AuthController@login');
@@ -69,8 +75,8 @@ $router->grupo('/api/v1', [], function (Router $api): void {
     $api->get('/ideas/{id}',      'IdeaController@show');
     $api->post('/matches/calculate', 'MatchController@calculateAffinity');
 
-    // ── Protegidas (Requer Autenticação) ───────────────────────────────────
-    $api->grupo('', ['AuthMiddleware'], function (Router $auth): void {
+    // ── Protegidas (Requer Autenticação + Protecção CSRF) ─────────────────
+    $api->grupo('', ['AuthMiddleware', 'CsrfMiddleware'], function (Router $auth): void {
 
         // Perfis
         $auth->get('/profile/{userId}',        'ProfileController@show');

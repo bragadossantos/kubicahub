@@ -183,7 +183,17 @@ class AuthController extends Controller
                 'role'       => $_SESSION['role']              ?? '',
                 'university' => $_SESSION['university']        ?? '',
                 'faculty'    => $_SESSION['faculty']           ?? '',
-            ]
+            ],
+            'csrf_token' => $this->gerarCsrfToken()
         ]);
+    }
+
+    /**
+     * GET /api/v1/auth/csrf-token — retorna o token CSRF activo
+     */
+    public function csrfToken(array $params, array $body): void
+    {
+        $token = $this->gerarCsrfToken();
+        $this->json(['csrf_token' => $token]);
     }
 }

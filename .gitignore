@@ -9,7 +9,9 @@ composer.lock
 *.env
 
 # ─── Logs ───────────────────────────────────────────────────
-/logs/
+/logs/*
+!/logs/.gitkeep
+!/logs/.htaccess
 *.log
 
 # ─── Uploads de utilizadores ────────────────────────────────
