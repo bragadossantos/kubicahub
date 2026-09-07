@@ -1,6 +1,7 @@
 /* ============================================================
-   KUBICA HUB — Dashboard Module v2.0
-   Sidebar, nav user info, notificações, route guards e helpers de UI
+   KUBICA HUB — Dashboard Module v3.0
+   Sidebar, header, notificações, route guards e helpers de UI.
+   ZERO emojis — todos os ícones via KubicaIcons SVG.
    ============================================================ */
 
 const KubicaDash = (() => {
@@ -11,19 +12,15 @@ const KubicaDash = (() => {
 
   // ── Inicializar Dashboard ────────────────────────────────────
   /**
-   * @param {string|null} role  - 'inventor' | 'builder' | 'admin' | null (qualquer autenticado)
-   * @param {string} activeNav - id do link activo na sidebar
+   * @param {string|null} role  - 'inventor' | 'builder' | 'admin' | null
+   * @param {string} activeNav  - id do link activo na sidebar
    */
   async function init(role = null, activeNav = '') {
-    // 1. Verificar autenticação via KubicaApp
     _user = KubicaApp.verificarAcesso(role);
     if (!_user) return;
 
-    // 2. Renderizar sidebar + header
     _renderSidebar(activeNav);
     _renderHeader();
-
-    // 3. Carregar notificações assincronamente
     _loadNotifications();
   }
 
@@ -39,12 +36,12 @@ const KubicaDash = (() => {
     const html = `
       <aside class="k-sidebar" id="k-sidebar">
         <div class="k-sidebar__logo">
-          <a href="${landingUrl}" class="k-sidebar__brand">
+          <a href="${landingUrl}" class="k-sidebar__brand" aria-label="Kubica Hub — início">
             <span class="k-sidebar__brand-mark">K</span>
             <span class="k-sidebar__brand-name">Kubica Hub</span>
           </a>
         </div>
-        
+
         <div class="k-sidebar__user">
           <div class="k-sidebar__avatar">${(_user.name || 'U').charAt(0).toUpperCase()}</div>
           <div class="k-sidebar__user-info">
@@ -52,24 +49,31 @@ const KubicaDash = (() => {
             <span class="k-sidebar__user-role k-badge k-badge--${role}">${_roleLabel(role)}</span>
           </div>
         </div>
-        
-        <nav class="k-sidebar__nav">
+
+        <nav class="k-sidebar__nav" aria-label="Navegação do painel">
           <ul class="k-sidebar__nav-list">
             ${links.map(l => `
               <li class="k-sidebar__nav-item">
-                <a href="${l.href}" class="k-sidebar__nav-link ${activeNav === l.id ? 'k-sidebar__nav-link--active' : ''}" data-nav="${l.id}">
-                  <span class="k-sidebar__nav-icon">${l.icon}</span>
+                <a href="${l.href}"
+                   class="k-sidebar__nav-link ${activeNav === l.id ? 'k-sidebar__nav-link--active' : ''}"
+                   data-nav="${l.id}"
+                   aria-current="${activeNav === l.id ? 'page' : 'false'}">
+                  <span class="k-sidebar__nav-icon" aria-hidden="true">${l.icon}</span>
                   <span class="k-sidebar__nav-label">${l.label}</span>
-                  ${l.id === 'notificacoes' ? `<span class="k-badge k-badge--danger k-sidebar__nav-badge" id="sidebar-notif-count" style="display:${_unread > 0 ? 'inline-block' : 'none'};">${_unread}</span>` : ''}
+                  ${l.id === 'notificacoes'
+                    ? `<span class="k-badge k-badge--danger k-sidebar__nav-badge"
+                              id="sidebar-notif-count"
+                              style="display:${_unread > 0 ? 'inline-block' : 'none'};">${_unread}</span>`
+                    : ''}
                 </a>
               </li>
             `).join('')}
           </ul>
         </nav>
-        
+
         <div class="k-sidebar__footer">
-          <button class="k-sidebar__logout" onclick="KubicaDash.logout()">
-            <span>⇠</span> Terminar Sessão
+          <button class="k-sidebar__logout" onclick="KubicaDash.logout()" type="button">
+            ${KubicaIcons.get('arrowUpRight', { size: 16 })} Terminar Sessão
           </button>
         </div>
       </aside>
@@ -80,37 +84,40 @@ const KubicaDash = (() => {
 
   function _navLinks(role) {
     const common = [
-      { id: 'notificacoes', href: 'notificacoes.html', icon: '🔔', label: 'Notificações' },
-      { id: 'perfil',       href: 'perfil.html',       icon: '👤', label: 'O meu Perfil' },
+      { id: 'notificacoes', href: 'notificacoes.html', icon: KubicaIcons.bell({ size: 16 }),          label: 'Notificações' },
+      { id: 'perfil',       href: 'perfil.html',       icon: KubicaIcons.users({ size: 16 }),          label: 'O meu Perfil' },
     ];
 
     if (role === 'inventor') {
       return [
-        { id: 'dashboard',    href: 'dashboard.html',      icon: '⬡', label: 'Painel' },
-        { id: 'projetos',     href: 'projetos.html',       icon: '💡', label: 'Os meus Projectos' },
-        { id: 'projeto-criar',href: 'projeto-criar.html',  icon: '＋', label: 'Novo Projecto' },
-        { id: 'colaboracoes', href: 'colaboracoes.html',   icon: '🤝', label: 'Encontrar Builders' },
+        { id: 'dashboard',     href: 'dashboard.html',     icon: KubicaIcons.grid({ size: 16 }),       label: 'Painel' },
+        { id: 'projetos',      href: 'projetos.html',      icon: KubicaIcons.lightbulb({ size: 16 }),  label: 'Os meus Projectos' },
+        { id: 'projeto-criar', href: 'projeto-criar.html', icon: KubicaIcons.lightning({ size: 16 }),  label: 'Novo Projecto' },
+        { id: 'colaboracoes',  href: 'colaboracoes.html',  icon: KubicaIcons.handshake({ size: 16 }),  label: 'Encontrar Builders' },
         ...common
       ];
     }
+
     if (role === 'builder') {
       return [
-        { id: 'dashboard',        href: 'dashboard.html',        icon: '⬡', label: 'Painel' },
-        { id: 'explorar',         href: 'explorar.html',         icon: '🔭', label: 'Explorar Ideias' },
-        { id: 'propostas',        href: 'propostas.html',        icon: '📋', label: 'Propostas' },
-        { id: 'projetos-activos', href: 'projetos-activos.html', icon: '🚀', label: 'Projectos Activos' },
+        { id: 'dashboard',        href: 'dashboard.html',        icon: KubicaIcons.grid({ size: 16 }),      label: 'Painel' },
+        { id: 'explorar',         href: 'explorar.html',         icon: KubicaIcons.arrowUpRight({ size: 16}),label: 'Explorar Ideias' },
+        { id: 'propostas',        href: 'propostas.html',        icon: KubicaIcons.fileText({ size: 16 }),   label: 'Propostas' },
+        { id: 'projetos-activos', href: 'projetos-activos.html', icon: KubicaIcons.lightning({ size: 16 }),  label: 'Projectos Activos' },
         ...common
       ];
     }
+
     if (role === 'admin') {
       return [
-        { id: 'dashboard',     href: 'dashboard.html',     icon: '⬡', label: 'Painel Admin' },
-        { id: 'projetos',      href: 'projetos.html',      icon: '💡', label: 'Gerir Projectos' },
-        { id: 'utilizadores',  href: 'utilizadores.html',  icon: '👥', label: 'Utilizadores' },
-        { id: 'relatorios',    href: 'relatorios.html',    icon: '📊', label: 'Sandbox / Funding' },
-        { id: 'configuracoes', href: 'configuracoes.html', icon: '⚙', label: 'Configurações' },
+        { id: 'dashboard',     href: 'dashboard.html',     icon: KubicaIcons.grid({ size: 16 }),      label: 'Painel Admin' },
+        { id: 'projetos',      href: 'projetos.html',      icon: KubicaIcons.folder({ size: 16 }),    label: 'Gerir Projectos' },
+        { id: 'utilizadores',  href: 'utilizadores.html',  icon: KubicaIcons.users({ size: 16 }),     label: 'Utilizadores' },
+        { id: 'relatorios',    href: 'relatorios.html',    icon: KubicaIcons.barChart({ size: 16 }),  label: 'Sandbox / Funding' },
+        { id: 'configuracoes', href: 'configuracoes.html', icon: KubicaIcons.settings({ size: 16 }), label: 'Configurações' },
       ];
     }
+
     return common;
   }
 
@@ -124,7 +131,17 @@ const KubicaDash = (() => {
     if (!placeholder) return;
     placeholder.innerHTML = `
       <header class="k-dash-header">
-        <button class="k-dash-header__burger" onclick="KubicaDash.openSidebar()" aria-label="Abrir menu">☰</button>
+        <button class="k-dash-header__burger"
+                onclick="KubicaDash.openSidebar()"
+                aria-label="Abrir menu lateral"
+                type="button">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+               stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true">
+            <line x1="3" y1="6" x2="21" y2="6"/>
+            <line x1="3" y1="12" x2="21" y2="12"/>
+            <line x1="3" y1="18" x2="21" y2="18"/>
+          </svg>
+        </button>
         <div class="k-dash-header__right">
           <span class="k-dash-header__user">Olá, ${(_user.name || 'Utilizador').split(' ')[0]}</span>
         </div>
@@ -137,14 +154,14 @@ const KubicaDash = (() => {
     try {
       const res = await KubicaApp.api('/notifications?limite=5');
       if (res && res.success) {
-        _unread = res.data.unread_count || 0;
+        _unread = res.data?.unread_count || 0;
         const badge = document.getElementById('sidebar-notif-count');
         if (badge) {
           badge.textContent = _unread;
           badge.style.display = _unread > 0 ? 'inline-block' : 'none';
         }
       }
-    } catch (_) { /* silencioso */ }
+    } catch (_) { /* silencioso — api offline gerida pelo api-client */ }
   }
 
   // ── Sidebar Mobile ───────────────────────────────────────────
@@ -165,14 +182,24 @@ const KubicaDash = (() => {
 
   // ── Utilitários de UI ────────────────────────────────────────
 
-  /** Criar card HTML de KPI */
-  function kpiCard(label, value, icon, change = null) {
+  /** Card HTML de KPI — com ícone SVG, sem emojis */
+  function kpiCard(label, value, iconName, change = null) {
+    const iconHtml = typeof iconName === 'string'
+      ? KubicaIcons.kpiWrapper(KubicaIcons.get(iconName, { size: 20 }))
+      : KubicaIcons.kpiWrapper(iconName); // aceita SVG raw também
+
     const changeHtml = change !== null
-      ? `<span class="k-kpi__change ${change >= 0 ? 'k-kpi__change--up' : 'k-kpi__change--down'}">${change >= 0 ? '▲' : '▼'} ${Math.abs(change)}%</span>`
+      ? `<span class="k-kpi__change ${change >= 0 ? 'k-kpi__change--up' : 'k-kpi__change--down'}">
+           ${change >= 0
+             ? '<svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="18 15 12 9 6 15"/></svg>'
+             : '<svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>'}
+           ${Math.abs(change)}%
+         </span>`
       : '';
+
     return `
       <div class="k-kpi">
-        <div class="k-kpi__icon">${icon}</div>
+        ${iconHtml}
         <div class="k-kpi__body">
           <div class="k-kpi__value">${value}</div>
           <div class="k-kpi__label">${label}</div>
@@ -182,42 +209,51 @@ const KubicaDash = (() => {
     `;
   }
 
-  /** Status badge */
+  /** Status badge sem emojis */
   function statusBadge(status) {
     const map = {
-      approved:       ['✓ Aprovado',         'success'],
-      pending:        ['⏳ Pendente',         'warning'],
-      pending_review: ['🔍 Em Revisão',       'warning'],
-      accepted:       ['✓ Aceite',           'success'],
-      declined:       ['✗ Recusado',         'danger'],
-      matched:        ['🤝 Em Equipa',        'info'],
-      incubating:     ['🚀 Em Incubação',     'info'],
-      rejected:       ['✗ Rejeitado',         'danger'],
-      draft:          ['✏ Rascunho',         'muted'],
-      signed:         ['✎ Assinado',          'success'],
-      open:           ['🔓 Aberto',           'warning'],
-      resolved:       ['✓ Resolvido',         'success'],
+      approved:       ['Aprovado',       'success', 'checkCircle'],
+      pending:        ['Pendente',        'warning', 'clock'],
+      pending_review: ['Em Revisão',      'warning', 'clock'],
+      accepted:       ['Aceite',          'success', 'checkCircle'],
+      declined:       ['Recusado',        'danger',  'lock'],
+      matched:        ['Em Equipa',       'info',    'users'],
+      incubating:     ['Em Incubação',    'info',    'lightning'],
+      rejected:       ['Rejeitado',       'danger',  'lock'],
+      draft:          ['Rascunho',        'muted',   'fileText'],
+      signed:         ['Assinado',        'success', 'shieldCheck'],
+      open:           ['Aberto',          'warning', 'arrowUpRight'],
+      resolved:       ['Resolvido',       'success', 'checkCircle'],
     };
-    const [label, variant] = map[status] || [status, 'muted'];
-    return `<span class="k-badge k-badge--${variant}">${label}</span>`;
+    const [label, variant, icon] = map[status] || [status, 'muted', 'fileText'];
+    const svg = KubicaIcons.get(icon, { size: 11 });
+    return `<span class="k-badge k-badge--${variant}" style="display:inline-flex;align-items:center;gap:4px;">${svg}${label}</span>`;
   }
 
-  /** Mostrar spinner de carregamento num container */
+  /** Spinner de carregamento */
   function showLoading(containerId) {
     const el = document.getElementById(containerId);
     if (el) el.innerHTML = '<div class="k-loading"><div class="k-spinner"></div><p>A carregar...</p></div>';
   }
 
-  /** Mostrar estado vazio */
-  function showEmpty(containerId, msg = 'Sem dados disponíveis.', icon = '📭') {
+  /** Estado vazio — sem emoji, usa SVG */
+  function showEmpty(containerId, msg = 'Sem dados disponíveis.', iconName = 'fileText') {
     const el = document.getElementById(containerId);
-    if (el) el.innerHTML = `<div class="k-empty"><span class="k-empty__icon">${icon}</span><p>${msg}</p></div>`;
+    if (!el) return;
+    const iconSvg = KubicaIcons.get(iconName, { size: 32, color: 'var(--color-driftwood)' });
+    el.innerHTML = `
+      <div class="k-empty">
+        <div class="k-empty__icon" aria-hidden="true">${iconSvg}</div>
+        <p>${msg}</p>
+      </div>`;
   }
 
-  /** Mostrar erro num container */
+  /** Bloco de erro */
   function showError(containerId, msg = 'Erro ao carregar dados.') {
     const el = document.getElementById(containerId);
-    if (el) el.innerHTML = `<div class="k-error-block"><p>⚠ ${msg}</p></div>`;
+    if (!el) return;
+    const icon = KubicaIcons.shieldCheck({ size: 20, color: 'var(--color-danger, #f87171)' });
+    el.innerHTML = `<div class="k-error-block">${icon}<p>${msg}</p></div>`;
   }
 
   /** Formatar data legível */
@@ -232,27 +268,42 @@ const KubicaDash = (() => {
     return 'USD ' + Number(val || 0).toLocaleString('pt-AO', { minimumFractionDigits: 2 });
   }
 
-  /** Mostrar toast */
+  /** Toast sem emoji */
   function toast(msg, type = 'success') {
     let container = document.getElementById('k-toast-container');
     if (!container) {
       container = document.createElement('div');
       container.id = 'k-toast-container';
-      container.style.cssText = 'position:fixed;bottom:24px;right:24px;z-index:9999;display:flex;flex-direction:column;gap:8px;';
+      container.style.cssText = 'position:fixed;bottom:24px;right:24px;z-index:9999;display:flex;flex-direction:column;gap:8px;max-width:380px;';
       document.body.appendChild(container);
     }
+    const colorMap = {
+      success: { bg: 'rgba(20,83,45,0.95)',  border: 'rgba(74,222,128,0.4)',  icon: 'checkCircle' },
+      error:   { bg: 'rgba(127,29,29,0.95)', border: 'rgba(248,113,113,0.4)', icon: 'lock' },
+      warning: { bg: 'rgba(78,65,0,0.95)',   border: 'rgba(255,180,66,0.4)',  icon: 'clock' },
+      info:    { bg: 'rgba(10,20,40,0.95)',  border: 'rgba(96,165,250,0.4)', icon: 'arrowUpRight' },
+    };
+    const c = colorMap[type] || colorMap.info;
+    const iconHtml = KubicaIcons.get(c.icon, { size: 16 });
     const t = document.createElement('div');
-    const bg = type === 'success' ? '#14532d' : type === 'error' ? '#7f1d1d' : '#1e293b';
-    const border = type === 'success' ? '#22c55e' : type === 'error' ? '#ef4444' : '#64748b';
-    t.style.cssText = `background:${bg};border:1px solid ${border};color:#fff;padding:12px 20px;border-radius:8px;font-size:14px;box-shadow:0 4px 12px rgba(0,0,0,0.5);transition:all 0.3s;opacity:0;transform:translateY(10px);`;
-    t.textContent = msg;
+    t.style.cssText = `
+      background:${c.bg}; border:1px solid ${c.border};
+      color:var(--color-warm-cream,#fff1e0); padding:12px 16px;
+      border-radius:6px; font-size:13px; line-height:1.4;
+      display:flex; align-items:center; gap:10px;
+      transition:all 0.25s ease; opacity:0; transform:translateY(8px);
+      backdrop-filter:blur(8px);`;
+    t.innerHTML = `<span style="flex-shrink:0;color:${c.border};">${iconHtml}</span><span>${msg}</span>`;
     container.appendChild(t);
-    setTimeout(() => { t.style.opacity = '1'; t.style.transform = 'translateY(0)'; }, 10);
+    requestAnimationFrame(() => {
+      t.style.opacity = '1';
+      t.style.transform = 'translateY(0)';
+    });
     setTimeout(() => {
       t.style.opacity = '0';
-      t.style.transform = 'translateY(10px)';
-      setTimeout(() => t.remove(), 300);
-    }, 4000);
+      t.style.transform = 'translateY(8px)';
+      setTimeout(() => t.remove(), 280);
+    }, 4200);
   }
 
   return {
@@ -263,4 +314,5 @@ const KubicaDash = (() => {
     formatDate, formatCurrency, toast,
     getUser: () => _user || KubicaApp.getUser(),
   };
+
 })();

@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="pt-AO"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Central de Mediação — Kubica Hub</title>
+<meta name="description" content="Ambiente seguro e confidencial para tratar fricções societárias antes que destruam a startup."/>
+<link rel="stylesheet" href="kubica.css"/>
+</head>
+<body class="page-body"><div id="k-nav-placeholder"></div>
+<main>
+<section class="section-sm" style="border-bottom:1px solid var(--color-walnut);">
+  <div class="container"><div class="section-eyebrow">INC-06 — Mediação Institucional</div>
+  <h1 class="text-heading-lg weight-medium color-cream" style="letter-spacing:var(--tracking-heading-lg);">Central de Mediação &amp; Alinhamento</h1>
+  <p class="text-body-lg color-driftwood mt-16">Psychological Safety: ambiente institucionalizado para tratar fricções societárias antes que destruam a empresa.</p></div>
+</section>
+<section class="section">
+  <div class="container">
+    <div style="max-width:760px;margin:auto;">
+      <div style="background:rgba(248,113,113,.06);border:1px solid rgba(248,113,113,.25);border-radius:8px;padding:20px;margin-bottom:32px;display:flex;gap:16px;align-items:flex-start;">
+        <span style="font-size:24px;flex-shrink:0;">🔒</span>
+        <div><p class="text-body weight-medium color-cream">Confidencialidade garantida</p><p class="text-body color-driftwood mt-4" style="line-height:1.6;">Este painel é estritamente confidencial. Apenas os co-founders envolvidos e o árbitro do Kubica Hub têm acesso aos registos. Os dados de mediação não são partilhados com terceiros.</p></div>
+      </div>
+
+      <div class="card card-surface" style="padding:32px;">
+        <h2 class="text-subheading weight-medium color-cream mb-24">Solicitar Mediação</h2>
+        <div class="input-group">
+          <label class="input-label">Tipo de ocorrência societária</label>
+          <select class="select-pill">
+            <option>Conflito de liderança / tomada de decisão</option>
+            <option>Incumprimento de entregáveis</option>
+            <option>Diferença de visão estratégica</option>
+            <option>Desacordo sobre equity ou vesting</option>
+            <option>Abandono de funções por membro</option>
+            <option>Comunicação disfuncional na equipa</option>
+            <option>Outro</option>
+          </select>
+        </div>
+        <div class="input-group">
+          <label class="input-label">Membros envolvidos</label>
+          <div class="flex" style="flex-wrap:wrap;gap:8px;margin-top:8px;">
+            <button class="skill-tag" onclick="this.classList.toggle('selected')">CTO — Rodrigo Augusto</button>
+            <button class="skill-tag" onclick="this.classList.toggle('selected')">CFO — Paulo Carvalho</button>
+            <button class="skill-tag" onclick="this.classList.toggle('selected')">CLO — Maria Antónia</button>
+            <button class="skill-tag" onclick="this.classList.toggle('selected')">CMO — Luísa Santos</button>
+          </div>
+        </div>
+        <div class="input-group">
+          <label class="input-label" for="med-desc">Descrição factual da ocorrência</label>
+          <textarea class="textarea-card" id="med-desc" style="min-height:120px;" placeholder="Descreve a situação de forma factual e construtiva. O árbitro irá analisar e agendar uma sessão de mediação em 48h..."></textarea>
+        </div>
+        <div class="input-group">
+          <label class="input-label" for="med-desired">Resultado desejado</label>
+          <textarea class="textarea-card" id="med-desired" placeholder="Qual o resultado que consideras justo e sustentável para todas as partes envolvidas?"></textarea>
+        </div>
+        <div class="input-group">
+          <label class="input-label">Urgência</label>
+          <div class="flex flex-gap-8">
+            <button class="choice-pill" onclick="selectUrgency(this,'low')" style="flex:1;justify-content:center;">Normal — 72h</button>
+            <button class="choice-pill" onclick="selectUrgency(this,'high')" style="flex:1;justify-content:center;">Urgente — 24h</button>
+          </div>
+        </div>
+        <button class="btn-primary mt-8" style="width:100%;justify-content:center;" onclick="submitMediation()">Submeter pedido de mediação</button>
+      </div>
+
+      <div class="card card-surface mt-24" style="padding:24px;">
+        <h2 class="text-subheading weight-medium color-cream mb-16">Árbitro do Kubica Hub</h2>
+        <div class="flex flex-gap-16" style="align-items:center;">
+          <div class="avatar-placeholder avatar-md">DA</div>
+          <div><p class="text-body weight-medium color-cream">Dr. Daniel Amaral</p><p class="text-caption color-driftwood">Coordenador Jurídico FKCU · Árbitro Certificado</p><p class="text-caption color-amber mt-4">Resposta garantida em 48h</p></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+</main>
+<div id="k-footer-placeholder"></div>
+<script src="assets/js/kubica.js"></script>
+<script>
+KubicaNav.init('inc-01-dashboard.html');
+function selectUrgency(el, level) {
+  document.querySelectorAll('.input-group:last-child .choice-pill').forEach(p => p.classList.remove('selected'));
+  el.classList.add('selected');
+}
+function submitMediation() {
+  showToast('Pedido de mediação enviado. Resposta em 48h.', 'success', 4000);
+}
+</script>
+</body></html>

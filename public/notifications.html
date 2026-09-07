@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="pt-AO"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Notificações — Kubica Hub</title>
+<meta name="description" content="Centro de notificações global: triagem de ideias, convites de match, aprovações de sandbox e alertas de prazos."/>
+<link rel="stylesheet" href="kubica.css"/>
+<style>
+.notif-row {
+  display:flex; align-items:flex-start; gap:16px; padding:20px;
+  border-bottom:1px solid var(--color-burnt-edge); cursor:pointer;
+  transition:background var(--transition-fast);
+}
+.notif-row:hover { background:rgba(255,180,66,.03); }
+.notif-row.unread { border-left:3px solid var(--color-amber-forge); }
+.notif-row.read   { opacity:.7; }
+.notif-icon {
+  width:40px; height:40px; border-radius:50%; flex-shrink:0;
+  display:flex; align-items:center; justify-content:center; font-size:18px;
+}
+.notif-icon.match    { background:rgba(255,180,66,.15); }
+.notif-icon.idea     { background:rgba(74,222,128,.12); }
+.notif-icon.sandbox  { background:rgba(251,191,36,.12); }
+.notif-icon.deadline { background:rgba(248,113,113,.12); }
+.notif-icon.system   { background:rgba(133,121,108,.15); }
+</style>
+</head>
+<body class="page-body"><div id="k-nav-placeholder"></div>
+<main>
+<section class="section-sm" style="border-bottom:1px solid var(--color-walnut);">
+  <div class="container">
+    <div class="flex-between" style="flex-wrap:wrap;gap:16px;">
+      <div>
+        <div class="section-eyebrow">Centro de Notificações</div>
+        <h1 class="text-heading-lg weight-medium color-cream" style="letter-spacing:var(--tracking-heading-lg);">Notificações</h1>
+        <p class="text-body-lg color-driftwood mt-8">5 novas notificações · Última actividade: há 2 minutos</p>
+      </div>
+      <div class="flex flex-gap-12">
+        <button class="btn-ghost btn-sm" onclick="markAllRead()">Marcar todas como lidas</button>
+        <button class="btn-ghost btn-sm" onclick="showToast('Preferências actualizadas!','success')">⚙ Preferências</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section-sm">
+  <div class="container">
+    <div style="max-width:800px;margin:auto;">
+      <!-- Filter tabs -->
+      <div class="filter-bar mb-24" id="notif-tabs">
+        <button class="filter-chip active" onclick="filterNotif('all',this)">Todas</button>
+        <button class="filter-chip" onclick="filterNotif('match',this)">Matchmaking</button>
+        <button class="filter-chip" onclick="filterNotif('idea',this)">Ideias</button>
+        <button class="filter-chip" onclick="filterNotif('sandbox',this)">Sandbox</button>
+        <button class="filter-chip" onclick="filterNotif('deadline',this)">Prazos</button>
+      </div>
+
+      <div class="card card-surface" style="padding:0;">
+        <!-- Unread notifications -->
+        <div class="notif-row unread" data-type="match" onclick="markRead(this)">
+          <div class="notif-icon match">🤝</div>
+          <div style="flex:1;">
+            <p class="text-body weight-medium color-cream">Proposta societária recebida — HealthLink AO</p>
+            <p class="text-body color-driftwood mt-4" style="line-height:1.5;">Rui Teixeira convidou-te para CLO da HealthLink AO. Equity 20% · 10h/sem · Healthtech.</p>
+            <div class="flex flex-gap-8 mt-8">
+              <button class="btn-primary btn-sm" onclick="event.stopPropagation();showToast('Proposta aceite!','success')">Aceitar</button>
+              <button class="btn-ghost btn-sm" onclick="event.stopPropagation();showToast('Ver detalhes','success')">Ver proposta</button>
+            </div>
+          </div>
+          <div style="text-align:right;flex-shrink:0;"><p class="text-caption color-driftwood">2 min</p><div style="width:8px;height:8px;border-radius:50%;background:var(--color-amber-forge);margin:8px 0 0 auto;"></div></div>
+        </div>
+
+        <div class="notif-row unread" data-type="idea" onclick="markRead(this)">
+          <div class="notif-icon idea">✅</div>
+          <div style="flex:1;">
+            <p class="text-body weight-medium color-cream">Ideia aprovada pela coordenação FKCU</p>
+            <p class="text-body color-driftwood mt-4">A tua ideia "AgroLink Angola" foi aprovada e publicada no Banco de Ideias. Podes agora pesquisar builders.</p>
+            <a href="ide-02-feed.html" class="btn-ghost btn-sm mt-8" onclick="event.stopPropagation();" style="display:inline-flex;">Ver no feed →</a>
+          </div>
+          <div style="text-align:right;flex-shrink:0;"><p class="text-caption color-driftwood">1h</p><div style="width:8px;height:8px;border-radius:50%;background:var(--color-amber-forge);margin:8px 0 0 auto;"></div></div>
+        </div>
+
+        <div class="notif-row unread" data-type="sandbox" onclick="markRead(this)">
+          <div class="notif-icon sandbox">💰</div>
+          <div style="flex:1;">
+            <p class="text-body weight-medium color-cream">Disbursement aprovado — USD 1.200</p>
+            <p class="text-body color-driftwood mt-4">O teu pedido de disbursement de USD 1.200 (Infraestrutura Cloud) foi aprovado pela coordenação. Fundos disponíveis em 3 dias úteis.</p>
+          </div>
+          <div style="text-align:right;flex-shrink:0;"><p class="text-caption color-driftwood">3h</p><div style="width:8px;height:8px;border-radius:50%;background:var(--color-amber-forge);margin:8px 0 0 auto;"></div></div>
+        </div>
+
+        <div class="notif-row unread" data-type="deadline" onclick="markRead(this)">
+          <div class="notif-icon deadline">⚠️</div>
+          <div style="flex:1;">
+            <p class="text-body weight-medium color-cream">Prazo: Submissão IAPI — 4 dias restantes</p>
+            <p class="text-body color-driftwood mt-4">O prazo para submissão do registo de marca no IAPI é 31 Ago 2026. Entregável CLO em 65%.</p>
+            <a href="gov-02-iapi.html" class="btn-ghost btn-sm mt-8" onclick="event.stopPropagation();" style="display:inline-flex;">Ir para IAPI →</a>
+          </div>
+          <div style="text-align:right;flex-shrink:0;"><p class="text-caption color-driftwood">5h</p><div style="width:8px;height:8px;border-radius:50%;background:var(--color-amber-forge);margin:8px 0 0 auto;"></div></div>
+        </div>
+
+        <div class="notif-row unread" data-type="match" onclick="markRead(this)">
+          <div class="notif-icon match">⚡</div>
+          <div style="flex:1;">
+            <p class="text-body weight-medium color-cream">Sessão Speed Dating agendada — 15 Set</p>
+            <p class="text-body color-driftwood mt-4">Estás inscrito na sessão de Speed Dating de 15 Set 2026 às 18h00. 6 pitches de 60 segundos.</p>
+            <a href="mat-03-speeddate.html" class="btn-ghost btn-sm mt-8" onclick="event.stopPropagation();" style="display:inline-flex;">Ver sessão →</a>
+          </div>
+          <div style="text-align:right;flex-shrink:0;"><p class="text-caption color-driftwood">1d</p><div style="width:8px;height:8px;border-radius:50%;background:var(--color-amber-forge);margin:8px 0 0 auto;"></div></div>
+        </div>
+
+        <!-- Read notifications -->
+        <div class="notif-row read" data-type="system" onclick="markRead(this)">
+          <div class="notif-icon system">🔔</div>
+          <div style="flex:1;">
+            <p class="text-body weight-medium color-cream">Mentoria confirmada — Prof. Pedro Lemos</p>
+            <p class="text-body color-driftwood mt-4">Sessão de mentoria confirmada para 20 Ago 2026 às 18h00. Link Google Meet enviado por e-mail.</p>
+          </div>
+          <div style="text-align:right;flex-shrink:0;"><p class="text-caption color-driftwood">2d</p></div>
+        </div>
+
+        <div class="notif-row read" data-type="idea" onclick="markRead(this)">
+          <div class="notif-icon idea">💡</div>
+          <div style="flex:1;">
+            <p class="text-body weight-medium color-cream">Feedback da triagem recebido</p>
+            <p class="text-body color-driftwood mt-4">A coordenação enviou feedback sobre a tua ideia. Sugestão: reforçar o eixo de impacto no PDN 2023–2027.</p>
+            <a href="ide-04-feedback.html" class="btn-ghost btn-sm mt-8" onclick="event.stopPropagation();" style="display:inline-flex;">Ver feedback →</a>
+          </div>
+          <div style="text-align:right;flex-shrink:0;"><p class="text-caption color-driftwood">5d</p></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+</main>
+<div id="k-footer-placeholder"></div>
+<script src="assets/js/kubica.js"></script>
+<script>
+KubicaNav.init('index.html');
+function filterNotif(type, btn) {
+  document.querySelectorAll('#notif-tabs .filter-chip').forEach(c => c.classList.remove('active'));
+  btn.classList.add('active');
+  document.querySelectorAll('.notif-row').forEach(row => {
+    row.style.display = (type === 'all' || row.dataset.type === type) ? 'flex' : 'none';
+  });
+}
+function markRead(row) {
+  row.classList.remove('unread');
+  row.classList.add('read');
+  const dot = row.querySelector('[style*="background:var(--color-amber-forge)"]');
+  if (dot) dot.remove();
+}
+function markAllRead() {
+  document.querySelectorAll('.notif-row.unread').forEach(row => {
+    row.classList.remove('unread');
+    row.classList.add('read');
+    const dot = row.querySelector('[style*="background:var(--color-amber-forge)"]');
+    if (dot) dot.remove();
+  });
+  showToast('Todas as notificações marcadas como lidas.', 'success');
+}
+</script>
+</body></html>

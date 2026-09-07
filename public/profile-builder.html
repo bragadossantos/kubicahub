@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="pt-AO"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Dashboard do Builder — Kubica Hub</title>
+<meta name="description" content="Painel pessoal do Builder com convites recebidos, propostas activas e progresso de competências FKCU."/>
+<link rel="stylesheet" href="kubica.css"/>
+</head>
+<body class="page-body"><div id="k-nav-placeholder"></div>
+<main>
+<section class="section-sm" style="border-bottom:1px solid var(--color-walnut);">
+  <div class="container">
+    <div class="flex-between" style="flex-wrap:wrap;gap:16px;">
+      <div>
+        <div class="section-eyebrow">Perfil — Builder</div>
+        <h1 class="text-heading-lg weight-medium color-cream" style="letter-spacing:var(--tracking-heading-lg);">Olá, Maria Antónia 👋</h1>
+        <div class="flex flex-gap-8 mt-8">
+          <span class="badge badge-amber">Builder · CLO</span>
+          <span class="badge badge-success">FKCU Fase 3 — Co-Criação</span>
+          <span class="badge badge-walnut">Verificada ✓</span>
+        </div>
+      </div>
+      <div class="flex flex-gap-12">
+        <a href="mat-02-profile.html" class="btn-secondary btn-sm">Ver dossier público</a>
+        <a href="inc-01-dashboard.html" class="btn-primary btn-sm">Dashboard startup →</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section-sm">
+  <div class="container">
+    <div class="grid-2" style="gap:24px;align-items:flex-start;">
+      <div>
+        <!-- Propostas recebidas -->
+        <div class="card card-surface mb-16" style="padding:24px;">
+          <div class="flex-between mb-16"><h2 class="text-subheading weight-medium color-cream">Propostas recebidas</h2><span class="badge badge-amber">2 novas</span></div>
+          <div style="display:flex;flex-direction:column;gap:12px;">
+            <div style="padding:16px;background:rgba(255,180,66,.04);border:1px solid rgba(255,180,66,.2);border-radius:6px;">
+              <div class="flex-between mb-8"><p class="text-body weight-medium color-cream">AgroLink Angola</p><span class="badge badge-success">Aceite ✓</span></div>
+              <p class="text-caption color-driftwood">CLO · 20h/sem · Equity 25% com vesting 3 anos</p>
+              <a href="inc-01-dashboard.html" class="btn-ghost btn-sm mt-8" style="width:100%;justify-content:center;">Aceder ao workspace →</a>
+            </div>
+            <div style="padding:16px;border:1px solid var(--color-walnut);border-radius:6px;">
+              <div class="flex-between mb-8"><p class="text-body weight-medium color-cream">HealthLink AO</p><span class="badge badge-walnut">Nova</span></div>
+              <p class="text-caption color-driftwood">CLO · 10h/sem · Equity 20% · Healthtech</p>
+              <div class="flex flex-gap-8 mt-8">
+                <button class="btn-primary btn-sm" style="flex:1;justify-content:center;" onclick="showToast('Proposta aceite! A equipa foi notificada.','success')">Aceitar</button>
+                <button class="btn-secondary btn-sm" style="flex:1;justify-content:center;" onclick="showToast('Proposta declinada com feedback.','warning')">Declinar</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Progresso competências -->
+        <div class="card card-surface" style="padding:24px;">
+          <h2 class="text-subheading weight-medium color-cream mb-16">Progresso de Competências CLO</h2>
+          <div style="display:flex;flex-direction:column;gap:16px;">
+            <div><div class="flex-between mb-4"><span class="text-body color-cream">Direito Societário</span><span class="text-caption color-amber">96%</span></div><div class="k-progress"><div class="k-progress__fill" style="width:96%;"></div></div></div>
+            <div><div class="flex-between mb-4"><span class="text-body color-cream">IAPI — Propriedade Industrial</span><span class="text-caption color-amber">88%</span></div><div class="k-progress"><div class="k-progress__fill" style="width:88%;"></div></div></div>
+            <div><div class="flex-between mb-4"><span class="text-body color-cream">Contratos e Obrigações</span><span class="text-caption color-amber">91%</span></div><div class="k-progress"><div class="k-progress__fill" style="width:91%;"></div></div></div>
+            <div><div class="flex-between mb-4"><span class="text-body color-cream">Vesting — Startup Law</span><span class="text-caption color-amber">72%</span></div><div class="k-progress"><div class="k-progress__fill" style="width:72%;"></div></div></div>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <!-- Entregáveis CLO -->
+        <div class="card card-surface mb-16" style="padding:24px;">
+          <div class="flex-between mb-16"><h2 class="text-subheading weight-medium color-cream">Os meus entregáveis — CLO</h2><span class="badge badge-walnut">65%</span></div>
+          <div class="k-progress mb-16"><div class="k-progress__fill" style="width:65%;"></div></div>
+          <div class="k-checklist">
+            <div class="k-checklist__item checked" onclick="this.classList.toggle('checked')"><div class="k-checklist__checkbox"></div><div><p class="text-body color-cream">Acordo de Co-Founders assinado</p><p class="text-caption color-driftwood">Entregue: 18 Jul 2026</p></div></div>
+            <div class="k-checklist__item checked" onclick="this.classList.toggle('checked')"><div class="k-checklist__checkbox"></div><div><p class="text-body color-cream">MoU redigido e assinado</p><p class="text-caption color-driftwood">Entregue: 20 Jul 2026</p></div></div>
+            <div class="k-checklist__item" onclick="this.classList.toggle('checked')"><div class="k-checklist__checkbox"></div><div><p class="text-body color-cream">Submissão IAPI — Marca AgroLink</p><p class="text-caption color-driftwood">Prazo: 31 Ago 2026</p></div></div>
+            <div class="k-checklist__item" onclick="this.classList.toggle('checked')"><div class="k-checklist__checkbox"></div><div><p class="text-body color-cream">Checklist Compliance INAPEM</p><p class="text-caption color-driftwood">Prazo: 15 Set 2026</p></div></div>
+          </div>
+          <a href="inc-03-deliverables.html" class="btn-ghost mt-16" style="width:100%;justify-content:center;">Ver painel completo →</a>
+        </div>
+
+        <!-- Badges -->
+        <div class="card card-surface mb-16" style="padding:24px;">
+          <h2 class="text-subheading weight-medium color-cream mb-16">Badges</h2>
+          <div class="grid-3" style="gap:12px;">
+            <div style="text-align:center;padding:14px;background:var(--color-amber-dim);border:1px solid rgba(255,180,66,.3);border-radius:6px;"><div style="font-size:24px;margin-bottom:6px;">⚖️</div><p class="text-caption color-amber">CLO FKCU</p></div>
+            <div style="text-align:center;padding:14px;background:var(--color-amber-dim);border:1px solid rgba(255,180,66,.3);border-radius:6px;"><div style="font-size:24px;margin-bottom:6px;">✅</div><p class="text-caption color-amber">Verificada</p></div>
+            <div style="text-align:center;padding:14px;background:var(--color-amber-dim);border:1px solid rgba(255,180,66,.3);border-radius:6px;"><div style="font-size:24px;margin-bottom:6px;">🤝</div><p class="text-caption color-amber">Fundadora</p></div>
+            <div style="text-align:center;padding:14px;border:1px dashed var(--color-cedar);border-radius:6px;opacity:.5;"><div style="font-size:24px;margin-bottom:6px;">🎓</div><p class="text-caption color-driftwood">Graduada</p></div>
+            <div style="text-align:center;padding:14px;border:1px dashed var(--color-cedar);border-radius:6px;opacity:.5;"><div style="font-size:24px;margin-bottom:6px;">🏅</div><p class="text-caption color-driftwood">INAPEM</p></div>
+            <div style="text-align:center;padding:14px;border:1px dashed var(--color-cedar);border-radius:6px;opacity:.5;"><div style="font-size:24px;margin-bottom:6px;">💫</div><p class="text-caption color-driftwood">Demo Day</p></div>
+          </div>
+        </div>
+
+        <div class="card card-surface" style="padding:20px;">
+          <p class="text-body weight-medium color-cream mb-12">Disponibilidade declarada</p>
+          <div class="kpi-card" style="padding:12px;"><div class="kpi-card__value" style="font-size:28px;">20h</div><div class="kpi-card__label">Por semana · Comprometidas até Dez 2026</div></div>
+          <button class="btn-ghost mt-12" style="width:100%;justify-content:center;" onclick="showToast('Disponibilidade actualizada!','success')">Actualizar disponibilidade</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+</main>
+<div id="k-footer-placeholder"></div>
+<script src="assets/js/kubica.js"></script>
+<script>KubicaNav.init('index.html');</script>
+</body></html>

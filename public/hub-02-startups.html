@@ -1,0 +1,63 @@
+﻿<!DOCTYPE html>
+<html lang="pt-AO"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Diretório de Startups — Kubica Hub</title>
+<meta name="description" content="Vitrine pública das startups incubadas no Kubica Hub. Filtra por setor, universidade e fase do pipeline FKCU."/>
+<link rel="stylesheet" href="kubica.css"/>
+<style>
+.startup-cover{height:160px;display:flex;align-items:center;justify-content:center;font-size:52px;position:relative;}
+.startup-cover-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(11,6,0,.9) 0%,transparent 60%);}
+</style></head>
+<body class="page-body"><div id="k-nav-placeholder"></div>
+<main>
+<section class="section-sm" style="border-bottom:1px solid var(--color-walnut);">
+  <div class="container">
+    <div class="section-eyebrow">HUB-02</div>
+    <h1 class="text-display weight-medium color-cream" style="letter-spacing:var(--tracking-display);line-height:var(--leading-display);max-width:680px;">Diretório Público de Startups Incubadas</h1>
+    <p class="text-body-lg color-driftwood mt-16" style="max-width:560px;">Vitrine pública de projectos em fase de incubação. Consulte para investidores, parceiros corporativos e comunidade académica.</p>
+  </div>
+</section>
+<section class="section">
+  <div class="container">
+    <div class="flex-between" style="flex-wrap:wrap; gap:16px; margin-bottom:var(--sp-24);">
+      <div class="filter-bar" id="filter-bar" style="margin:0;">
+        <button class="filter-chip active" data-value="all">Todos</button>
+        <button class="filter-chip" data-value="fintech">Fintech</button>
+        <button class="filter-chip" data-value="edtech">Edtech</button>
+        <button class="filter-chip" data-value="agritech">Agritech</button>
+        <button class="filter-chip" data-value="logistica">Logística</button>
+        <button class="filter-chip" data-value="saude">Saúde</button>
+      </div>
+      <div class="filter-bar" style="margin:0;">
+        <button class="filter-chip active" data-value="all">Todas fases</button>
+        <button class="filter-chip" data-value="ideacao">Ideação</button>
+        <button class="filter-chip" data-value="validacao">Validação</button>
+        <button class="filter-chip" data-value="mvp">MVP</button>
+        <button class="filter-chip" data-value="graduacao">Graduação</button>
+      </div>
+    </div>
+
+    <div class="grid-3" id="startups-grid">
+      <!-- Startup 1 -->
+      <article class="startup-card"><div class="startup-cover" style="background:linear-gradient(135deg,#1a2a1a,#0d1a0d);">🌾<div class="startup-cover-overlay"></div></div><div style="position:absolute;top:12px;left:12px;display:flex;gap:6px;z-index:1;"><span class="badge badge-amber">Agritech</span><span class="badge badge-success">Validação</span></div><div class="startup-card__body"><div class="startup-card__title">AgroLink Angola</div><p class="text-body color-driftwood" style="margin-bottom:12px;">Ligação directa entre agricultores familiares e supermercados de Luanda, eliminando intermediários.</p><div class="flex flex-gap-8 mb-16"><span class="badge badge-walnut">CTO·UAN</span><span class="badge badge-walnut">CLO·UCAN</span><span class="badge badge-walnut">CMO·ISAF</span></div><div class="flex flex-gap-8"><a href="ide-03-detail.html" class="btn-secondary btn-sm" style="flex:1;justify-content:center;">Ver Ficha</a><a href="mat-03-speeddate.html" class="btn-primary btn-sm" style="flex:1;justify-content:center;">Candidatar</a></div></div></article>
+      <!-- Startup 2 -->
+      <article class="startup-card"><div class="startup-cover" style="background:linear-gradient(135deg,#1a1a2a,#0d0d1a);">💳<div class="startup-cover-overlay"></div></div><div style="position:absolute;top:12px;left:12px;display:flex;gap:6px;z-index:1;"><span class="badge badge-amber">Fintech</span><span class="badge badge-success">MVP</span></div><div class="startup-card__body"><div class="startup-card__title">PaguiFácil</div><p class="text-body color-driftwood" style="margin-bottom:12px;">Pagamentos por QR Code no comércio informal de Luanda com integração Multicaixa.</p><div class="flex flex-gap-8 mb-16"><span class="badge badge-walnut">CTO·ISAF</span><span class="badge badge-walnut">CFO·UGS</span><span class="badge badge-walnut">CMO·UAN</span></div><div class="flex flex-gap-8"><a href="ide-03-detail.html" class="btn-secondary btn-sm" style="flex:1;justify-content:center;">Ver Ficha</a><a href="mat-01-builders.html" class="btn-primary btn-sm" style="flex:1;justify-content:center;">Ver equipa</a></div></div></article>
+      <!-- Startup 3 -->
+      <article class="startup-card"><div class="startup-cover" style="background:linear-gradient(135deg,#2a1a0d,#1a0d00);">📚<div class="startup-cover-overlay"></div></div><div style="position:absolute;top:12px;left:12px;display:flex;gap:6px;z-index:1;"><span class="badge badge-amber">Edtech</span><span class="badge badge-outline">Ideação</span></div><div class="startup-card__body"><div class="startup-card__title">AcademIQ</div><p class="text-body color-driftwood" style="margin-bottom:12px;">Tutoria P2P entre universitários angolanos com micro-credenciais validadas pelas faculdades.</p><div class="flex flex-gap-8 mb-16"><span class="badge badge-outline">Vaga: CLO</span><span class="badge badge-outline">Vaga: CMO</span></div><div class="flex flex-gap-8"><a href="ide-03-detail.html" class="btn-secondary btn-sm" style="flex:1;justify-content:center;">Ver Ficha</a><a href="mat-03-speeddate.html" class="btn-primary btn-sm" style="flex:1;justify-content:center;">Candidatar</a></div></div></article>
+      <!-- Startup 4 -->
+      <article class="startup-card"><div class="startup-cover" style="background:linear-gradient(135deg,#1a2a2a,#0d1a1a);">🚚<div class="startup-cover-overlay"></div></div><div style="position:absolute;top:12px;left:12px;display:flex;gap:6px;z-index:1;"><span class="badge badge-amber">Logística</span><span class="badge badge-success">Validação</span></div><div class="startup-card__body"><div class="startup-card__title">LogiRota AO</div><p class="text-body color-driftwood" style="margin-bottom:12px;">Optimização de rotas de entrega last-mile para pequenos negócios e musseques de Luanda.</p><div class="flex flex-gap-8 mb-16"><span class="badge badge-walnut">CTO·UAN</span><span class="badge badge-walnut">CEO·UCAN</span><span class="badge badge-walnut">CLO·UGS</span><span class="badge badge-walnut">CMO·ISAF</span></div><div class="flex flex-gap-8"><a href="ide-03-detail.html" class="btn-secondary btn-sm" style="flex:1;justify-content:center;">Ver Ficha</a></div></div></article>
+      <!-- Startup 5 -->
+      <article class="startup-card"><div class="startup-cover" style="background:linear-gradient(135deg,#2a1a1a,#1a0d0d);">🏥<div class="startup-cover-overlay"></div></div><div style="position:absolute;top:12px;left:12px;display:flex;gap:6px;z-index:1;"><span class="badge badge-amber">Saúde</span><span class="badge badge-walnut">Ideação</span></div><div class="startup-card__body"><div class="startup-card__title">SaúdeDesk</div><p class="text-body color-driftwood" style="margin-bottom:12px;">Agendamento digital de consultas em clínicas privadas de Luanda com telemedicina básica.</p><div class="flex flex-gap-8 mb-16"><span class="badge badge-outline">Vaga: CTO</span><span class="badge badge-outline">Vaga: CFO</span></div><div class="flex flex-gap-8"><a href="ide-03-detail.html" class="btn-secondary btn-sm" style="flex:1;justify-content:center;">Ver Ficha</a><a href="mat-03-speeddate.html" class="btn-primary btn-sm" style="flex:1;justify-content:center;">Candidatar</a></div></div></article>
+      <!-- Startup 6 -->
+      <article class="startup-card"><div class="startup-cover" style="background:linear-gradient(135deg,#0d1a2a,#070d1a);">🔋<div class="startup-cover-overlay"></div></div><div style="position:absolute;top:12px;left:12px;display:flex;gap:6px;z-index:1;"><span class="badge badge-amber">Energia</span><span class="badge badge-success">MVP</span></div><div class="startup-card__body"><div class="startup-card__title">SolAngola</div><p class="text-body color-driftwood" style="margin-bottom:12px;">Microfinanciamento para instalação de painéis solares em residências periurbanas de Luanda.</p><div class="flex flex-gap-8 mb-16"><span class="badge badge-walnut">CTO·UAN</span><span class="badge badge-walnut">CFO·UGS</span><span class="badge badge-walnut">CLO·UCAN</span><span class="badge badge-walnut">CMO·ISAF</span></div><div class="flex flex-gap-8"><a href="ide-03-detail.html" class="btn-secondary btn-sm" style="flex:1;justify-content:center;">Ver Ficha</a></div></div></article>
+    </div>
+
+    <div class="flex-center mt-48">
+      <button class="btn-secondary" onclick="showToast('Mais startups em breve — temporada 2026!','warning')">Carregar mais startups</button>
+    </div>
+  </div>
+</section>
+</main>
+<div id="k-footer-placeholder"></div>
+<script src="assets/js/kubica.js"></script>
+<script>KubicaNav.init('hub-02-startups.html'); initFilterChips('#filter-bar');</script>
+</body></html>

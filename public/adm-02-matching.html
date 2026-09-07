@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="pt-AO"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Emparelhamento por Afinidade — Kubica Hub</title>
+<meta name="description" content="Motor de matchmaking algorítmico que emparelha inventores e construtores por compatibilidade operacional."/>
+<link rel="stylesheet" href="kubica.css"/>
+<style>
+.match-score-bar { height: 8px; background: var(--color-burnt-edge); border-radius: 4px; overflow: hidden; }
+.match-score-fill { height: 100%; background: linear-gradient(90deg, var(--color-amber-forge), #ffd966); border-radius: 4px; transition: width .6s ease; }
+.match-card { background: var(--color-midnight-cocoa); border: 1px solid var(--color-walnut); border-radius: 8px; padding: 20px; transition: border-color var(--transition-base); }
+.match-card:hover { border-color: var(--color-amber-forge); }
+.score-badge { font-size: 24px; font-weight: var(--font-weight-medium); color: var(--color-amber-forge); }
+</style>
+</head>
+<body class="page-body"><div id="k-nav-placeholder"></div>
+<main>
+<section class="section-sm" style="border-bottom:1px solid var(--color-walnut);">
+  <div class="container"><div class="section-eyebrow">ADM-02 — Motor de Matchmaking</div>
+  <h1 class="text-heading-lg weight-medium color-cream" style="letter-spacing:var(--tracking-heading-lg);">Algoritmo de Afinidade Operacional</h1>
+  <p class="text-body-lg color-driftwood mt-16">6 dimensões de compatibilidade cruzadas para cada par inventor-construtor. Decision Scaffolding reduz a fadiga de decisão da coordenação.</p></div>
+</section>
+<section class="section">
+  <div class="container">
+    <!-- Filter row -->
+    <div class="card card-surface mb-32" style="padding:24px;">
+      <div class="grid-4" style="gap:16px;">
+        <div><label class="input-label">Ideia / Startup</label><select class="select-pill"><option>AgroLink Angola (CLO em falta)</option><option>PaguiFácil (CMO em falta)</option><option>AcademIQ (CTO + CLO em falta)</option></select></div>
+        <div><label class="input-label">Papel em falta</label><select class="select-pill"><option>CLO</option><option>CTO</option><option>CFO</option><option>CMO</option></select></div>
+        <div><label class="input-label">Score mínimo</label><select class="select-pill"><option>70% ou mais</option><option>80% ou mais</option><option>90% ou mais</option></select></div>
+        <div style="display:flex;align-items:flex-end;"><button class="btn-primary" style="width:100%;justify-content:center;" onclick="runAlgorithm()">⚡ Executar Algoritmo</button></div>
+      </div>
+    </div>
+
+    <!-- Matches -->
+    <div id="matches-container" style="display:none;">
+      <h2 class="text-subheading weight-medium color-cream mb-16">Top Matches — AgroLink Angola · Vaga CLO</h2>
+      <div style="display:flex;flex-direction:column;gap:12px;">
+
+        <div class="match-card">
+          <div class="flex-between mb-16" style="flex-wrap:wrap;gap:12px;">
+            <div class="flex flex-gap-16" style="align-items:center;">
+              <div class="avatar-placeholder avatar-md">MA</div>
+              <div><p class="text-body weight-medium color-cream">Maria Antónia Domingos</p><p class="text-caption color-driftwood">CLO · Direito UCAN 4º Ano · 20h/sem</p></div>
+            </div>
+            <div style="text-align:right;"><div class="score-badge">94%</div><p class="text-caption color-driftwood">Match</p></div>
+          </div>
+          <div class="grid-3" style="gap:12px;margin-bottom:16px;">
+            <div><p class="text-caption color-driftwood mb-4">Competências jurídicas</p><div class="match-score-bar"><div class="match-score-fill" style="width:96%;"></div></div><p class="text-caption color-amber mt-2">96%</p></div>
+            <div><p class="text-caption color-driftwood mb-4">Disponibilidade</p><div class="match-score-bar"><div class="match-score-fill" style="width:100%;"></div></div><p class="text-caption color-amber mt-2">100%</p></div>
+            <div><p class="text-caption color-driftwood mb-4">Compatibilidade de visão</p><div class="match-score-bar"><div class="match-score-fill" style="width:88%;"></div></div><p class="text-caption color-amber mt-2">88%</p></div>
+          </div>
+          <div class="flex flex-gap-8 mb-12"><span class="skill-tag selected">Direito Societário</span><span class="skill-tag selected">IAPI</span><span class="skill-tag selected">Vesting</span></div>
+          <div class="flex flex-gap-8"><a href="mat-02-profile.html" class="btn-ghost btn-sm" style="flex:1;justify-content:center;">Ver dossier completo</a><button class="btn-primary btn-sm" style="flex:1;justify-content:center;" onclick="showToast('Convite enviado a Maria Antónia!','success')">Convidar para Speed Dating</button></div>
+        </div>
+
+        <div class="match-card">
+          <div class="flex-between mb-16" style="flex-wrap:wrap;gap:12px;">
+            <div class="flex flex-gap-16" style="align-items:center;">
+              <div class="avatar-placeholder avatar-md">CN</div>
+              <div><p class="text-body weight-medium color-cream">Catarina Neto</p><p class="text-caption color-driftwood">CLO · Direito UCAN 3º Ano · 10h/sem</p></div>
+            </div>
+            <div style="text-align:right;"><div class="score-badge">81%</div><p class="text-caption color-driftwood">Match</p></div>
+          </div>
+          <div class="grid-3" style="gap:12px;margin-bottom:16px;">
+            <div><p class="text-caption color-driftwood mb-4">Competências jurídicas</p><div class="match-score-bar"><div class="match-score-fill" style="width:78%;"></div></div><p class="text-caption color-amber mt-2">78%</p></div>
+            <div><p class="text-caption color-driftwood mb-4">Disponibilidade</p><div class="match-score-bar"><div class="match-score-fill" style="width:70%;"></div></div><p class="text-caption color-amber mt-2">70%</p></div>
+            <div><p class="text-caption color-driftwood mb-4">Compatibilidade de visão</p><div class="match-score-bar"><div class="match-score-fill" style="width:92%;"></div></div><p class="text-caption color-amber mt-2">92%</p></div>
+          </div>
+          <div class="flex flex-gap-8 mb-12"><span class="skill-tag selected">Contratos</span><span class="skill-tag selected">Compliance</span></div>
+          <div class="flex flex-gap-8"><a href="mat-02-profile.html" class="btn-ghost btn-sm" style="flex:1;justify-content:center;">Ver dossier</a><button class="btn-primary btn-sm" style="flex:1;justify-content:center;" onclick="showToast('Convite enviado!','success')">Convidar</button></div>
+        </div>
+      </div>
+    </div>
+    <div id="algo-idle" class="card card-surface" style="padding:48px;text-align:center;">
+      <div style="font-size:48px;margin-bottom:16px;">⚡</div>
+      <h2 class="text-heading-sm weight-medium color-cream mb-8">Algoritmo em espera</h2>
+      <p class="text-body color-driftwood">Selecciona a startup, o papel em falta e o score mínimo, e executa o algoritmo para ver os top matches.</p>
+    </div>
+  </div>
+</section>
+</main>
+<div id="k-footer-placeholder"></div>
+<script src="assets/js/kubica.js"></script>
+<script>
+KubicaNav.init('adm-01-dashboard.html');
+function runAlgorithm() {
+  document.getElementById('algo-idle').style.display = 'none';
+  const mc = document.getElementById('matches-container');
+  mc.style.display = 'block';
+  mc.style.opacity = '0';
+  showToast('Algoritmo executado — 2 matches encontrados.', 'success');
+  requestAnimationFrame(() => { mc.style.transition = 'opacity .4s'; mc.style.opacity = '1'; });
+}
+</script>
+</body></html>

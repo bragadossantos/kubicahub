@@ -1,0 +1,272 @@
+/* ============================================================
+   KUBICA HUB — MoU Print Stylesheet
+   Folha A4 para impressão do Memorando de Entendimento FKCU.
+   @media print: fundo branco, texto preto, sem elementos de UI.
+   ============================================================ */
+
+/* ── Fontes ─────────────────────────────────────────────────── */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+/* ── Reset de impressão ─────────────────────────────────────── */
+*, *::before, *::after {
+  box-sizing: border-box;
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
+}
+
+/* ── Variáveis de impressão ─────────────────────────────────── */
+:root {
+  --mou-ink:         #1a1a1a;
+  --mou-ink-mid:     #3d3d3d;
+  --mou-ink-light:   #666666;
+  --mou-border:      #cccccc;
+  --mou-border-dark: #999999;
+  --mou-accent:      #8a5a00;   /* Âmbar escuro — identidade Kubica */
+  --mou-bg:          #ffffff;
+  --mou-surface:     #f9f6f0;   /* Creme suave para cabeçalho */
+  --mou-font:        'Inter', 'Segoe UI', Arial, sans-serif;
+}
+
+/* ── Página A4 ──────────────────────────────────────────────── */
+html, body {
+  margin: 0;
+  padding: 0;
+  background: var(--mou-bg);
+  color: var(--mou-ink);
+  font-family: var(--mou-font);
+  font-size: 11pt;
+  line-height: 1.55;
+}
+
+.mou-page {
+  width: 210mm;
+  min-height: 297mm;
+  margin: 0 auto;
+  padding: 18mm 20mm 20mm;
+  background: var(--mou-bg);
+}
+
+@page {
+  size: A4;
+  margin: 18mm 20mm;
+}
+
+@media print {
+  .mou-page {
+    padding: 0;
+    width: 100%;
+  }
+  body {
+    background: white;
+  }
+}
+
+/* ── Cabeçalho ──────────────────────────────────────────────── */
+.mou-header {
+  display: flex;
+  align-items: flex-start;
+  gap: 18px;
+  padding: 16px 20px;
+  background: var(--mou-surface);
+  border: 1px solid var(--mou-border);
+  border-radius: 4px;
+  margin-bottom: 20px;
+}
+
+.mou-logo-mark {
+  width: 52px; height: 52px;
+  border-radius: 6px;
+  background: var(--mou-accent);
+  color: #ffffff;
+  font-size: 28px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  font-family: var(--mou-font);
+}
+
+.mou-header-text {
+  flex: 1;
+}
+
+.mou-title {
+  font-size: 18pt;
+  font-weight: 700;
+  color: var(--mou-ink);
+  margin: 0 0 4px;
+  line-height: 1.2;
+}
+
+.mou-subtitle {
+  font-size: 10pt;
+  color: var(--mou-accent);
+  font-weight: 600;
+  margin: 0 0 8px;
+  letter-spacing: 0.02em;
+}
+
+.mou-meta {
+  font-size: 9pt;
+  color: var(--mou-ink-mid);
+  margin: 0;
+}
+
+/* ── Divisor ────────────────────────────────────────────────── */
+.mou-divider {
+  border: none;
+  border-top: 2px solid var(--mou-accent);
+  margin: 0 0 20px;
+}
+
+/* ── Secções ────────────────────────────────────────────────── */
+.mou-section {
+  margin-bottom: 22px;
+  page-break-inside: avoid;
+}
+
+.mou-section-title {
+  font-size: 12pt;
+  font-weight: 700;
+  color: var(--mou-ink);
+  margin: 0 0 10px;
+  padding-bottom: 5px;
+  border-bottom: 1px solid var(--mou-border-dark);
+  letter-spacing: 0.01em;
+}
+
+.mou-text {
+  font-size: 10.5pt;
+  color: var(--mou-ink-mid);
+  margin: 0 0 10px;
+  line-height: 1.6;
+}
+
+/* ── Tabelas ────────────────────────────────────────────────── */
+.mou-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 9.5pt;
+  margin: 0;
+}
+
+.mou-table th,
+.mou-table td {
+  border: 1px solid var(--mou-border);
+  padding: 7px 10px;
+  text-align: left;
+  vertical-align: top;
+  color: var(--mou-ink-mid);
+}
+
+.mou-table thead th {
+  background: var(--mou-surface);
+  color: var(--mou-ink);
+  font-weight: 600;
+  font-size: 9pt;
+  letter-spacing: 0.02em;
+}
+
+.mou-table tbody tr:nth-child(even) {
+  background: rgba(138, 90, 0, 0.04);
+}
+
+/* Tabela de definição (th:td vertical) */
+.mou-table--definition th {
+  width: 38%;
+  background: var(--mou-surface);
+  color: var(--mou-ink);
+  font-weight: 600;
+}
+
+/* ── Lista numerada ─────────────────────────────────────────── */
+.mou-list {
+  padding-left: 20px;
+  margin: 0;
+}
+
+.mou-list li {
+  font-size: 10.5pt;
+  color: var(--mou-ink-mid);
+  margin-bottom: 6px;
+  line-height: 1.6;
+}
+
+/* ── Bloco de Assinaturas ───────────────────────────────────── */
+.mou-section--signatures .mou-signatures {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 24px 32px;
+  margin-top: 12px;
+}
+
+.sig-block {
+  page-break-inside: avoid;
+}
+
+.sig-line {
+  border-bottom: 1px solid var(--mou-ink);
+  width: 100%;
+  height: 44px;
+  margin-bottom: 8px;
+}
+
+.sig-name {
+  font-size: 9.5pt;
+  font-weight: 600;
+  color: var(--mou-ink);
+  margin: 0 0 2px;
+}
+
+.sig-role {
+  font-size: 8.5pt;
+  color: var(--mou-accent);
+  font-weight: 500;
+  margin: 0 0 4px;
+}
+
+.sig-date {
+  font-size: 8.5pt;
+  color: var(--mou-ink-light);
+  margin: 0;
+}
+
+/* ── Rodapé ─────────────────────────────────────────────────── */
+.mou-footer {
+  margin-top: 28px;
+  padding-top: 10px;
+  border-top: 1px solid var(--mou-border);
+  text-align: center;
+}
+
+.mou-footer p {
+  font-size: 8pt;
+  color: var(--mou-ink-light);
+  margin: 2px 0;
+}
+
+/* ── Utilitários de impressão ───────────────────────────────── */
+@media print {
+  .mou-section {
+    page-break-inside: avoid;
+  }
+
+  .mou-section--signatures {
+    page-break-before: always;
+  }
+
+  .mou-header {
+    background: #f9f6f0 !important;
+    border-color: #cccccc !important;
+  }
+
+  .mou-table thead th {
+    background: #f9f6f0 !important;
+  }
+
+  .mou-logo-mark {
+    background: #8a5a00 !important;
+    color: #ffffff !important;
+  }
+}

@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="pt-AO">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Perfil do Construtor (ONB-04) — Kubica Hub</title>
+  <meta name="description" content="Mapeia as tuas valências académicas, papel executivo e disponibilidade semanal para integrar uma startup universitária no FKCU."/>
+  <link rel="stylesheet" href="kubica.css"/>
+  <style>
+    .builder-roles-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 12px;
+      margin-top: 12px;
+    }
+    .builder-role-card {
+      background: var(--color-midnight-cocoa, #0b0600);
+      border: 1px solid var(--color-walnut, #43392d);
+      border-radius: var(--radius-card, 6px);
+      padding: 16px;
+      text-align: left;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      transition: border-color 0.2s, background 0.2s, transform 0.2s;
+      outline: none;
+    }
+    .builder-role-card:hover, .builder-role-card:focus-visible {
+      border-color: var(--color-amber-forge, #ffb442);
+      background: #140c02;
+    }
+    .builder-role-card.selected {
+      border-color: var(--color-amber-forge, #ffb442);
+      background: rgba(255, 180, 66, 0.08);
+      box-shadow: inset 0 0 0 1px var(--color-amber-forge, #ffb442);
+    }
+    .builder-role-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 9999px;
+      background: rgba(255, 180, 66, 0.1);
+      border: 1px solid rgba(255, 180, 66, 0.3);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--color-amber-forge, #ffb442);
+      flex-shrink: 0;
+    }
+    .builder-role-card.selected .builder-role-icon {
+      background: var(--color-amber-forge, #ffb442);
+      color: var(--color-espresso, #140b00);
+    }
+  </style>
+</head>
+<body class="page-body">
+  <div id="k-nav-placeholder"></div>
+
+  <main id="main-content">
+    <section class="section-sm" style="border-bottom: 1px solid var(--color-walnut, #43392d);">
+      <div class="container">
+        <div class="section-eyebrow">ONB-04 — The Builders · Banco de Talentos FKCU</div>
+        <h1 class="text-heading-lg weight-medium color-cream" style="letter-spacing: var(--tracking-heading-lg, -0.8px);">
+          Valências Técnicas & Papel de Co-Founder
+        </h1>
+        <p class="text-body-lg color-driftwood mt-16" style="max-width: 620px;">
+          Formaliza as tuas competências práticas e o teu compromisso de tempo semanal. Conecta-te a equipas fundadoras com acordos de vesting estruturados (3 anos / 1 ano de cliff).
+        </p>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <div style="max-width: 740px; margin: auto;">
+          
+          <div class="wizard-steps mb-16">
+            <div class="wizard-step active" id="bws-1">
+              <div class="wizard-step__dot" id="bwd-1">1</div>
+              <span class="wizard-step__label">Faculdade & Papel</span>
+              <div class="wizard-step__connector" id="bwc-1"></div>
+            </div>
+            <div class="wizard-step" id="bws-2">
+              <div class="wizard-step__dot" id="bwd-2">2</div>
+              <span class="wizard-step__label">Competências & Disponibilidade</span>
+            </div>
+          </div>
+
+          <!-- Progress bar -->
+          <div class="k-progress mb-32">
+            <div class="k-progress__fill" id="builder-progress" style="width: 25%;"></div>
+          </div>
+
+          <!-- Step 1: Role & Course -->
+          <div id="bstep-1" class="card card-surface" style="padding: var(--sp-32);">
+            <h2 class="text-subheading weight-medium color-cream mb-8">Passo 1 — Papel Pretendido na Startup</h2>
+            <p class="text-body color-driftwood mb-20" style="font-size:14px;">
+              Em que função executiva pretendes atuar na futura co-fundação?
+            </p>
+
+            <p class="text-caption color-cream weight-medium mb-8" style="letter-spacing:0.08em; text-transform:uppercase;">
+              Papéis C-Level Principais
+            </p>
+            <div class="builder-roles-grid">
+              
+              <!-- CTO -->
+              <div class="builder-role-card selected" id="brole-cto" onclick="selectBuilderRole('CTO', this)">
+                <div class="builder-role-icon">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"></polyline><polyline points="8 6 2 12 8 18"></polyline></svg>
+                </div>
+                <div>
+                  <p class="text-body weight-medium color-cream">CTO</p>
+                  <p class="text-caption color-driftwood" style="font-size:11px;">Engenharia & Tecnologias</p>
+                </div>
+              </div>
+
+              <!-- CEO / CFO -->
+              <div class="builder-role-card" id="brole-ceo" onclick="selectBuilderRole('CEO_CFO', this)">
+                <div class="builder-role-icon">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"></line><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path></svg>
+                </div>
+                <div>
+                  <p class="text-body weight-medium color-cream">CEO / CFO</p>
+                  <p class="text-caption color-driftwood" style="font-size:11px;">Gestão, Finanças & Economia</p>
+                </div>
+              </div>
+
+              <!-- CLO -->
+              <div class="builder-role-card" id="brole-clo" onclick="selectBuilderRole('CLO', this)">
+                <div class="builder-role-icon">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v18"></path><rect x="3" y="6" width="6" height="5" rx="1"></rect><rect x="15" y="6" width="6" height="5" rx="1"></rect><path d="M6 11l6-2 6 2"></path></svg>
+                </div>
+                <div>
+                  <p class="text-body weight-medium color-cream">CLO</p>
+                  <p class="text-caption color-driftwood" style="font-size:11px;">Direito & Propriedade Intelectual</p>
+                </div>
+              </div>
+
+              <!-- CMO -->
+              <div class="builder-role-card" id="brole-cmo" onclick="selectBuilderRole('CMO', this)">
+                <div class="builder-role-icon">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5L6 9H2v6h4l5 4V5z"></path><path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path></svg>
+                </div>
+                <div>
+                  <p class="text-body weight-medium color-cream">CMO</p>
+                  <p class="text-caption color-driftwood" style="font-size:11px;">Marketing & Comunicação</p>
+                </div>
+              </div>
+
+            </div>
+
+            <!-- Setoriais -->
+            <p class="text-caption color-cream weight-medium mt-20 mb-8" style="letter-spacing:0.08em; text-transform:uppercase;">
+              Papéis Setoriais & Especialidades
+            </p>
+            <div class="builder-roles-grid">
+              <div class="builder-role-card" onclick="selectBuilderRole('CPO', this)">
+                <div class="builder-role-icon">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><path d="M8 12h8"></path><path d="M12 8v8"></path></svg>
+                </div>
+                <div>
+                  <p class="text-body weight-medium color-cream">CPO / UX Designer</p>
+                  <p class="text-caption color-driftwood" style="font-size:11px;">Design & Prototipagem</p>
+                </div>
+              </div>
+
+              <div class="builder-role-card" onclick="selectBuilderRole('COO', this)">
+                <div class="builder-role-icon">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="3" width="15" height="13"></rect><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"></polygon></svg>
+                </div>
+                <div>
+                  <p class="text-body weight-medium color-cream">COO / Ops</p>
+                  <p class="text-caption color-driftwood" style="font-size:11px;">Operações & Logística</p>
+                </div>
+              </div>
+
+              <div class="builder-role-card" onclick="selectBuilderRole('CAO', this)">
+                <div class="builder-role-icon">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+                </div>
+                <div>
+                  <p class="text-body weight-medium color-cream">Especialista Agro / Bio</p>
+                  <p class="text-caption color-driftwood" style="font-size:11px;">Agronomia & Biotecnologia</p>
+                </div>
+              </div>
+
+              <div class="builder-role-card" onclick="selectBuilderRole('CDO', this)">
+                <div class="builder-role-icon">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path></svg>
+                </div>
+                <div>
+                  <p class="text-body weight-medium color-cream">Data & IA Engineer</p>
+                  <p class="text-caption color-driftwood" style="font-size:11px;">Machine Learning & Analytics</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="input-group mt-24">
+              <label class="input-label" for="b-course">Curso Académico e Especialização <span style="color:var(--color-amber-forge,#ffb442);">*</span></label>
+              <input type="text" id="b-course" class="input-pill" placeholder="Ex: Engenharia Informática — 4º Ano · UAN" required/>
+            </div>
+
+            <button type="button" class="btn-primary mt-20" style="width:100%; justify-content:center;" onclick="validateBuilderStep1()">
+              Próximo: Competências & Disponibilidade →
+            </button>
+          </div>
+
+          <!-- Step 2: Skills & Time Commitment -->
+          <div id="bstep-2" class="card card-surface" style="padding: var(--sp-32); display: none;">
+            <h2 class="text-subheading weight-medium color-cream mb-8">Passo 2 — Competências Práticas & Compromisso</h2>
+            <p class="text-body color-driftwood mb-20" style="font-size:14px;">
+              Selecciona as tuas competências comprovadas e define quantas horas semanais estás pronto a investir no projecto.
+            </p>
+
+            <div class="input-group">
+              <label class="input-label">Competências Práticas (selecciona as tuas principais)</label>
+              <div class="flex" style="flex-wrap:wrap; gap:8px; margin-top:8px;" id="builder-skill-tags">
+                <button type="button" class="skill-tag selected" onclick="toggleTag(this)">React / Next.js</button>
+                <button type="button" class="skill-tag" onclick="toggleTag(this)">Figma / UI Design</button>
+                <button type="button" class="skill-tag" onclick="toggleTag(this)">Direito Societário & Contratos</button>
+                <button type="button" class="skill-tag" onclick="toggleTag(this)">IAPI / Patentes & Marcas</button>
+                <button type="button" class="skill-tag" onclick="toggleTag(this)">Contabilidade & Fiscalidade Angolana</button>
+                <button type="button" class="skill-tag" onclick="toggleTag(this)">Python & Ciência de Dados</button>
+                <button type="button" class="skill-tag" onclick="toggleTag(this)">Modelagem Financeira / Excel</button>
+                <button type="button" class="skill-tag" onclick="toggleTag(this)">Meta Ads & Tráfego Pago</button>
+                <button type="button" class="skill-tag" onclick="toggleTag(this)">Copywriting & Storytelling</button>
+                <button type="button" class="skill-tag" onclick="toggleTag(this)">SQL & Arquitetura de BD</button>
+                <button type="button" class="skill-tag" onclick="toggleTag(this)">Inglês Fluente (Pitch Deck)</button>
+                <button type="button" class="skill-tag" onclick="toggleTag(this)">Gestão de Projetos Ágeis (Scrum)</button>
+                <button type="button" class="skill-tag" onclick="toggleTag(this)">Agronomia & Solos</button>
+                <button type="button" class="skill-tag" onclick="toggleTag(this)">Hardware, Arduino & IoT</button>
+                <button type="button" class="skill-tag" onclick="toggleTag(this)">Vendas B2B & Parcerias</button>
+              </div>
+            </div>
+
+            <div class="input-group mt-24">
+              <label class="input-label">Disponibilidade Semanal Comprometida <span style="color:var(--color-amber-forge,#ffb442);">*</span></label>
+              <div class="flex flex-gap-12 mt-8" id="avail-choices" role="radiogroup">
+                <button type="button" class="choice-pill" id="av-5" style="flex:1; justify-content:center;" onclick="selAvail('5', this)">
+                  5h / semana
+                </button>
+                <button type="button" class="choice-pill selected" id="av-10" style="flex:1; justify-content:center;" onclick="selAvail('10', this)">
+                  10h / semana
+                </button>
+                <button type="button" class="choice-pill" id="av-20" style="flex:1; justify-content:center;" onclick="selAvail('20', this)">
+                  20h+ / semana
+                </button>
+              </div>
+            </div>
+
+            <div class="flex flex-gap-12 mt-28">
+              <button type="button" class="btn-secondary" onclick="bGoStep(1)">← Anterior</button>
+              <button type="button" class="btn-primary" style="flex:1; justify-content:center;" id="submit-builder-btn" onclick="submitBuilderProfile()">
+                Criar Perfil no Banco de Construtores →
+              </button>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <div id="k-footer-placeholder"></div>
+
+  <script src="assets/js/kubica.js"></script>
+  <script src="assets/js/app.js"></script>
+  <script>
+    KubicaNav.init('onb-04');
+
+    let chosenRole = 'CTO';
+    let chosenHours = '10';
+
+    function toggleTag(el) {
+      el.classList.toggle('selected');
+    }
+
+    function selectBuilderRole(role, cardEl) {
+      document.querySelectorAll('.builder-role-card').forEach(c => c.classList.remove('selected'));
+      cardEl.classList.add('selected');
+      chosenRole = role;
+    }
+
+    function selAvail(hours, btnEl) {
+      document.querySelectorAll('#avail-choices .choice-pill').forEach(b => b.classList.remove('selected'));
+      btnEl.classList.add('selected');
+      chosenHours = hours;
+    }
+
+    function validateBuilderStep1() {
+      const course = document.getElementById('b-course').value.trim();
+      if (!course) {
+        showToast('Por favor, indica o teu curso e ano académico.', 'error');
+        document.getElementById('b-course').focus();
+        return;
+      }
+      bGoStep(2);
+    }
+
+    function bGoStep(n) {
+      document.getElementById('bstep-1').style.display = n === 1 ? 'block' : 'none';
+      document.getElementById('bstep-2').style.display = n === 2 ? 'block' : 'none';
+      document.getElementById('builder-progress').style.width = n === 1 ? '25%' : '80%';
+
+      const ws1 = document.getElementById('bws-1');
+      const ws2 = document.getElementById('bws-2');
+      const wd1 = document.getElementById('bwd-1');
+      const wd2 = document.getElementById('bwd-2');
+
+      if (n === 1) {
+        ws1.className = 'wizard-step active';
+        ws2.className = 'wizard-step';
+        wd1.textContent = '1';
+        wd2.textContent = '2';
+      } else {
+        ws1.className = 'wizard-step done';
+        ws2.className = 'wizard-step active';
+        wd1.textContent = '✓';
+        wd2.textContent = '2';
+      }
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    async function submitBuilderProfile() {
+      const selectedSkills = Array.from(document.querySelectorAll('#builder-skill-tags .skill-tag.selected'))
+        .map(t => t.textContent.trim());
+
+      const submitBtn = document.getElementById('submit-builder-btn');
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'A publicar perfil de Construtor...';
+
+      const builderPayload = {
+        role: 'builder',
+        profile_type: chosenRole,
+        course: document.getElementById('b-course').value.trim(),
+        skills: selectedSkills,
+        availability_hours: parseInt(chosenHours, 10),
+        created_at: new Date().toISOString()
+      };
+
+      sessionStorage.setItem('kubica_last_builder', JSON.stringify(builderPayload));
+      
+      const authUser = JSON.parse(sessionStorage.getItem('kubica_auth_user') || '{}');
+      authUser.role = 'builder';
+      authUser.profile_type = chosenRole;
+      sessionStorage.setItem('kubica_auth_user', JSON.stringify(authUser));
+      localStorage.setItem('kubica_user', JSON.stringify(authUser));
+
+      document.getElementById('builder-progress').style.width = '100%';
+
+      setTimeout(() => {
+        showToast('Perfil de Construtor criado com sucesso!', 'success');
+        setTimeout(() => {
+          window.location.href = 'onb-05-welcome.html';
+        }, 1200);
+      }, 500);
+    }
+  </script>
+</body>
+</html>

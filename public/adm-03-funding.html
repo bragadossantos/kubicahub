@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="pt-AO"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Funding Board — Kubica Hub Admin</title>
+<meta name="description" content="Painel de aprovação e gestão de pedidos de disbursement do Sandbox não dilutivo FKCU."/>
+<link rel="stylesheet" href="kubica.css"/>
+</head>
+<body class="page-body"><div id="k-nav-placeholder"></div>
+<main>
+<section class="section-sm" style="border-bottom:1px solid var(--color-walnut);">
+  <div class="container">
+    <div class="section-eyebrow">ADM-03 — Funding Board</div>
+    <div class="flex-between" style="flex-wrap:wrap;gap:16px;">
+      <div>
+        <h1 class="text-heading-lg weight-medium color-cream" style="letter-spacing:var(--tracking-heading-lg);">Funding Board — Sandbox FKCU</h1>
+        <p class="text-body-lg color-driftwood mt-8">Aprovação centralizada de todos os pedidos de disbursement. Auditoria em tempo real.</p>
+      </div>
+      <div class="flex flex-gap-12">
+        <div class="kpi-card" style="padding:12px 20px;"><div class="kpi-card__value" style="font-size:22px;">USD 47.200</div><div class="kpi-card__label">Total alocado (Temporada 2026)</div></div>
+        <div class="kpi-card" style="padding:12px 20px;"><div class="kpi-card__value" style="font-size:22px;">7</div><div class="kpi-card__label">Pedidos pendentes</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section-sm">
+  <div class="container">
+    <!-- Budget overview bar -->
+    <div class="card card-surface mb-32" style="padding:24px;">
+      <div class="flex-between mb-8"><p class="text-body weight-medium color-cream">Orçamento Total Temporada 2026</p><span class="text-body color-amber">USD 47.200 / USD 250.000</span></div>
+      <div class="k-progress mb-8"><div class="k-progress__fill" style="width:18.9%;"></div></div>
+      <div class="grid-4" style="gap:12px;margin-top:16px;">
+        <div style="text-align:center;"><p class="text-body weight-medium color-cream">USD 25.000</p><p class="text-caption color-driftwood">Aprovado pendente</p></div>
+        <div style="text-align:center;"><p class="text-body weight-medium color-amber">USD 47.200</p><p class="text-caption color-driftwood">Disbursado YTD</p></div>
+        <div style="text-align:center;"><p class="text-body weight-medium color-cream">USD 202.800</p><p class="text-caption color-driftwood">Disponível</p></div>
+        <div style="text-align:center;"><p class="text-body weight-medium color-cream">47</p><p class="text-caption color-driftwood">Equipas activas</p></div>
+      </div>
+    </div>
+
+    <!-- Filter tabs -->
+    <div class="filter-bar mb-24" id="funding-tabs">
+      <button class="filter-chip active" onclick="filterFunding('all',this)">Todos (12)</button>
+      <button class="filter-chip" onclick="filterFunding('pending',this)">Pendentes (7)</button>
+      <button class="filter-chip" onclick="filterFunding('approved',this)">Aprovados (3)</button>
+      <button class="filter-chip" onclick="filterFunding('rejected',this)">Recusados (2)</button>
+    </div>
+
+    <!-- Requests table -->
+    <div class="card card-surface" style="padding:0;">
+      <table class="k-table" id="funding-table">
+        <thead>
+          <tr>
+            <th>Startup / Equipa</th>
+            <th>Categoria</th>
+            <th>Montante</th>
+            <th>Tranche</th>
+            <th>Justificação</th>
+            <th>Estado</th>
+            <th>Acção</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr data-status="pending">
+            <td><p class="text-body color-cream weight-medium">AgroLink Angola</p><p class="text-caption color-driftwood">Equipa T-2025-001</p></td>
+            <td>Infraestrutura Cloud</td>
+            <td style="color:var(--color-amber-forge);font-weight:500;">USD 1.200</td>
+            <td><span class="badge badge-walnut">Tranche 1</span></td>
+            <td style="max-width:200px;"><p class="text-caption color-driftwood">AWS EC2 + RDS para MVP de produção</p></td>
+            <td><span class="badge badge-walnut">Pendente</span></td>
+            <td>
+              <div class="flex flex-gap-8">
+                <button class="btn-primary btn-sm" onclick="approveRequest(this,'AgroLink Angola','USD 1.200')">Aprovar</button>
+                <button class="btn-secondary btn-sm" onclick="rejectRequest(this)">Recusar</button>
+              </div>
+            </td>
+          </tr>
+          <tr data-status="pending">
+            <td><p class="text-body color-cream weight-medium">PaguiFácil</p><p class="text-caption color-driftwood">Equipa T-2025-003</p></td>
+            <td>Pesquisa de Mercado</td>
+            <td style="color:var(--color-amber-forge);font-weight:500;">USD 800</td>
+            <td><span class="badge badge-walnut">Tranche 1</span></td>
+            <td style="max-width:200px;"><p class="text-caption color-driftwood">Entrevistas com 50 utilizadores em Luanda</p></td>
+            <td><span class="badge badge-walnut">Pendente</span></td>
+            <td>
+              <div class="flex flex-gap-8">
+                <button class="btn-primary btn-sm" onclick="approveRequest(this,'PaguiFácil','USD 800')">Aprovar</button>
+                <button class="btn-secondary btn-sm" onclick="rejectRequest(this)">Recusar</button>
+              </div>
+            </td>
+          </tr>
+          <tr data-status="pending">
+            <td><p class="text-body color-cream weight-medium">SaúdeDesk AO</p><p class="text-caption color-driftwood">Equipa T-2025-007</p></td>
+            <td>Registo IAPI</td>
+            <td style="color:var(--color-amber-forge);font-weight:500;">USD 200</td>
+            <td><span class="badge badge-walnut">Tranche 1</span></td>
+            <td style="max-width:200px;"><p class="text-caption color-driftwood">Taxa de registo de marca — IAPI Luanda</p></td>
+            <td><span class="badge badge-walnut">Pendente</span></td>
+            <td>
+              <div class="flex flex-gap-8">
+                <button class="btn-primary btn-sm" onclick="approveRequest(this,'SaúdeDesk AO','USD 200')">Aprovar</button>
+                <button class="btn-secondary btn-sm" onclick="rejectRequest(this)">Recusar</button>
+              </div>
+            </td>
+          </tr>
+          <tr data-status="approved">
+            <td><p class="text-body color-cream weight-medium">SolAngola</p><p class="text-caption color-driftwood">Equipa T-2024-002</p></td>
+            <td>Design e Prototipagem</td>
+            <td style="color:var(--color-amber-forge);font-weight:500;">USD 3.500</td>
+            <td><span class="badge badge-walnut">Tranche 2</span></td>
+            <td style="max-width:200px;"><p class="text-caption color-driftwood">Prototipagem de sensor IoT solar</p></td>
+            <td><span class="badge badge-success">Aprovado ✓</span></td>
+            <td><span class="text-caption color-driftwood">Dr. Daniel Amaral · 15 Jul</span></td>
+          </tr>
+          <tr data-status="rejected">
+            <td><p class="text-body color-cream weight-medium">LogiRota AO</p><p class="text-caption color-driftwood">Equipa T-2025-011</p></td>
+            <td>Outros</td>
+            <td style="color:var(--color-amber-forge);font-weight:500;">USD 5.000</td>
+            <td><span class="badge badge-walnut">Tranche 2</span></td>
+            <td style="max-width:200px;"><p class="text-caption color-driftwood">Veículo para equipa (inelegível)</p></td>
+            <td><span class="badge" style="background:rgba(248,113,113,.1);color:#f87171;border:1px solid rgba(248,113,113,.3);">Recusado</span></td>
+            <td><span class="text-caption color-driftwood">Categoria inelegível</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+</main>
+<div id="k-footer-placeholder"></div>
+<script src="assets/js/kubica.js"></script>
+<script>
+KubicaNav.init('adm-01-dashboard.html');
+function filterFunding(status, btn) {
+  document.querySelectorAll('#funding-tabs .filter-chip').forEach(c => c.classList.remove('active'));
+  btn.classList.add('active');
+  document.querySelectorAll('#funding-table tbody tr').forEach(row => {
+    row.style.display = (status === 'all' || row.dataset.status === status) ? '' : 'none';
+  });
+}
+function approveRequest(btn, name, amount) {
+  const row = btn.closest('tr');
+  row.querySelector('[data-status]');
+  row.dataset.status = 'approved';
+  row.querySelector('td:nth-child(6)').innerHTML = '<span class="badge badge-success">Aprovado ✓</span>';
+  row.querySelector('td:nth-child(7)').innerHTML = '<span class="text-caption color-driftwood">Aprovado agora</span>';
+  showToast('Disbursement de ' + amount + ' aprovado para ' + name + '!', 'success', 4000);
+}
+function rejectRequest(btn) {
+  const row = btn.closest('tr');
+  row.dataset.status = 'rejected';
+  row.querySelector('td:nth-child(6)').innerHTML = '<span class="badge" style="background:rgba(248,113,113,.1);color:#f87171;border:1px solid rgba(248,113,113,.3);">Recusado</span>';
+  row.querySelector('td:nth-child(7)').innerHTML = '<span class="text-caption color-driftwood">Recusado agora</span>';
+  showToast('Pedido recusado. Feedback enviado à equipa.', 'warning');
+}
+</script>
+</body></html>

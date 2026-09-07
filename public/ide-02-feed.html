@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="pt-AO">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>Banco de Ideias FKCU — Kubica Hub</title>
+  <meta name="description" content="Explora inovações universitárias angolanas com vagas de co-founder abertas no Framework FKCU."/>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="kubica.css"/>
+  <style>
+    body { font-family: 'Manrope', var(--font-primary); }
+
+    /* Idea card enhanced */
+    .idea-card {
+      background: var(--color-midnight-cocoa);
+      border: 1px solid var(--color-walnut);
+      border-radius: var(--radius-card);
+      padding: var(--sp-24);
+      display: flex; flex-direction: column;
+      transition: border-color .25s var(--motion-smooth), transform .25s var(--motion-spring);
+      position: relative; overflow: hidden;
+    }
+    .idea-card::before {
+      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px;
+      background: var(--color-amber-forge); transform: scaleX(0); transform-origin: left;
+      transition: transform .3s var(--motion-spring);
+    }
+    .idea-card:hover { border-color: var(--color-amber-forge); transform: translateY(-3px); }
+    .idea-card:hover::before { transform: scaleX(1); }
+
+    /* Vacancy row */
+    .vacancy-row { display: flex; flex-wrap: wrap; gap: 5px; margin-top: var(--sp-12); }
+    .vacancy-badge {
+      display: inline-flex; align-items: center; gap: 4px;
+      padding: 2px 8px; border-radius: 9999px;
+      border: 1px solid var(--color-walnut);
+      font-size: 10px; color: var(--color-driftwood); letter-spacing: .06em; text-transform: uppercase;
+      transition: border-color .15s, color .15s;
+    }
+    .vacancy-badge.open { border-color: var(--color-amber-forge); color: var(--color-amber-forge); }
+    .vacancy-badge::before { content: ''; width: 5px; height: 5px; border-radius: 9999px; background: currentColor; flex-shrink: 0; }
+
+    /* Grid / List views */
+    #feed-grid.list-view { grid-template-columns: 1fr; }
+    #feed-grid.list-view .idea-card { flex-direction: row; gap: var(--sp-16); }
+    #feed-grid.list-view .idea-card .card-footer { margin-left: auto; display: flex; flex-direction: column; align-items: flex-end; justify-content: space-between; min-width: 140px; }
+    @media (max-width: 640px) { #feed-grid.list-view .idea-card { flex-direction: column; } }
+
+    /* Stats bar */
+    .stats-bar {
+      display: flex; gap: var(--sp-24); flex-wrap: wrap;
+      padding: var(--sp-12) 0; border-bottom: 1px solid var(--color-walnut); margin-bottom: var(--sp-20);
+    }
+    .stat-item { display: flex; align-items: baseline; gap: 6px; }
+    .stat-value { font-size: 20px; font-weight: 500; color: var(--color-amber-forge); letter-spacing: -.3px; }
+    .stat-label { font-size: 11px; color: var(--color-driftwood); letter-spacing: .06em; text-transform: uppercase; }
+
+    /* Search input enhanced */
+    .search-wrap { position: relative; }
+    .search-wrap svg { position: absolute; left: 14px; top: 50%; transform: translateY(-50%); color: var(--color-driftwood); pointer-events: none; }
+    .search-wrap .input-pill { padding-left: 40px; }
+
+    /* Sticky header for mobile */
+    @media (max-width: 768px) {
+      .feed-controls { position: sticky; top: 64px; z-index: 10; background: var(--color-espresso); padding: var(--sp-12) 0; border-bottom: 1px solid var(--color-walnut); }
+    }
+  </style>
+</head>
+<body class="page-body">
+  <div id="k-nav-placeholder"></div>
+
+  <main id="main-content">
+
+    <!-- ── HEADER ──────────────────────────────────────────── -->
+    <section class="section-sm" style="border-bottom:1px solid var(--color-walnut);">
+      <div class="container">
+        <div class="flex-between" style="flex-wrap:wrap;gap:var(--sp-16);align-items:flex-start;">
+          <div class="reveal-up">
+            <div class="section-eyebrow">IDE-02 — Fase 1: Captação &amp; Matchmaking</div>
+            <h1 class="text-heading-lg weight-medium color-cream" style="letter-spacing:-.5px;margin-top:var(--sp-4);">
+              Banco de Ideias
+            </h1>
+            <p class="text-body-lg color-driftwood" style="margin-top:var(--sp-8);max-width:500px;">
+              Encontra projetos com vagas de co-founder no teu domínio e candidata-te ao Speed Dating.
+            </p>
+          </div>
+          <a href="ide-01-submit.html" class="btn-primary reveal-up delay-1" style="align-self:center;">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+            Submeter Ideia
+          </a>
+        </div>
+
+        <!-- Stats bar -->
+        <div class="stats-bar reveal-fade delay-2" style="margin-top:var(--sp-24);">
+          <div class="stat-item">
+            <span class="stat-value" data-ticker data-target="143" data-suffix="">143</span>
+            <span class="stat-label">Ideias activas</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-value" data-ticker data-target="89" data-suffix="">89</span>
+            <span class="stat-label">Vagas abertas</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-value" data-ticker data-target="37" data-suffix="">37</span>
+            <span class="stat-label">Matchings esta semana</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-value" data-ticker data-target="12" data-suffix="">12</span>
+            <span class="stat-label">Startups formalizadas</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── CONTROLS ─────────────────────────────────────────── -->
+    <section class="section-sm feed-controls" style="padding-block:var(--sp-20);border-bottom:1px solid var(--color-walnut);">
+      <div class="container">
+        <div style="display:flex;gap:var(--sp-12);flex-wrap:wrap;align-items:center;">
+
+          <!-- Search -->
+          <div class="search-wrap" style="flex:1;min-width:220px;">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+            <input type="text" id="search-input" class="input-pill" style="height:40px;" placeholder="Pesquisar ideia, sector, tecnologia..." oninput="debounceSearch()"/>
+          </div>
+
+          <!-- Faculty filter -->
+          <select id="filter-faculty" class="select-pill" style="height:40px;min-width:160px;" onchange="applyFilters()">
+            <option value="all">Todas as Vagas</option>
+            <option value="CTO">CTO — Engenharia</option>
+            <option value="CEO">CEO — Gestão</option>
+            <option value="CLO">CLO — Direito</option>
+            <option value="CMO">CMO — Marketing</option>
+            <option value="CSO">CSO — Estratégia</option>
+            <option value="CHRO">CHRO — RH</option>
+            <option value="CRO">CRO — Revenue</option>
+            <option value="CFO">CFO — Finanças</option>
+          </select>
+
+          <!-- Sector filter -->
+          <select id="filter-sector" class="select-pill" style="height:40px;min-width:140px;" onchange="applyFilters()">
+            <option value="all">Todos os Sectores</option>
+            <option value="agri">Agricultura</option>
+            <option value="fintech">Fintech</option>
+            <option value="saude">Saúde</option>
+            <option value="edu">Educação</option>
+            <option value="energia">Energia</option>
+            <option value="logistica">Logística</option>
+            <option value="construcao">Construção</option>
+          </select>
+
+          <!-- View toggle -->
+          <div class="view-toggle" role="group" aria-label="Modo de visualização">
+            <button class="view-toggle__btn active" id="btn-grid" onclick="setView('grid')" aria-label="Vista em grelha" aria-pressed="true">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
+            </button>
+            <button class="view-toggle__btn" id="btn-list" onclick="setView('list')" aria-label="Vista em lista" aria-pressed="false">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>
+            </button>
+          </div>
+
+        </div>
+
+        <!-- Active filter chips -->
+        <div id="filter-chips" class="filter-chips" aria-live="polite"></div>
+
+      </div>
+    </section>
+
+    <!-- ── FEED ──────────────────────────────────────────────── -->
+    <section class="section">
+      <div class="container">
+
+        <!-- Loading skeletons -->
+        <div id="feed-skeleton" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:20px;">
+          <div class="shimmer shimmer--card"></div>
+          <div class="shimmer shimmer--card"></div>
+          <div class="shimmer shimmer--card"></div>
+          <div class="shimmer shimmer--card"></div>
+          <div class="shimmer shimmer--card"></div>
+          <div class="shimmer shimmer--card"></div>
+        </div>
+
+        <!-- Feed grid -->
+        <div id="feed-grid" style="display:none;display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:20px;" role="list" aria-label="Banco de ideias"></div>
+
+        <!-- Empty state -->
+        <div id="feed-empty" class="k-empty-state" style="display:none;">
+          <div class="k-empty-state__icon">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+          </div>
+          <div class="k-empty-state__title">Nenhuma ideia encontrada</div>
+          <div class="k-empty-state__sub">Tenta outros filtros, ou sê o primeiro a submeter uma ideia neste domínio.</div>
+          <a href="ide-01-submit.html" class="btn-primary" style="margin-top:var(--sp-8);">Submeter Ideia</a>
+        </div>
+
+        <!-- Load more -->
+        <div id="load-more-wrap" style="text-align:center;margin-top:var(--sp-32);display:none;">
+          <button onclick="loadMore()" class="btn-ghost" id="load-more-btn">
+            Carregar mais ideias
+          </button>
+        </div>
+
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Mobile Bottom Nav -->
+  <nav class="k-bottom-nav" aria-label="Navegação principal">
+    <div class="k-bottom-nav__inner">
+      <a href="hub-01-matrix.html" class="k-bottom-nav__item">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
+        Hub
+      </a>
+      <a href="ide-02-feed.html" class="k-bottom-nav__item active">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true"><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/><circle cx="12" cy="12" r="5"/></svg>
+        Ideias
+      </a>
+      <a href="mat-01-builders.html" class="k-bottom-nav__item">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+        Matches
+      </a>
+      <a href="profile-inventor.html" class="k-bottom-nav__item">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+        Perfil
+      </a>
+    </div>
+  </nav>
+
+  <script src="assets/js/kubica.js"></script>
+  <script src="assets/js/app.js"></script>
+  <script src="assets/js/api-client.js"></script>
+  <script src="assets/js/kubica-animations.js"></script>
+  <script>
+    KubicaNav.init('ide-02-feed.html');
+
+    // ── Mock data ─────────────────────────────────────────────
+    const MOCK_IDEAS = [
+      { id:1, title:'AgriTech Kwanza Sul',    problem:'Monitorização de solos em tempo real para pequenos agricultores angolanos.', sector:'Agricultura',  vacancies:['CTO','CLO','CMO'],       author:'Ana Fernandes', university:'UAN', days:3,  score:88, tags:['IoT','IA','Sustentabilidade'] },
+      { id:2, title:'FinMobile 244',          problem:'Solução de pagamentos móveis para zonas sem acesso a serviços bancários.',   sector:'Fintech',     vacancies:['CEO','CLO','CRO'],       author:'Carlos Mboma',  university:'UCAN',days:5,  score:92, tags:['Mobile','Fintech','Inclusão'] },
+      { id:3, title:'SaúdeAO Platform',       problem:'Plataforma de telemedicina para zonas rurais com conectividade limitada.',   sector:'Saúde',       vacancies:['CTO','CMO','CHRO'],      author:'Maria Teixeira',university:'ISTA',days:8,  score:79, tags:['Telemedicina','Mobile','Saúde'] },
+      { id:4, title:'EduLink Angola',         problem:'Plataforma de e-learning adaptativa para o sistema de ensino angolano.',    sector:'Educação',    vacancies:['CEO','CFO','CMO'],       author:'José Lopes',    university:'UAN', days:2,  score:85, tags:['EdTech','IA','Educação'] },
+      { id:5, title:'SolarKuanza',            problem:'Soluções de energia solar descentralizada para comunidades rurais.',        sector:'Energia',     vacancies:['CTO','CLO','CSO'],       author:'Inês Carvalho', university:'UTANGA',days:12,score:73, tags:['Energia','Solar','Sustentabilidade'] },
+      { id:6, title:'LogiTrack BRT',          problem:'Sistema de gestão e rastreamento de frotas para transportes angolanos.',    sector:'Logística',   vacancies:['CTO','CEO','CRO','CMO'], author:'André Baptista',university:'UCAN',days:1,  score:95, tags:['Logística','GPS','SaaS'] },
+    ];
+
+    let _allIdeas    = [];
+    let _filtered    = [];
+    let _page        = 0;
+    const PAGE_SIZE  = 6;
+    let _searchTimer = null;
+
+    // ── Load ───────────────────────────────────────────────────
+    async function loadIdeas() {
+      try {
+        const res = await KubicaAPI.get('/ideas');
+        _allIdeas  = (res && res.data) ? res.data : MOCK_IDEAS;
+      } catch { _allIdeas = MOCK_IDEAS; }
+      _filtered = [..._allIdeas];
+      showFeed();
+    }
+
+    function showFeed() {
+      document.getElementById('feed-skeleton').style.display = 'none';
+      const grid = document.getElementById('feed-grid');
+      grid.style.display = 'grid';
+      _page = 0;
+      renderPage(true);
+    }
+
+    function renderPage(reset = false) {
+      const grid = document.getElementById('feed-grid');
+      const empty= document.getElementById('feed-empty');
+      const more = document.getElementById('load-more-wrap');
+
+      if (_filtered.length === 0) {
+        grid.style.display  = 'none';
+        empty.style.display = 'flex';
+        more.style.display  = 'none';
+        return;
+      }
+
+      empty.style.display = 'none';
+      grid.style.display  = 'grid';
+
+      const start = _page * PAGE_SIZE;
+      const slice = _filtered.slice(start, start + PAGE_SIZE);
+
+      if (reset) grid.innerHTML = '';
+
+      slice.forEach((idea, i) => {
+        const card = document.createElement('div');
+        card.className = 'idea-card reveal-up';
+        card.style.animationDelay = (i * 0.07) + 's';
+        card.setAttribute('role', 'listitem');
+        card.innerHTML = `
+          <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:var(--sp-12);">
+            <div class="badge badge-walnut" style="text-transform:uppercase;font-size:10px;">${idea.sector}</div>
+            <div style="font-size:11px;color:var(--color-driftwood);" title="${idea.days} dias atrás">${idea.days}d</div>
+          </div>
+          <h3 style="font-size:17px;font-weight:500;color:var(--color-warm-cream);letter-spacing:-.2px;margin-bottom:var(--sp-8);">${idea.title}</h3>
+          <p style="font-size:13px;color:var(--color-driftwood);line-height:1.6;flex:1;">${idea.problem}</p>
+
+          <div class="vacancy-row">
+            ${idea.vacancies.map(v => `<span class="vacancy-badge open">${v}</span>`).join('')}
+          </div>
+
+          <div style="display:flex;flex-wrap:wrap;gap:5px;margin-top:var(--sp-8);">
+            ${idea.tags.map(t => `<span style="font-size:10px;color:var(--color-driftwood);background:rgba(67,57,45,.4);padding:2px 8px;border-radius:9999px;">${t}</span>`).join('')}
+          </div>
+
+          <div class="card-footer" style="margin-top:var(--sp-16);padding-top:var(--sp-12);border-top:1px solid var(--color-walnut);display:flex;align-items:center;justify-content:space-between;">
+            <div>
+              <div style="font-size:11px;color:var(--color-driftwood);">${idea.author} · ${idea.university}</div>
+              <div style="font-size:11px;color:var(--color-amber-forge);margin-top:2px;">Score ${idea.score}/100</div>
+            </div>
+            <a href="ide-03-detail.html?id=${idea.id}" class="btn-primary btn-sm">
+              Ver detalhes
+            </a>
+          </div>`;
+        grid.appendChild(card);
+      });
+
+      _page++;
+      more.style.display = (_page * PAGE_SIZE < _filtered.length) ? 'block' : 'none';
+    }
+
+    function loadMore() {
+      KubicaAnimate.setButtonLoading('load-more-btn', true, 'A carregar');
+      setTimeout(() => {
+        KubicaAnimate.setButtonLoading('load-more-btn', false);
+        renderPage();
+      }, 600);
+    }
+
+    // ── Filters ────────────────────────────────────────────────
+    function applyFilters() {
+      const q       = document.getElementById('search-input').value.toLowerCase();
+      const faculty = document.getElementById('filter-faculty').value;
+      const sector  = document.getElementById('filter-sector').value;
+
+      _filtered = _allIdeas.filter(idea => {
+        const matchQ       = !q || idea.title.toLowerCase().includes(q) || idea.problem.toLowerCase().includes(q) || idea.tags.some(t => t.toLowerCase().includes(q));
+        const matchFaculty = faculty === 'all' || idea.vacancies.includes(faculty);
+        const matchSector  = sector  === 'all' || idea.sector.toLowerCase().includes(sector);
+        return matchQ && matchFaculty && matchSector;
+      });
+
+      renderChips({ q, faculty, sector });
+      renderPage(true);
+    }
+
+    function renderChips({ q, faculty, sector }) {
+      const wrap = document.getElementById('filter-chips');
+      wrap.innerHTML = '';
+      const add = (label, clearFn) => {
+        const chip = document.createElement('button');
+        chip.className = 'filter-chip active';
+        chip.innerHTML = `${label} <span class="filter-chip__close">×</span>`;
+        chip.onclick = clearFn;
+        wrap.appendChild(chip);
+      };
+      if (q)            add(`"${q}"`, () => { document.getElementById('search-input').value = ''; applyFilters(); });
+      if (faculty !== 'all') add(faculty, () => { document.getElementById('filter-faculty').value = 'all'; applyFilters(); });
+      if (sector  !== 'all') add(sector,  () => { document.getElementById('filter-sector').value  = 'all'; applyFilters(); });
+    }
+
+    function debounceSearch() {
+      clearTimeout(_searchTimer);
+      _searchTimer = setTimeout(applyFilters, 280);
+    }
+
+    function setView(type) {
+      const grid   = document.getElementById('feed-grid');
+      const btnG   = document.getElementById('btn-grid');
+      const btnL   = document.getElementById('btn-list');
+      if (type === 'list') {
+        grid.classList.add('list-view');
+        btnL.classList.add('active');    btnG.classList.remove('active');
+        btnL.setAttribute('aria-pressed','true'); btnG.setAttribute('aria-pressed','false');
+      } else {
+        grid.classList.remove('list-view');
+        btnG.classList.add('active');    btnL.classList.remove('active');
+        btnG.setAttribute('aria-pressed','true'); btnL.setAttribute('aria-pressed','false');
+      }
+    }
+
+    // ── Init ──────────────────────────────────────────────────
+    loadIdeas();
+  </script>
+</body>
+</html>

@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="pt-AO">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Matriz das 4 Faculdades — Kubica Hub</title>
+  <meta name="description" content="Explora os 4 papéis executivos do FKCU: CTO (Engenharia), CEO/CFO (Gestão), CLO (Direito) e CMO (Marketing). Descobre o teu papel na startup."/>
+  <link rel="stylesheet" href="kubica.css"/>
+  <style>
+    .faculty-detail {
+      display: none;
+      animation: fadeInUp 0.4s ease;
+    }
+    .faculty-detail.active { display: block; }
+    .role-tab {
+      display: flex; align-items: center; gap: var(--sp-12);
+      padding: var(--sp-16) var(--sp-24);
+      border-bottom: 2px solid transparent;
+      cursor: pointer;
+      transition: all var(--transition-fast);
+      color: var(--color-driftwood);
+      font-weight: var(--font-weight-medium);
+    }
+    .role-tab:hover { color: var(--color-warm-cream); }
+    .role-tab.active { color: var(--color-amber-forge); border-bottom-color: var(--color-amber-forge); }
+    .deliverable-row {
+      display: flex; align-items: flex-start; gap: var(--sp-16);
+      padding: var(--sp-16);
+      border-bottom: 1px solid var(--color-burnt-edge);
+    }
+    .deliverable-row:last-child { border-bottom: none; }
+    .deliverable-icon {
+      width: 32px; height: 32px;
+      border-radius: 50%; border: 1px solid var(--color-walnut);
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0; font-size: 14px;
+    }
+  </style>
+</head>
+<body class="page-body">
+  <div id="k-nav-placeholder"></div>
+  <main>
+
+    <section class="section-sm" style="border-bottom:1px solid var(--color-walnut);">
+      <div class="container">
+        <div class="section-eyebrow">HUB-01</div>
+        <h1 class="text-display weight-medium color-cream" style="letter-spacing:var(--tracking-display); line-height:var(--leading-display); max-width:600px;">
+          Matriz Interactiva<br>das 4 Faculdades
+        </h1>
+        <p class="text-body-lg color-driftwood mt-16" style="max-width:560px;">A tua formação académica é o teu papel executivo. Descobre os entregáveis obrigatórios de cada função no FKCU.</p>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <!-- Tab Selector -->
+        <div style="display:flex; border-bottom:1px solid var(--color-walnut); margin-bottom:var(--sp-32); overflow-x:auto;" role="tablist" aria-label="Faculdades">
+          <button class="role-tab active" role="tab" aria-selected="true" aria-controls="panel-eng" id="tab-eng" onclick="switchTab('eng',this)">
+            <span style="font-size:18px;">💻</span> Engenharia & TI
+            <span class="badge badge-amber">CTO</span>
+          </button>
+          <button class="role-tab" role="tab" aria-selected="false" aria-controls="panel-gest" id="tab-gest" onclick="switchTab('gest',this)">
+            <span style="font-size:18px;">💰</span> Gestão & Economia
+            <span class="badge badge-amber">CEO/CFO</span>
+          </button>
+          <button class="role-tab" role="tab" aria-selected="false" aria-controls="panel-dir" id="tab-dir" onclick="switchTab('dir',this)">
+            <span style="font-size:18px;">⚖️</span> Direito
+            <span class="badge badge-amber">CLO</span>
+          </button>
+          <button class="role-tab" role="tab" aria-selected="false" aria-controls="panel-mkt" id="tab-mkt" onclick="switchTab('mkt',this)">
+            <span style="font-size:18px;">📢</span> Marketing & Línguas
+            <span class="badge badge-amber">CMO</span>
+          </button>
+        </div>
+
+        <!-- Engenharia Panel -->
+        <div id="panel-eng" class="faculty-detail active" role="tabpanel" aria-labelledby="tab-eng">
+          <div class="grid-split-60">
+            <div>
+              <div class="flex flex-gap-12 mb-24" style="align-items:center;">
+                <div class="synergy-card__icon-wrap" style="width:56px;height:56px;">
+                  <span style="font-size:24px;">💻</span>
+                </div>
+                <div>
+                  <h2 class="text-heading-sm color-cream weight-medium" id="engenharia">Chief Technology Officer</h2>
+                  <span class="badge badge-amber">CTO · Engenharia & Tecnologias</span>
+                </div>
+              </div>
+              <p class="text-body color-driftwood mb-24" style="line-height:1.7;">O CTO é o arquitecto e construtor da solução técnica. Traduz a ideia do inventor numa arquitectura sustentável, desenvolve o protótipo funcional e garante a viabilidade tecnológica do MVP.</p>
+
+              <h3 class="text-subheading color-cream weight-medium mb-16">Entregáveis Obrigatórios</h3>
+              <div class="card card-surface">
+                <div class="deliverable-row"><div class="deliverable-icon">🏗</div><div><p class="text-body weight-medium color-cream">Diagrama de Arquitectura</p><p class="text-caption color-driftwood">Stack tecnológico, fluxo de dados e infraestrutura de deployment</p></div></div>
+                <div class="deliverable-row"><div class="deliverable-icon">⚙️</div><div><p class="text-body weight-medium color-cream">MVP Funcional</p><p class="text-caption color-driftwood">Protótipo com as 3 funcionalidades core testáveis em utilizadores reais</p></div></div>
+                <div class="deliverable-row"><div class="deliverable-icon">📁</div><div><p class="text-body weight-medium color-cream">Repositório GitHub Documentado</p><p class="text-caption color-driftwood">README, changelog e ambiente de desenvolvimento reproducível</p></div></div>
+                <div class="deliverable-row"><div class="deliverable-icon">🔒</div><div><p class="text-body weight-medium color-cream">Análise de IP Tecnológica</p><p class="text-caption color-driftwood">Relatório de novidade e avaliação de patenteabilidade para o CLO</p></div></div>
+              </div>
+            </div>
+            <div>
+              <div class="card card-surface mb-16">
+                <p class="text-caption color-driftwood mb-16" style="letter-spacing:0.1em;text-transform:uppercase;">Cursos que se candidatam</p>
+                <div class="flex" style="flex-wrap:wrap;gap:8px;">
+                  <span class="skill-tag selected">Eng. Informática</span><span class="skill-tag selected">Eng. de Sistemas</span>
+                  <span class="skill-tag">Eng. Electrónica</span><span class="skill-tag">Ciências da Computação</span>
+                  <span class="skill-tag">Eng. Telecomunicações</span>
+                </div>
+              </div>
+              <div class="card card-surface mb-16">
+                <p class="text-caption color-driftwood mb-12" style="letter-spacing:0.1em;text-transform:uppercase;">Competências valorizadas</p>
+                <div class="flex" style="flex-wrap:wrap;gap:6px;">
+                  <span class="skill-tag selected">React / Next.js</span><span class="skill-tag selected">Python</span>
+                  <span class="skill-tag">Node.js</span><span class="skill-tag">Flutter</span>
+                  <span class="skill-tag">SQL / NoSQL</span><span class="skill-tag">API Design</span>
+                  <span class="skill-tag">Cloud (AWS/GCP)</span>
+                </div>
+              </div>
+              <a href="onb-01-gateway.html" class="btn-primary" style="width:100%;justify-content:center;">Candidatar-me como CTO</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Gestão Panel -->
+        <div id="panel-gest" class="faculty-detail" role="tabpanel" aria-labelledby="tab-gest">
+          <div class="grid-split-60">
+            <div>
+              <div class="flex flex-gap-12 mb-24" style="align-items:center;">
+                <div class="synergy-card__icon-wrap" style="width:56px;height:56px;"><span style="font-size:24px;">💰</span></div>
+                <div>
+                  <h2 class="text-heading-sm color-cream weight-medium" id="gestao">Chief Executive & Financial Officer</h2>
+                  <span class="badge badge-amber">CEO/CFO · Gestão & Economia</span>
+                </div>
+              </div>
+              <p class="text-body color-driftwood mb-24" style="line-height:1.7;">O CEO/CFO define a estratégia de negócio e a sustentabilidade financeira da startup. Lidera a equipa, gere o Sandbox e constrói o modelo de receita adaptado ao mercado angolano.</p>
+              <h3 class="text-subheading color-cream weight-medium mb-16">Entregáveis Obrigatórios</h3>
+              <div class="card card-surface">
+                <div class="deliverable-row"><div class="deliverable-icon">📊</div><div><p class="text-body weight-medium color-cream">Business Model Canvas Angola</p><p class="text-caption color-driftwood">Segmentos, proposta de valor, canais e fontes de receita adaptados ao contexto local</p></div></div>
+                <div class="deliverable-row"><div class="deliverable-icon">📈</div><div><p class="text-body weight-medium color-cream">Viabilidade Financeira & Unit Economics</p><p class="text-caption color-driftwood">CAC, LTV, break-even e projeção de 3 anos em USD e Kwanza</p></div></div>
+                <div class="deliverable-row"><div class="deliverable-icon">💵</div><div><p class="text-body weight-medium color-cream">Orçamento Sandbox</p><p class="text-caption color-driftwood">Discriminação de despesas elegíveis para as tranches de financiamento</p></div></div>
+                <div class="deliverable-row"><div class="deliverable-icon">🎯</div><div><p class="text-body weight-medium color-cream">Estratégia Go-to-Market Angola</p><p class="text-caption color-driftwood">Penetração de mercado e cronograma de aquisição dos primeiros 100 clientes</p></div></div>
+              </div>
+            </div>
+            <div>
+              <div class="card card-surface mb-16">
+                <p class="text-caption color-driftwood mb-16" style="letter-spacing:0.1em;text-transform:uppercase;">Cursos que se candidatam</p>
+                <div class="flex" style="flex-wrap:wrap;gap:8px;">
+                  <span class="skill-tag selected">Gestão de Empresas</span><span class="skill-tag selected">Economia</span>
+                  <span class="skill-tag">Contabilidade</span><span class="skill-tag">Finanças</span><span class="skill-tag">Empreendedorismo</span>
+                </div>
+              </div>
+              <div class="card card-surface mb-16">
+                <p class="text-caption color-driftwood mb-12" style="letter-spacing:0.1em;text-transform:uppercase;">Competências valorizadas</p>
+                <div class="flex" style="flex-wrap:wrap;gap:6px;">
+                  <span class="skill-tag selected">Excel / Sheets</span><span class="skill-tag selected">Business Plan</span>
+                  <span class="skill-tag">OKRs</span><span class="skill-tag">Fundraising</span><span class="skill-tag">Lean Startup</span>
+                </div>
+              </div>
+              <a href="onb-01-gateway.html" class="btn-primary" style="width:100%;justify-content:center;">Candidatar-me como CEO/CFO</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Direito Panel -->
+        <div id="panel-dir" class="faculty-detail" role="tabpanel" aria-labelledby="tab-dir">
+          <div class="grid-split-60">
+            <div>
+              <div class="flex flex-gap-12 mb-24" style="align-items:center;">
+                <div class="synergy-card__icon-wrap" style="width:56px;height:56px;"><span style="font-size:24px;">⚖️</span></div>
+                <div>
+                  <h2 class="text-heading-sm color-cream weight-medium" id="direito">Chief Legal Officer</h2>
+                  <span class="badge badge-amber">CLO · Direito</span>
+                </div>
+              </div>
+              <p class="text-body color-driftwood mb-24" style="line-height:1.7;">O CLO protege juridicamente a startup desde o primeiro dia. Redige os acordos societários, conduz o processo IAPI e garante conformidade com a legislação angolana vigente.</p>
+              <h3 class="text-subheading color-cream weight-medium mb-16">Entregáveis Obrigatórios</h3>
+              <div class="card card-surface">
+                <div class="deliverable-row"><div class="deliverable-icon">📋</div><div><p class="text-body weight-medium color-cream">Acordo de Co-Founders & Vesting</p><p class="text-caption color-driftwood">Distribuição de equity, cliff de 1 ano, vesting de 3 anos e cláusulas de saída</p></div></div>
+                <div class="deliverable-row"><div class="deliverable-icon">🏷</div><div><p class="text-body weight-medium color-cream">Submissão IAPI (Lei n.º 3/92)</p><p class="text-caption color-driftwood">Pedido de registo de marca, busca de anterioridade e formulário oficial</p></div></div>
+                <div class="deliverable-row"><div class="deliverable-icon">🤝</div><div><p class="text-body weight-medium color-cream">Memorando de Entendimento (MoU)</p><p class="text-caption color-driftwood">Documento de formalização da equipa e responsabilidades iniciais</p></div></div>
+                <div class="deliverable-row"><div class="deliverable-icon">✅</div><div><p class="text-body weight-medium color-cream">Checklist de Compliance INAPEM</p><p class="text-caption color-driftwood">Preparação para Pré-Selo e Selo Startup conforme Lei das Startups 2026</p></div></div>
+              </div>
+            </div>
+            <div>
+              <div class="card card-surface mb-16">
+                <p class="text-caption color-driftwood mb-16" style="letter-spacing:0.1em;text-transform:uppercase;">Cursos que se candidatam</p>
+                <div class="flex" style="flex-wrap:wrap;gap:8px;">
+                  <span class="skill-tag selected">Direito Privado</span><span class="skill-tag selected">Direito Comercial</span>
+                  <span class="skill-tag">Direito Fiscal</span><span class="skill-tag">Direito Internacional</span>
+                </div>
+              </div>
+              <div class="card card-surface mb-16">
+                <p class="text-caption color-driftwood mb-12" style="letter-spacing:0.1em;text-transform:uppercase;">Competências valorizadas</p>
+                <div class="flex" style="flex-wrap:wrap;gap:6px;">
+                  <span class="skill-tag selected">Direito Societário</span><span class="skill-tag selected">Propriedade Industrial</span>
+                  <span class="skill-tag">Contratos</span><span class="skill-tag">IAPI</span><span class="skill-tag">Compliance</span>
+                </div>
+              </div>
+              <a href="onb-01-gateway.html" class="btn-primary" style="width:100%;justify-content:center;">Candidatar-me como CLO</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Marketing Panel -->
+        <div id="panel-mkt" class="faculty-detail" role="tabpanel" aria-labelledby="tab-mkt">
+          <div class="grid-split-60">
+            <div>
+              <div class="flex flex-gap-12 mb-24" style="align-items:center;">
+                <div class="synergy-card__icon-wrap" style="width:56px;height:56px;"><span style="font-size:24px;">📢</span></div>
+                <div>
+                  <h2 class="text-heading-sm color-cream weight-medium" id="marketing">Chief Marketing Officer</h2>
+                  <span class="badge badge-amber">CMO · Marketing & Línguas</span>
+                </div>
+              </div>
+              <p class="text-body color-driftwood mb-24" style="line-height:1.7;">O CMO constrói a identidade da startup e comunica o seu valor ao mercado angolano e a investidores internacionais. Lidera o Demo Day e a estratégia de aquisição de clientes.</p>
+              <h3 class="text-subheading color-cream weight-medium mb-16">Entregáveis Obrigatórios</h3>
+              <div class="card card-surface">
+                <div class="deliverable-row"><div class="deliverable-icon">🎨</div><div><p class="text-body weight-medium color-cream">Manual de Identidade de Marca</p><p class="text-caption color-driftwood">Logo, tipografia, paleta de cores e tom de voz adaptados ao mercado angolano</p></div></div>
+                <div class="deliverable-row"><div class="deliverable-icon">🗣</div><div><p class="text-body weight-medium color-cream">Pitch Deck (12 slides)</p><p class="text-caption color-driftwood">Narrativa de investimento em Português e Inglês para o Demo Day</p></div></div>
+                <div class="deliverable-row"><div class="deliverable-icon">📱</div><div><p class="text-body weight-medium color-cream">Estratégia de Aquisição de Clientes</p><p class="text-caption color-driftwood">Canal de tração, landing page de teste e lista de espera de 50+ utilizadores</p></div></div>
+                <div class="deliverable-row"><div class="deliverable-icon">🌍</div><div><p class="text-body weight-medium color-cream">Pitch Internacional</p><p class="text-caption color-driftwood">Versão do elevator pitch em Inglês ou Francês para fóruns regionais</p></div></div>
+              </div>
+            </div>
+            <div>
+              <div class="card card-surface mb-16">
+                <p class="text-caption color-driftwood mb-16" style="letter-spacing:0.1em;text-transform:uppercase;">Cursos que se candidatam</p>
+                <div class="flex" style="flex-wrap:wrap;gap:8px;">
+                  <span class="skill-tag selected">Marketing</span><span class="skill-tag selected">Publicidade</span>
+                  <span class="skill-tag">Comunicação Social</span><span class="skill-tag">Relações Públicas</span><span class="skill-tag">Línguas</span>
+                </div>
+              </div>
+              <div class="card card-surface mb-16">
+                <p class="text-caption color-driftwood mb-12" style="letter-spacing:0.1em;text-transform:uppercase;">Competências valorizadas</p>
+                <div class="flex" style="flex-wrap:wrap;gap:6px;">
+                  <span class="skill-tag selected">Figma</span><span class="skill-tag selected">Copywriting</span>
+                  <span class="skill-tag">SEO</span><span class="skill-tag">Meta Ads</span><span class="skill-tag">Inglês Fluente</span><span class="skill-tag">Video</span>
+                </div>
+              </div>
+              <a href="onb-01-gateway.html" class="btn-primary" style="width:100%;justify-content:center;">Candidatar-me como CMO</a>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+  </main>
+  <div id="k-footer-placeholder"></div>
+  <script src="assets/js/kubica.js"></script>
+  <script>
+    KubicaNav.init('hub-01-matrix.html');
+    initSkillTags('.faculty-detail.active');
+
+    function switchTab(id, el) {
+      document.querySelectorAll('.faculty-detail').forEach(p => p.classList.remove('active'));
+      document.querySelectorAll('.role-tab').forEach(t => { t.classList.remove('active'); t.setAttribute('aria-selected','false'); });
+      document.getElementById('panel-' + id).classList.add('active');
+      el.classList.add('active'); el.setAttribute('aria-selected','true');
+      initSkillTags('#panel-' + id);
+    }
+  </script>
+</body>
+</html>

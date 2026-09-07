@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="pt-AO">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>Submissão de Ideias (IDE-01) — Kubica Hub</title>
+  <meta name="description" content="Submete formalmente a tua ideia ou inovação ao Banco de Ideias FKCU com mapeamento Stanford d.school e conformidade USIT."/>
+  <link rel="stylesheet" href="kubica.css"/>
+  <style>
+    .submit-layout {
+      display: grid;
+      grid-template-columns: 1fr 1.3fr;
+      gap: 32px;
+      align-items: flex-start;
+    }
+    @media (max-width: 900px) {
+      .submit-layout {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body class="page-body">
+  <div id="k-nav-placeholder"></div>
+
+  <main id="main-content">
+    <section class="section-sm" style="border-bottom: 1px solid var(--color-walnut, #43392d);">
+      <div class="container">
+        <div class="section-eyebrow">IDE-01 — Captação de Inovação · FKCU</div>
+        <h1 class="text-heading-lg weight-medium color-cream" style="letter-spacing: var(--tracking-heading-lg, -0.8px);">
+          Submissão Estruturada de Ideias
+        </h1>
+        <p class="text-body-lg color-driftwood mt-16" style="max-width: 650px;">
+          Metodologia Stanford d.school aliada à governança FKCU. Cada campo preenchido qualifica o alinhamento com o Plano de Desenvolvimento Nacional (PDN 2023–2027).
+        </p>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <div class="submit-layout">
+          
+          <!-- Coluna Esquerda: Guia Metodológico & Proteção USIT -->
+          <div>
+            <div class="card card-surface mb-20" style="padding: 24px; border-radius: var(--radius-card, 6px); border: 1px solid var(--color-walnut, #43392d);">
+              <div class="flex flex-gap-12 mb-16" style="align-items: center;">
+                <div style="width: 36px; height: 36px; border-radius: 9999px; background: rgba(255,180,66,0.1); border: 1px solid var(--color-amber-forge, #ffb442); display: flex; align-items: center; justify-content: center; color: var(--color-amber-forge, #ffb442);">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 2 7 12 12 22 7 12 2"></polygon><polyline points="2 17 12 22 22 17"></polyline><polyline points="2 12 12 17 22 12"></polyline></svg>
+                </div>
+                <h2 class="text-subheading weight-medium color-cream" style="font-size: 16px;">Stanford d.school — Ambiguity Map</h2>
+              </div>
+              <p class="text-body color-driftwood mb-16" style="line-height: 1.6; font-size: 13px;">
+                O Ambiguity Map força a clarificação objetiva da dor de mercado angolano antes da solução:
+              </p>
+              <div class="k-timeline">
+                <div class="k-timeline__item active">
+                  <div class="k-timeline__dot"></div>
+                  <p class="k-timeline__title" style="font-size: 13px;">1. Quem sofre com o problema?</p>
+                  <p class="k-timeline__desc" style="font-size: 12px;">Identifica o público-alvo (comércio informal, PMEs, cooperativas).</p>
+                </div>
+                <div class="k-timeline__item active">
+                  <div class="k-timeline__dot"></div>
+                  <p class="k-timeline__title" style="font-size: 13px;">2. Intensidade da dor económica</p>
+                  <p class="k-timeline__desc" style="font-size: 12px;">Quantifica a perda de margem, tempo ou desperdício em Kwanzas.</p>
+                </div>
+                <div class="k-timeline__item active">
+                  <div class="k-timeline__dot"></div>
+                  <p class="k-timeline__title" style="font-size: 13px;">3. Inovação vs. Alternativas</p>
+                  <p class="k-timeline__desc" style="font-size: 12px;">Por que as opções atuais no mercado nacional falham.</p>
+                </div>
+              </div>
+            </div>
+
+            <!-- Box USIT IP Protection -->
+            <div class="card card-surface" style="padding: 20px; border-radius: var(--radius-card, 6px); border: 1px solid var(--color-walnut, #43392d);">
+              <span class="badge badge-amber mb-8" style="font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase;">
+                GOVERNANÇA USIT GUIDE
+              </span>
+              <p class="text-body color-driftwood" style="line-height: 1.5; font-size: 12px; margin: 0;">
+                <strong style="color: var(--color-warm-cream, #fff1e0);">100% de IP Estudantil:</strong> Se o projecto for fruto do teu trabalho independente, a titularidade é 100% dos estudantes co-fundadores. Se utilizar patentes prévias de laboratórios universitários, aplica-se o modelo 90% Equipa / 10% Universidade.
+              </p>
+            </div>
+          </div>
+
+          <!-- Coluna Direita: Formulário de Submissão com Endowed Progress -->
+          <div class="card card-surface" style="padding: 32px 28px; border-radius: var(--radius-card, 6px); border: 1px solid var(--color-walnut, #43392d);">
+            
+            <!-- Barra de Progresso com Endowed Progress Effect (Começa a 20%) -->
+            <div class="k-progress mb-8">
+              <div class="k-progress__fill" id="ide-progress" style="width: 20%;"></div>
+            </div>
+            <p class="text-caption color-driftwood mb-24" id="ide-progress-label" style="font-size: 11px;">
+              Progresso: 20% inicializado · Endowed Progress Effect activo
+            </p>
+
+            <form id="idea-submit-form" onsubmit="handleIdeaSubmit(event)">
+              
+              <div class="input-group">
+                <label class="input-label" for="ide-title">Título da Ideia / Startup <span style="color:var(--color-amber-forge,#ffb442);">*</span></label>
+                <input type="text" id="ide-title" class="input-pill" placeholder="Ex: AgroLink Angola, PaguiFácil..." required oninput="calcLaborProgress()"/>
+              </div>
+
+              <div class="grid-2 mt-16" style="gap: 12px;">
+                <div class="input-group">
+                  <label class="input-label" for="ide-sector">Sector de Actuação <span style="color:var(--color-amber-forge,#ffb442);">*</span></label>
+                  <select id="ide-sector" class="select-pill" required onchange="calcLaborProgress()">
+                    <option value="Agritech">Agritech & Agricultura</option>
+                    <option value="Fintech">Fintech & Pagamentos</option>
+                    <option value="Edtech">Edtech & Educação</option>
+                    <option value="Logística">Logística & Transportes</option>
+                    <option value="Saúde">Saúde & Telemedicina</option>
+                    <option value="Energia">Energia & CleanTech</option>
+                    <option value="Comércio">Comércio & Retalho</option>
+                    <option value="Govtech">Govtech & Cidadania</option>
+                  </select>
+                </div>
+
+                <div class="input-group">
+                  <label class="input-label" for="ide-pdn">Eixo Estratégico PDN 2023–2027 <span style="color:var(--color-amber-forge,#ffb442);">*</span></label>
+                  <select id="ide-pdn" class="select-pill" required onchange="calcLaborProgress()">
+                    <option value="Diversificação Económica">Diversificação Económica</option>
+                    <option value="Segurança Alimentar">Segurança Alimentar & Agro</option>
+                    <option value="Transição Digital">Transição Digital & Inclusão</option>
+                    <option value="Capital Humano">Desenvolvimento do Capital Humano</option>
+                    <option value="Infraestruturas">Infraestruturas Sustentáveis</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="input-group mt-16">
+                <label class="input-label" for="ide-problem">Enunciado do Problema & Dor de Mercado (min. 50 palavras) <span style="color:var(--color-amber-forge,#ffb442);">*</span></label>
+                <textarea class="textarea-card" id="ide-problem" style="min-height: 110px;" placeholder="Descreve o problema concreto em Angola: quem perde valor, qual a dimensão do prejuízo e porque as alternativas existentes são insuficientes..." required oninput="calcLaborProgress()"></textarea>
+              </div>
+
+              <div class="input-group mt-16">
+                <label class="input-label" for="ide-solution">Hipótese de Solução & Modelo Operacional <span style="color:var(--color-amber-forge,#ffb442);">*</span></label>
+                <textarea class="textarea-card" id="ide-solution" style="min-height: 90px;" placeholder="Como a tua solução resolve a dor identificada? Qual a proposta de valor única?" required oninput="calcLaborProgress()"></textarea>
+              </div>
+
+              <!-- Matriz de Carências C-Level Requeridas -->
+              <div class="input-group mt-20">
+                <label class="input-label">Vagas de Co-Founders em Aberto (Framework FKCU) <span style="color:var(--color-amber-forge,#ffb442);">*</span></label>
+                <div class="flex" style="flex-wrap:wrap; gap:8px; margin-top:8px;" id="roles-selector">
+                  <button type="button" class="skill-tag selected" data-role="CLO" onclick="toggleRoleTag(this)">CLO — Direito & IAPI</button>
+                  <button type="button" class="skill-tag selected" data-role="CMO" onclick="toggleRoleTag(this)">CMO — Marketing & Growth</button>
+                  <button type="button" class="skill-tag selected" data-role="CFO" onclick="toggleRoleTag(this)">CFO — Gestão & Finanças</button>
+                  <button type="button" class="skill-tag" data-role="CTO" onclick="toggleRoleTag(this)">CTO — Engenharia & Tech</button>
+                  <button type="button" class="skill-tag" data-role="CPO" onclick="toggleRoleTag(this)">CPO — UX & Design</button>
+                </div>
+              </div>
+
+              <!-- Declaração de IP e Laboratório -->
+              <div class="input-group mt-16">
+                <label class="input-label" for="ide-ip-type">Origem da Propriedade Intelectual (USIT Guide)</label>
+                <select id="ide-ip-type" class="select-pill" onchange="calcLaborProgress()">
+                  <option value="independent">100% Independente (Desenvolvido por estudantes sem patentes prévias)</option>
+                  <option value="university_lab">Patente Universitária / Laboratório (90% Equipa / 10% Universidade)</option>
+                </select>
+              </div>
+
+              <button type="submit" class="btn-primary mt-24" style="width: 100%; justify-content: center;" id="ide-submit-btn">
+                Submeter Ideia para Triagem FKCU →
+              </button>
+            </form>
+          </div>
+
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <div id="k-footer-placeholder"></div>
+
+  <script src="assets/js/kubica.js"></script>
+  <script src="assets/js/app.js"></script>
+  <script>
+    KubicaNav.init('ide-02-feed.html');
+
+    function toggleRoleTag(btn) {
+      btn.classList.toggle('selected');
+      calcLaborProgress();
+    }
+
+    function calcLaborProgress() {
+      const title = document.getElementById('ide-title').value.trim();
+      const prob = document.getElementById('ide-problem').value.trim();
+      const sol = document.getElementById('ide-solution').value.trim();
+      const selectedRoles = document.querySelectorAll('#roles-selector .skill-tag.selected').length;
+
+      let score = 20; // Endowed progress base
+      if (title.length > 3) score += 20;
+      if (prob.length > 30) score += 25;
+      if (sol.length > 20) score += 20;
+      if (selectedRoles > 0) score += 15;
+
+      score = Math.min(100, score);
+      document.getElementById('ide-progress').style.width = score + '%';
+      document.getElementById('ide-progress-label').textContent = `Progresso: ${score}% concluído · Labor Illusion & Qualificação`;
+    }
+
+    async function handleIdeaSubmit(e) {
+      e.preventDefault();
+      const btn = document.getElementById('ide-submit-btn');
+      btn.disabled = true;
+      btn.textContent = 'A registar e a calcular sinergia FKCU...';
+
+      const selectedRoles = Array.from(document.querySelectorAll('#roles-selector .skill-tag.selected'))
+        .map(b => b.getAttribute('data-role'));
+
+      if (selectedRoles.length === 0) {
+        showToast('Selecciona pelo menos uma vaga de co-founder em aberto.', 'warning');
+        btn.disabled = false;
+        btn.textContent = 'Submeter Ideia para Triagem FKCU →';
+        return;
+      }
+
+      const payload = {
+        title: document.getElementById('ide-title').value.trim(),
+        sector: document.getElementById('ide-sector').value,
+        pdn_axis: document.getElementById('ide-pdn').value,
+        problem: document.getElementById('ide-problem').value.trim(),
+        solution: document.getElementById('ide-solution').value.trim(),
+        roles_needed: selectedRoles,
+        ip_status: document.getElementById('ide-ip-type').value,
+        submitted_at: new Date().toISOString()
+      };
+
+      // Tenta persistir via API PHP se conectada
+      try {
+        if (typeof KubicaApp !== 'undefined' && KubicaApp.api) {
+          await KubicaApp.api('/ideas', 'POST', payload).catch(() => null);
+        }
+      } catch (err) {
+        console.log('Fallback local ativo');
+      }
+
+      sessionStorage.setItem('kubica_submitted_idea', JSON.stringify(payload));
+      showToast('Ideia submetida com sucesso! A redirecionar para a ficha técnica...', 'success');
+
+      setTimeout(() => {
+        window.location.href = 'ide-03-detail.html';
+      }, 1200);
+    }
+  </script>
+</body>
+</html>

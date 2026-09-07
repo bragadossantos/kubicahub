@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="pt-AO">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Perfil do Inventor (ONB-03) — Kubica Hub</title>
+  <meta name="description" content="Submete a tua ideia ao Banco de Ideias FKCU. Wizard de 3 passos com Endowed Progress Effect e Matriz de Carências Expandida."/>
+  <link rel="stylesheet" href="kubica.css"/>
+  <style>
+    .role-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 12px;
+      margin-top: 16px;
+    }
+    .role-choice-card {
+      background: var(--color-midnight-cocoa, #0b0600);
+      border: 1px solid var(--color-walnut, #43392d);
+      border-radius: var(--radius-card, 6px);
+      padding: 16px 18px;
+      text-align: left;
+      cursor: pointer;
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+      transition: border-color 0.2s, background 0.2s, transform 0.2s;
+      outline: none;
+    }
+    .role-choice-card:hover, .role-choice-card:focus-visible {
+      border-color: var(--color-amber-forge, #ffb442);
+      background: #150c02;
+    }
+    .role-choice-card.selected {
+      border-color: var(--color-amber-forge, #ffb442);
+      background: rgba(255, 180, 66, 0.08);
+      box-shadow: inset 0 0 0 1px var(--color-amber-forge, #ffb442);
+    }
+    .role-icon-badge {
+      width: 38px;
+      height: 38px;
+      border-radius: 9999px;
+      background: rgba(255, 180, 66, 0.1);
+      border: 1px solid rgba(255, 180, 66, 0.3);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--color-amber-forge, #ffb442);
+      flex-shrink: 0;
+    }
+    .role-choice-card.selected .role-icon-badge {
+      background: var(--color-amber-forge, #ffb442);
+      color: var(--color-espresso, #140b00);
+    }
+  </style>
+</head>
+<body class="page-body">
+  <div id="k-nav-placeholder"></div>
+
+  <main id="main-content">
+    <section class="section-sm" style="border-bottom: 1px solid var(--color-walnut, #43392d);">
+      <div class="container">
+        <div class="section-eyebrow">ONB-03 — The Inventors · Captação FKCU</div>
+        <h1 class="text-heading-lg weight-medium color-cream" style="letter-spacing: var(--tracking-heading-lg, -0.8px);">
+          Registo de Ideia & Definição de Carências
+        </h1>
+        <p class="text-body-lg color-driftwood mt-16" style="max-width: 620px;">
+          Alimenta o Banco de Ideias do ecossistema. Estrutura o teu projecto e identifica os talentos multidisciplinares necessários para fundar a tua startup.
+        </p>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <div style="max-width: 740px; margin: auto;">
+          
+          <!-- Wizard Steps Navigation -->
+          <div class="wizard-steps mb-16" id="wizard-steps" role="tablist">
+            <div class="wizard-step active" id="ws-1">
+              <div class="wizard-step__dot" id="wd-1">1</div>
+              <span class="wizard-step__label">O Projecto</span>
+              <div class="wizard-step__connector" id="wc-1"></div>
+            </div>
+            <div class="wizard-step" id="ws-2">
+              <div class="wizard-step__dot" id="wd-2">2</div>
+              <span class="wizard-step__label">Origem & Estágio</span>
+              <div class="wizard-step__connector" id="wc-2"></div>
+            </div>
+            <div class="wizard-step" id="ws-3">
+              <div class="wizard-step__dot" id="wd-3">3</div>
+              <span class="wizard-step__label">Matriz de Carências</span>
+            </div>
+          </div>
+
+          <!-- Endowed Progress Bar (Starts at 20%) -->
+          <div class="k-progress mb-8" aria-label="Progresso da submissão">
+            <div class="k-progress__fill" id="onb-progress" style="width: 20%;" role="progressbar" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100"></div>
+          </div>
+          <p class="text-caption color-driftwood mb-32" id="progress-label" style="font-size:12px;">
+            Progresso: 20% concluído · Endowed Progress activo
+          </p>
+
+          <!-- Step 1: Project Details -->
+          <div id="step-1" class="card card-surface" style="padding: var(--sp-32);">
+            <h2 class="text-subheading weight-medium color-cream mb-24">Passo 1 — O teu projecto</h2>
+            
+            <div class="input-group">
+              <label class="input-label" for="proj-name">Nome da Ideia / Startup <span style="color:var(--color-amber-forge,#ffb442);">*</span></label>
+              <input type="text" id="proj-name" class="input-pill" placeholder="Ex: AgroLink Angola, PaguiFácil, BioKamba..." required/>
+            </div>
+
+            <div class="input-group mt-16">
+              <label class="input-label" for="proj-problem">Enunciado da Dor de Mercado em Angola <span style="color:var(--color-amber-forge,#ffb442);">*</span></label>
+              <textarea class="textarea-card" id="proj-problem" placeholder="Descreve o problema real e mensurável identificado no mercado nacional. Quanto mais factual for a dor do cliente, mais forte o alinhamento FKCU..." style="min-height: 110px;" required></textarea>
+            </div>
+
+            <div class="input-group mt-16">
+              <label class="input-label">Sector e Mercado-Alvo em Angola (selecciona os aplicáveis)</label>
+              <div class="flex" style="flex-wrap:wrap; gap:8px; margin-top:8px;" id="target-market-tags">
+                <button type="button" class="skill-tag selected" onclick="toggleTag(this)">Comércio Informal — Luanda</button>
+                <button type="button" class="skill-tag" onclick="toggleTag(this)">Agricultura Familiar & Cooperativas</button>
+                <button type="button" class="skill-tag" onclick="toggleTag(this)">PMEs & Negócios Locais</button>
+                <button type="button" class="skill-tag" onclick="toggleTag(this)">Estudantes & Educação (EdTech)</button>
+                <button type="button" class="skill-tag" onclick="toggleTag(this)">FinTech & Inclusão Financeira</button>
+                <button type="button" class="skill-tag" onclick="toggleTag(this)">Saúde Pública & Clínicas</button>
+                <button type="button" class="skill-tag" onclick="toggleTag(this)">Logística, Fretes & Last-Mile</button>
+                <button type="button" class="skill-tag" onclick="toggleTag(this)">Energias Renováveis & CleanTech</button>
+                <button type="button" class="skill-tag" onclick="toggleTag(this)">Pescas & Recursos Azuis</button>
+                <button type="button" class="skill-tag" onclick="toggleTag(this)">Indústria & Manufatura</button>
+              </div>
+            </div>
+
+            <button type="button" class="btn-primary mt-24" style="width:100%; justify-content:center;" onclick="validateAndGoStep(2)">
+              Próximo: Origem & Estágio →
+            </button>
+          </div>
+
+          <!-- Step 2: Faculty & Innovation Stage -->
+          <div id="step-2" class="card card-surface" style="padding: var(--sp-32); display: none;">
+            <h2 class="text-subheading weight-medium color-cream mb-24">Passo 2 — Faculdade de Origem & Estágio de Inovação</h2>
+            
+            <div class="input-group">
+              <label class="input-label" for="proj-fac">Faculdade / Área Académica do Inventor</label>
+              <select id="proj-fac" class="select-pill">
+                <option value="Engenharia">Engenharia & Tecnologias de Informação</option>
+                <option value="Gestão">Gestão, Economia & Contabilidade</option>
+                <option value="Direito">Direito & Relações Internacionais</option>
+                <option value="Marketing">Marketing, Comunicação & Letras</option>
+                <option value="Ciências Agrárias">Ciências Agrárias & Agropecuária</option>
+                <option value="Saúde & Biologia">Medicina, Enfermagem & Ciências Biológicas</option>
+                <option value="Design & Multimédia">Design, Artes & Multimédia</option>
+                <option value="Outra">Outra Área Científica</option>
+              </select>
+            </div>
+
+            <div class="input-group mt-20">
+              <label class="input-label">Maturidade Actual da Inovação</label>
+              <div class="k-checklist mt-8" id="stage-checklist">
+                <div class="k-checklist__item checked" onclick="selectStage(this, 'conceito')">
+                  <div class="k-checklist__checkbox"></div>
+                  <div>
+                    <p class="text-body weight-medium color-cream">Conceito & Ideia Inicial</p>
+                    <p class="text-caption color-driftwood">Problema validado conceitualmente; em fase de modelação de solução.</p>
+                  </div>
+                </div>
+                <div class="k-checklist__item" onclick="selectStage(this, 'tfc')">
+                  <div class="k-checklist__checkbox"></div>
+                  <div>
+                    <p class="text-body weight-medium color-cream">Trabalho de Fim de Curso (TFC) / Investigação</p>
+                    <p class="text-caption color-driftwood">Pesquisa académica ou laboratorial formal em desenvolvimento na universidade.</p>
+                  </div>
+                </div>
+                <div class="k-checklist__item" onclick="selectStage(this, 'prototipo')">
+                  <div class="k-checklist__checkbox"></div>
+                  <div>
+                    <p class="text-body weight-medium color-cream">Protótipo Funcional / MVP Construído</p>
+                    <p class="text-caption color-driftwood">Existe uma versão alfa, maquete, modelo ou software básico testado.</p>
+                  </div>
+                </div>
+                <div class="k-checklist__item" onclick="selectStage(this, 'piloto')">
+                  <div class="k-checklist__checkbox"></div>
+                  <div>
+                    <p class="text-body weight-medium color-cream">Projecto Piloto / Primeiros Testes de Mercado</p>
+                    <p class="text-caption color-driftwood">Em teste com utilizadores reais ou clientes iniciais em Angola.</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="flex flex-gap-12 mt-24">
+              <button type="button" class="btn-secondary" onclick="goStep(1)">← Anterior</button>
+              <button type="button" class="btn-primary" style="flex:1; justify-content:center;" onclick="goStep(3)">
+                Próximo: Matriz de Carências →
+              </button>
+            </div>
+          </div>
+
+          <!-- Step 3: Multidisciplinary Synergy Matrix (Expanded Roles) -->
+          <div id="step-3" class="card card-surface" style="padding: var(--sp-32); display: none;">
+            <h2 class="text-subheading weight-medium color-cream mb-8">Passo 3 — Matriz de Carências Multidisciplinar</h2>
+            <p class="text-body color-driftwood mb-20" style="font-size:14px; line-height:1.5;">
+              Quais os papéis e valências que precisas de recrutar para completar a estrutura da tua equipa fundadora no FKCU?
+            </p>
+
+            <!-- Seção 1: Papéis C-Level Fundamentais -->
+            <p class="text-caption color-cream weight-medium mb-8" style="letter-spacing:0.08em; text-transform:uppercase;">
+              Papéis C-Level Essenciais (Framework FKCU)
+            </p>
+            <div class="role-grid">
+              
+              <!-- CTO -->
+              <div class="role-choice-card selected" onclick="toggleRoleCard(this, 'CTO')">
+                <div class="role-icon-badge">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="16 18 22 12 16 6"></polyline>
+                    <polyline points="8 6 2 12 8 18"></polyline>
+                  </svg>
+                </div>
+                <div>
+                  <p class="text-body weight-medium color-cream">CTO — Engenharia & Tech</p>
+                  <p class="text-caption color-driftwood" style="font-size:11px;">Desenvolvimento de MVP, código, IoT e arquitetura técnica.</p>
+                </div>
+              </div>
+
+              <!-- CEO / CFO -->
+              <div class="role-choice-card" onclick="toggleRoleCard(this, 'CEO_CFO')">
+                <div class="role-icon-badge">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="12" y1="1" x2="12" y2="23"></line>
+                    <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path>
+                  </svg>
+                </div>
+                <div>
+                  <p class="text-body weight-medium color-cream">CEO / CFO — Gestão & Finanças</p>
+                  <p class="text-caption color-driftwood" style="font-size:11px;">Modelagem financeira, unit economics e estratégia executiva.</p>
+                </div>
+              </div>
+
+              <!-- CLO -->
+              <div class="role-choice-card" onclick="toggleRoleCard(this, 'CLO')">
+                <div class="role-icon-badge">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M12 3v18"></path>
+                    <rect x="3" y="6" width="6" height="5" rx="1"></rect>
+                    <rect x="15" y="6" width="6" height="5" rx="1"></rect>
+                    <path d="M6 11l6-2 6 2"></path>
+                  </svg>
+                </div>
+                <div>
+                  <p class="text-body weight-medium color-cream">CLO — Direito & IAPI</p>
+                  <p class="text-caption color-driftwood" style="font-size:11px;">Propriedade Intelectual (Lei 3/92), Acordo de Co-Founders e Vesting.</p>
+                </div>
+              </div>
+
+              <!-- CMO -->
+              <div class="role-choice-card" onclick="toggleRoleCard(this, 'CMO')">
+                <div class="role-icon-badge">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M11 5L6 9H2v6h4l5 4V5z"></path>
+                    <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
+                  </svg>
+                </div>
+                <div>
+                  <p class="text-body weight-medium color-cream">CMO — Marketing & Growth</p>
+                  <p class="text-caption color-driftwood" style="font-size:11px;">Aquisição, identidade visual, comunicação e pitch internacional.</p>
+                </div>
+              </div>
+
+            </div>
+
+            <!-- Seção 2: Papéis Complementares & Especialistas Setoriais -->
+            <p class="text-caption color-cream weight-medium mt-24 mb-8" style="letter-spacing:0.08em; text-transform:uppercase;">
+              Papéis Estratégicos & Especialistas Setoriais
+            </p>
+            <div class="role-grid">
+              
+              <!-- CPO / UI-UX -->
+              <div class="role-choice-card" onclick="toggleRoleCard(this, 'CPO')">
+                <div class="role-icon-badge">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="12" cy="12" r="10"></circle>
+                    <path d="M8 12h8"></path>
+                    <path d="M12 8v8"></path>
+                  </svg>
+                </div>
+                <div>
+                  <p class="text-body weight-medium color-cream">CPO — Design de Produto & UX</p>
+                  <p class="text-caption color-driftwood" style="font-size:11px;">Prototipagem no Figma, pesquisa de utilizador e design editorial.</p>
+                </div>
+              </div>
+
+              <!-- COO / Logística -->
+              <div class="role-choice-card" onclick="toggleRoleCard(this, 'COO')">
+                <div class="role-icon-badge">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <rect x="1" y="3" width="15" height="13"></rect>
+                    <polygon points="16 8 20 8 23 11 23 16 16 16 16 8"></polygon>
+                    <circle cx="5.5" cy="18.5" r="2.5"></circle>
+                    <circle cx="18.5" cy="18.5" r="2.5"></circle>
+                  </svg>
+                </div>
+                <div>
+                  <p class="text-body weight-medium color-cream">COO — Operações & Logística</p>
+                  <p class="text-caption color-driftwood" style="font-size:11px;">Cadeia de suprimentos, processos operacionais e distribuição física.</p>
+                </div>
+              </div>
+
+              <!-- CAO / Agronomia -->
+              <div class="role-choice-card" onclick="toggleRoleCard(this, 'CAO')">
+                <div class="role-icon-badge">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+                  </svg>
+                </div>
+                <div>
+                  <p class="text-body weight-medium color-cream">CAO — Especialista Agro & Bio</p>
+                  <p class="text-caption color-driftwood" style="font-size:11px;">Engenharia agronómica, solos, colheita e bio-tecnologias.</p>
+                </div>
+              </div>
+
+              <!-- CDO / Data & AI -->
+              <div class="role-choice-card" onclick="toggleRoleCard(this, 'CDO')">
+                <div class="role-icon-badge">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
+                  </svg>
+                </div>
+                <div>
+                  <p class="text-body weight-medium color-cream">CDO — Data & Inteligência Artificial</p>
+                  <p class="text-caption color-driftwood" style="font-size:11px;">Pipelines de dados, algoritmos e modelos inteligentes aplicados.</p>
+                </div>
+              </div>
+
+            </div>
+
+            <div class="flex flex-gap-12 mt-28">
+              <button type="button" class="btn-secondary" onclick="goStep(2)">← Anterior</button>
+              <button type="button" class="btn-primary" style="flex:1; justify-content:center;" id="submit-idea-btn" onclick="submitCompleteIdea()">
+                Submeter Ideia ao Banco FKCU →
+              </button>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <div id="k-footer-placeholder"></div>
+
+  <script src="assets/js/kubica.js"></script>
+  <script src="assets/js/app.js"></script>
+  <script>
+    KubicaNav.init('onb-03');
+
+    const progressPcts = { 1: 20, 2: 60, 3: 90 };
+    let selectedRoles = ['CTO'];
+    let selectedStageVal = 'conceito';
+
+    function toggleTag(el) {
+      el.classList.toggle('selected');
+    }
+
+    function toggleRoleCard(el, role) {
+      el.classList.toggle('selected');
+      if (el.classList.contains('selected')) {
+        if (!selectedRoles.includes(role)) selectedRoles.push(role);
+      } else {
+        selectedRoles = selectedRoles.filter(r => r !== role);
+      }
+    }
+
+    function selectStage(el, stage) {
+      document.querySelectorAll('#stage-checklist .k-checklist__item').forEach(item => item.classList.remove('checked'));
+      el.classList.add('checked');
+      selectedStageVal = stage;
+    }
+
+    function validateAndGoStep(targetStep) {
+      const name = document.getElementById('proj-name').value.trim();
+      const prob = document.getElementById('proj-problem').value.trim();
+
+      if (!name) {
+        showToast('Por favor, indica o nome da tua ideia ou startup.', 'error');
+        document.getElementById('proj-name').focus();
+        return;
+      }
+      if (!prob) {
+        showToast('Descreve o problema ou dor de mercado identificada.', 'error');
+        document.getElementById('proj-problem').focus();
+        return;
+      }
+      goStep(targetStep);
+    }
+
+    function goStep(n) {
+      [1, 2, 3].forEach(i => {
+        const stepEl = document.getElementById('step-' + i);
+        if (stepEl) stepEl.style.display = i === n ? 'block' : 'none';
+
+        const ws = document.getElementById('ws-' + i);
+        if (ws) {
+          ws.classList.remove('active', 'done');
+          if (i < n) ws.classList.add('done');
+          if (i === n) ws.classList.add('active');
+        }
+
+        const wd = document.getElementById('wd-' + i);
+        if (wd) wd.textContent = i < n ? '✓' : i;
+      });
+
+      const fill = document.getElementById('onb-progress');
+      fill.style.width = progressPcts[n] + '%';
+      fill.setAttribute('aria-valuenow', progressPcts[n]);
+      document.getElementById('progress-label').textContent = `Progresso: ${progressPcts[n]}% concluído · Endowed Progress activo`;
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    async function submitCompleteIdea() {
+      if (selectedRoles.length === 0) {
+        showToast('Selecciona pelo menos um papel de co-founder pretendido.', 'warning');
+        return;
+      }
+
+      const submitBtn = document.getElementById('submit-idea-btn');
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'A registar ideia no Banco de Ideias...';
+
+      const selectedTags = Array.from(document.querySelectorAll('#target-market-tags .skill-tag.selected'))
+        .map(t => t.textContent.trim());
+
+      const ideaPayload = {
+        title: document.getElementById('proj-name').value.trim(),
+        problem: document.getElementById('proj-problem').value.trim(),
+        faculty: document.getElementById('proj-fac').value,
+        stage: selectedStageVal,
+        roles_needed: selectedRoles,
+        target_market: selectedTags,
+        submitted_at: new Date().toISOString()
+      };
+
+      // Guarda localmente para feedback instantâneo
+      sessionStorage.setItem('kubica_last_idea', JSON.stringify(ideaPayload));
+      
+      const authUser = JSON.parse(sessionStorage.getItem('kubica_auth_user') || '{}');
+      authUser.role = 'inventor';
+      authUser.registered_idea = ideaPayload.title;
+      sessionStorage.setItem('kubica_auth_user', JSON.stringify(authUser));
+      localStorage.setItem('kubica_user', JSON.stringify(authUser));
+
+      document.getElementById('onb-progress').style.width = '100%';
+      document.getElementById('progress-label').textContent = 'Progresso: 100% — Ideia Registada no FKCU!';
+
+      setTimeout(() => {
+        showToast('Ideia submetida com sucesso ao ecossistema FKCU!', 'success');
+        setTimeout(() => {
+          window.location.href = 'onb-05-welcome.html';
+        }, 1200);
+      }, 500);
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="pt-AO"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Dashboard do Inventor — Kubica Hub</title>
+<meta name="description" content="Painel pessoal do Inventor com estado da ideia, equipa formada, entregáveis e progresso FKCU."/>
+<link rel="stylesheet" href="kubica.css"/>
+</head>
+<body class="page-body"><div id="k-nav-placeholder"></div>
+<main>
+<section class="section-sm" style="border-bottom:1px solid var(--color-walnut);">
+  <div class="container">
+    <div class="flex-between" style="flex-wrap:wrap;gap:16px;">
+      <div>
+        <div class="section-eyebrow">Perfil — Inventor</div>
+        <h1 class="text-heading-lg weight-medium color-cream" style="letter-spacing:var(--tracking-heading-lg);">Olá, Rodrigo 👋</h1>
+        <div class="flex flex-gap-8 mt-8">
+          <span class="badge badge-amber">Inventor</span>
+          <span class="badge badge-success">FKCU Fase 3 — Co-Criação</span>
+          <span class="badge badge-walnut">CTO · AgroLink Angola</span>
+        </div>
+      </div>
+      <div class="flex flex-gap-12">
+        <a href="ide-03-detail.html" class="btn-secondary btn-sm">Ver ideia publicada</a>
+        <a href="inc-01-dashboard.html" class="btn-primary btn-sm">Dashboard startup →</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section-sm">
+  <div class="container">
+    <!-- Progresso FKCU -->
+    <div style="background:var(--color-midnight-cocoa);border:1px solid var(--color-walnut);border-radius:8px;padding:20px;margin-bottom:32px;">
+      <div class="flex-between mb-16"><p class="text-body weight-medium color-cream">Progresso FKCU — Temporada 2026</p><span class="badge badge-amber">75% concluído</span></div>
+      <div class="k-progress mb-8"><div class="k-progress__fill" style="width:75%;"></div></div>
+      <div class="grid-4" style="gap:8px;margin-top:12px;">
+        <div style="text-align:center;padding:8px;background:rgba(74,222,128,.08);border:1px solid rgba(74,222,128,.2);border-radius:4px;"><p class="text-caption color-success">✓ Fase 1</p><p class="text-caption color-driftwood">Captação</p></div>
+        <div style="text-align:center;padding:8px;background:rgba(74,222,128,.08);border:1px solid rgba(74,222,128,.2);border-radius:4px;"><p class="text-caption color-success">✓ Fase 2</p><p class="text-caption color-driftwood">Matchmaking</p></div>
+        <div style="text-align:center;padding:8px;background:var(--color-amber-dim);border:1px solid rgba(255,180,66,.3);border-radius:4px;"><p class="text-caption color-amber">→ Fase 3</p><p class="text-caption color-driftwood">Co-Criação</p></div>
+        <div style="text-align:center;padding:8px;border:1px solid var(--color-walnut);border-radius:4px;"><p class="text-caption color-driftwood">Fase 4</p><p class="text-caption color-driftwood">Graduação</p></div>
+      </div>
+    </div>
+
+    <div class="grid-2" style="gap:24px;align-items:flex-start;">
+      <div>
+        <!-- Ideia -->
+        <div class="card card-surface mb-16" style="padding:24px;">
+          <div class="flex-between mb-16">
+            <h2 class="text-subheading weight-medium color-cream">A minha ideia</h2>
+            <span class="badge badge-success">Aprovada ✓</span>
+          </div>
+          <p class="text-body color-cream weight-medium mb-4">AgroLink Angola</p>
+          <p class="text-body color-driftwood mb-16" style="line-height:1.6;">Plataforma digital de ligação directa entre agricultores angolanos e compradores (supermercados, restaurantes, famílias), eliminando intermediários e devolvendo 60% da margem ao produtor.</p>
+          <div class="flex flex-gap-8 mb-16 flex-wrap">
+            <span class="badge badge-amber">Agritech</span>
+            <span class="badge badge-walnut">PDN Eixo 2</span>
+            <span class="badge badge-walnut">Soberania Alimentar</span>
+          </div>
+          <a href="ide-03-detail.html" class="btn-ghost" style="width:100%;justify-content:center;">Ver ficha técnica completa →</a>
+        </div>
+
+        <!-- Equipa -->
+        <div class="card card-surface" style="padding:24px;">
+          <div class="flex-between mb-16"><h2 class="text-subheading weight-medium color-cream">Equipa 4/4</h2><span class="badge badge-success">Completa ✓</span></div>
+          <div style="display:flex;flex-direction:column;gap:8px;">
+            <div class="flex flex-gap-12" style="align-items:center;padding:8px;background:var(--color-amber-dim);border-radius:4px;">
+              <div class="avatar-placeholder avatar-sm">RA</div>
+              <div style="flex:1;"><p class="text-body color-cream weight-medium">Rodrigo Augusto (Tu)</p><p class="text-caption color-driftwood">CTO · Eng. UAN</p></div>
+              <span class="badge badge-amber">30%</span>
+            </div>
+            <div class="flex flex-gap-12" style="align-items:center;padding:8px;">
+              <div class="avatar-placeholder avatar-sm">PC</div>
+              <div style="flex:1;"><p class="text-body color-cream">Paulo Carvalho</p><p class="text-caption color-driftwood">CFO · Gestão UGS</p></div>
+              <span class="badge badge-walnut">25%</span>
+            </div>
+            <div class="flex flex-gap-12" style="align-items:center;padding:8px;">
+              <div class="avatar-placeholder avatar-sm">MA</div>
+              <div style="flex:1;"><p class="text-body color-cream">Maria Antónia</p><p class="text-caption color-driftwood">CLO · Direito UCAN</p></div>
+              <span class="badge badge-walnut">25%</span>
+            </div>
+            <div class="flex flex-gap-12" style="align-items:center;padding:8px;">
+              <div class="avatar-placeholder avatar-sm">LS</div>
+              <div style="flex:1;"><p class="text-body color-cream">Luísa Santos</p><p class="text-caption color-driftwood">CMO · Marketing ISAF</p></div>
+              <span class="badge badge-walnut">20%</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <!-- Entregáveis CTO -->
+        <div class="card card-surface mb-16" style="padding:24px;">
+          <div class="flex-between mb-16"><h2 class="text-subheading weight-medium color-cream">Os meus entregáveis — CTO</h2><span class="badge badge-success">100% ✓</span></div>
+          <div class="k-checklist">
+            <div class="k-checklist__item checked"><div class="k-checklist__checkbox"></div><div><p class="text-body color-cream">Arquitectura de sistema documentada</p><p class="text-caption color-driftwood">Entregue: 10 Jul 2026</p></div></div>
+            <div class="k-checklist__item checked"><div class="k-checklist__checkbox"></div><div><p class="text-body color-cream">MVP funcional — agrolink.vercel.app</p><p class="text-caption color-driftwood">Entregue: 22 Jul 2026</p></div></div>
+            <div class="k-checklist__item checked"><div class="k-checklist__checkbox"></div><div><p class="text-body color-cream">Repositório GitHub documentado</p><p class="text-caption color-driftwood">Entregue: 25 Jul 2026</p></div></div>
+            <div class="k-checklist__item checked"><div class="k-checklist__checkbox"></div><div><p class="text-body color-cream">Análise de IP tecnológica</p><p class="text-caption color-driftwood">Entregue: 1 Ago 2026</p></div></div>
+          </div>
+        </div>
+
+        <!-- Badges conquistados -->
+        <div class="card card-surface mb-16" style="padding:24px;">
+          <h2 class="text-subheading weight-medium color-cream mb-16">Badges conquistados</h2>
+          <div class="grid-3" style="gap:12px;">
+            <div style="text-align:center;padding:16px;background:var(--color-amber-dim);border:1px solid rgba(255,180,66,.3);border-radius:6px;"><div style="font-size:28px;margin-bottom:6px;">🔥</div><p class="text-caption color-amber">Inventor</p></div>
+            <div style="text-align:center;padding:16px;background:var(--color-amber-dim);border:1px solid rgba(255,180,66,.3);border-radius:6px;"><div style="font-size:28px;margin-bottom:6px;">🤝</div><p class="text-caption color-amber">Fundador</p></div>
+            <div style="text-align:center;padding:16px;background:var(--color-amber-dim);border:1px solid rgba(255,180,66,.3);border-radius:6px;"><div style="font-size:28px;margin-bottom:6px;">💻</div><p class="text-caption color-amber">CTO FKCU</p></div>
+            <div style="text-align:center;padding:16px;background:var(--color-amber-dim);border:1px solid rgba(255,180,66,.3);border-radius:6px;"><div style="font-size:28px;margin-bottom:6px;">✅</div><p class="text-caption color-amber">MVP Entregue</p></div>
+            <div style="text-align:center;padding:16px;border:1px dashed var(--color-cedar);border-radius:6px;opacity:.5;"><div style="font-size:28px;margin-bottom:6px;">🎓</div><p class="text-caption color-driftwood">Graduado</p></div>
+            <div style="text-align:center;padding:16px;border:1px dashed var(--color-cedar);border-radius:6px;opacity:.5;"><div style="font-size:28px;margin-bottom:6px;">🏅</div><p class="text-caption color-driftwood">Selo INAPEM</p></div>
+          </div>
+        </div>
+
+        <div class="card card-surface" style="padding:20px;">
+          <p class="text-body weight-medium color-cream mb-8">Próxima mentoria</p>
+          <p class="text-body color-driftwood">20 Ago 2026 · 18h00 · Google Meet</p>
+          <p class="text-caption color-amber mt-4">Prof. Pedro Lemos — Revisão MVP + Pitch</p>
+          <a href="inc-04-mentoring.html" class="btn-ghost mt-12" style="width:100%;justify-content:center;">Ver todas as sessões →</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+</main>
+<div id="k-footer-placeholder"></div>
+<script src="assets/js/kubica.js"></script>
+<script>KubicaNav.init('index.html');</script>
+</body></html>

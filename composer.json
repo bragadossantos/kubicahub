@@ -20,7 +20,7 @@
     ]
   },
   "scripts": {
-    "start": "php -S localhost:8000 -t public public/index.php"
+    "start": "php -S localhost:8000 api/index.php"
   },
   "config": {
     "optimize-autoloader": true,

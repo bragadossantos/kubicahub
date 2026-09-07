@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="pt-AO"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Submissão IAPI — Kubica Hub</title>
+<meta name="description" content="Wizard guiado de submissão ao Instituto Angolano da Propriedade Industrial (IAPI) conforme Lei n.º 3/92."/>
+<link rel="stylesheet" href="kubica.css"/>
+</head>
+<body class="page-body"><div id="k-nav-placeholder"></div>
+<main>
+<section class="section-sm" style="border-bottom:1px solid var(--color-walnut);">
+  <div class="container"><div class="section-eyebrow">GOV-02 — Propriedade Industrial</div>
+  <h1 class="text-heading-lg weight-medium color-cream" style="letter-spacing:var(--tracking-heading-lg);">Wizard IAPI — Registo de Marca &amp; Patente</h1>
+  <p class="text-body-lg color-driftwood mt-16">Processo guiado passo-a-passo conforme a Lei n.º 3/92 angolana. O CLO recebe o rascunho para revisão final.</p></div>
+</section>
+<section class="section">
+  <div class="container">
+    <div class="grid-2" style="gap:32px;align-items:flex-start;">
+      <!-- Guide -->
+      <div>
+        <div class="card card-surface mb-16" style="padding:24px;">
+          <h2 class="text-subheading weight-medium color-cream mb-16">Guia IAPI — Lei n.º 3/92</h2>
+          <div class="k-timeline">
+            <div class="k-timeline__item done"><div class="k-timeline__dot"></div><p class="k-timeline__title">1. Busca de Anterioridade</p><p class="k-timeline__desc">Verifica se a marca ou invenção já existe no registo nacional IAPI.</p></div>
+            <div class="k-timeline__item active"><div class="k-timeline__dot"></div><p class="k-timeline__title">2. Formulário de Pedido</p><p class="k-timeline__desc">Preenchimento do formulário oficial com descrição do sinal distintivo.</p></div>
+            <div class="k-timeline__item"><div class="k-timeline__dot"></div><p class="k-timeline__title">3. Pagamento de Taxas</p><p class="k-timeline__desc">Taxa de submissão: USD 50–200 conforme tipo de pedido.</p></div>
+            <div class="k-timeline__item"><div class="k-timeline__dot"></div><p class="k-timeline__title">4. Exame e Publicação</p><p class="k-timeline__desc">Prazo de 6–12 meses para exame e publicação no Diário da República.</p></div>
+            <div class="k-timeline__item"><div class="k-timeline__dot"></div><p class="k-timeline__title">5. Certificado IAPI</p><p class="k-timeline__desc">Certificado de registo válido por 10 anos, renovável.</p></div>
+          </div>
+        </div>
+        <div class="card" style="padding:20px;border-color:rgba(255,180,66,.3);">
+          <p class="text-body weight-medium color-amber mb-8">ℹ️ Importante</p>
+          <p class="text-body color-driftwood" style="line-height:1.6;">O registo de marca no IAPI protege o teu sinal distintivo em Angola. A patente de invenção é mais complexa — consulta o CLO para avaliar a patenteabilidade do MVP técnico.</p>
+        </div>
+      </div>
+
+      <!-- Form -->
+      <div class="card card-surface" style="padding:32px;">
+        <h2 class="text-subheading weight-medium color-cream mb-24">Formulário de Pedido IAPI</h2>
+        <div class="input-group"><label class="input-label">Tipo de pedido</label><select class="select-pill"><option>Registo de Marca — Denominativa</option><option>Registo de Marca — Mista (logo + nome)</option><option>Patente de Invenção</option><option>Modelo de Utilidade</option></select></div>
+        <div class="input-group"><label class="input-label" for="iapi-brand">Denominação da marca / invenção</label><input type="text" id="iapi-brand" class="input-pill" placeholder="Ex: AgroLink Angola"/></div>
+        <div class="input-group"><label class="input-label">Classes de Nice (actividade)</label><select class="select-pill"><option>Classe 35 — Serviços de negócios / plataformas digitais</option><option>Classe 42 — Serviços tecnológicos</option><option>Classe 36 — Serviços financeiros</option><option>Classe 41 — Educação</option><option>Classe 39 — Transportes / logística</option></select></div>
+        <div class="input-group"><label class="input-label" for="iapi-desc">Descrição do sinal distintivo</label><textarea class="textarea-card" id="iapi-desc" placeholder="Descreve o sinal de forma precisa e detalhada: cores, elementos gráficos, slogan, etc."></textarea></div>
+        <div class="input-group"><label class="input-label" for="iapi-owner">Titular (nome ou empresa)</label><input type="text" id="iapi-owner" class="input-pill" placeholder="Ex: AgroLink Angola, Lda."/></div>
+        <div class="input-group"><label class="input-label">Upload da marca gráfica (PNG/SVG)</label>
+          <div style="border:1px dashed var(--color-cedar);border-radius:6px;padding:24px;text-align:center;cursor:pointer;" onclick="showToast('Upload realizado com sucesso!','success')">
+            <p style="font-size:24px;">🎨</p>
+            <p class="text-caption color-driftwood mt-4">Clicar para carregar logótipo</p>
+          </div>
+        </div>
+        <button class="btn-primary mt-16" style="width:100%;justify-content:center;" onclick="submitIAPI()">⚖️ Submeter ao CLO para revisão</button>
+      </div>
+    </div>
+  </div>
+</section>
+</main>
+<div id="k-footer-placeholder"></div>
+<script src="assets/js/kubica.js"></script>
+<script>
+KubicaNav.init('inc-01-dashboard.html');
+function submitIAPI() {
+  showToast('Formulário enviado ao CLO (Maria Antónia) para revisão final.', 'success', 4000);
+}
+</script>
+</body></html>

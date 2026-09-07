@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="pt-AO"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Checklist TCC-S &amp; INAPEM — Kubica Hub</title>
+<meta name="description" content="Preparação da monografia empresarial TCC-S e candidatura ao Selo Startup INAPEM com isenções fiscais."/>
+<link rel="stylesheet" href="kubica.css"/>
+</head>
+<body class="page-body"><div id="k-nav-placeholder"></div>
+<main>
+<section class="section-sm" style="border-bottom:1px solid var(--color-walnut);">
+  <div class="container"><div class="section-eyebrow">GRAD-01 — Fase 4: Graduação</div>
+  <h1 class="text-heading-lg weight-medium color-cream" style="letter-spacing:var(--tracking-heading-lg);">TCC-S &amp; Selo Startup INAPEM</h1>
+  <p class="text-body-lg color-driftwood mt-16">Completion Effect: o fim da incubação desbloqueia dois marcos de carreira simultâneos — a graduação académica e o reconhecimento empresarial nacional.</p></div>
+</section>
+<section class="section">
+  <div class="container">
+    <div class="grid-2" style="gap:32px;align-items:flex-start;">
+      <!-- TCC-S -->
+      <div class="card card-surface" style="padding:24px;">
+        <div style="font-size:32px;margin-bottom:16px;">🎓</div>
+        <h2 class="text-subheading weight-medium color-cream mb-8">Monografia Empresarial (TCC-S)</h2>
+        <p class="text-body color-driftwood mb-24" style="line-height:1.6;">O TCC-S substitui a monografia tradicional. O teu projecto de startup é o documento de conclusão de curso — avaliado pela banca e pela coordenação FKCU simultaneamente.</p>
+        <div class="k-checklist mb-16" id="tccs-checklist">
+          <div class="k-checklist__item checked" onclick="updateGradProgress()"><div class="k-checklist__checkbox"></div><div><p class="text-body color-cream">Enquadramento teórico (Stanford d.school + empreendedorismo angolano)</p></div></div>
+          <div class="k-checklist__item checked" onclick="updateGradProgress()"><div class="k-checklist__checkbox"></div><div><p class="text-body color-cream">Diagnóstico de mercado — pesquisa de campo validada</p></div></div>
+          <div class="k-checklist__item checked" onclick="updateGradProgress()"><div class="k-checklist__checkbox"></div><div><p class="text-body color-cream">Proposta de valor e Business Model Canvas Angola</p></div></div>
+          <div class="k-checklist__item" onclick="updateGradProgress()"><div class="k-checklist__checkbox"></div><div><p class="text-body color-cream">Protótipo funcional documentado (Relatório CTO)</p></div></div>
+          <div class="k-checklist__item" onclick="updateGradProgress()"><div class="k-checklist__checkbox"></div><div><p class="text-body color-cream">Viabilidade financeira e estratégia de sustentabilidade</p></div></div>
+          <div class="k-checklist__item" onclick="updateGradProgress()"><div class="k-checklist__checkbox"></div><div><p class="text-body color-cream">Blindagem jurídica — IAPI, MoU, Co-Founders Agreement</p></div></div>
+          <div class="k-checklist__item" onclick="updateGradProgress()"><div class="k-checklist__checkbox"></div><div><p class="text-body color-cream">Reflexão crítica e contribuição para o PDN 2023–2027</p></div></div>
+        </div>
+        <div class="k-progress mb-8"><div class="k-progress__fill" id="tccs-progress" style="width:42%;"></div></div>
+        <p class="text-caption color-driftwood">Progresso TCC-S: <span id="tccs-pct">42%</span></p>
+        <button class="btn-secondary mt-16" style="width:100%;justify-content:center;" onclick="showToast('Documento TCC-S partilhado com o orientador!','success')">📤 Submeter ao orientador académico</button>
+      </div>
+
+      <!-- INAPEM -->
+      <div>
+        <div class="card card-surface mb-16" style="padding:24px;">
+          <div style="font-size:32px;margin-bottom:16px;">🏅</div>
+          <h2 class="text-subheading weight-medium color-cream mb-8">Candidatura ao Selo Startup INAPEM</h2>
+          <p class="text-body color-driftwood mb-24" style="line-height:1.6;">O Selo INAPEM confere isenções fiscais e acesso preferencial a programas de financiamento do Estado angolano. Válido por 3 anos.</p>
+          <div class="k-timeline">
+            <div class="k-timeline__item done"><div class="k-timeline__dot"></div><p class="k-timeline__title">Pré-Selo — Conformidade básica</p><p class="k-timeline__desc">Concluído: estrutura societária e MoU assinados</p></div>
+            <div class="k-timeline__item active"><div class="k-timeline__dot"></div><p class="k-timeline__title">Candidatura Selo — Formulário INAPEM</p><p class="k-timeline__desc">Em curso: submissão prevista para Set 2026</p></div>
+            <div class="k-timeline__item"><div class="k-timeline__dot"></div><p class="k-timeline__title">Avaliação e Atribuição</p><p class="k-timeline__desc">Prazo: 60 dias após candidatura</p></div>
+            <div class="k-timeline__item"><div class="k-timeline__dot"></div><p class="k-timeline__title">Isenções fiscais activas</p><p class="k-timeline__desc">3 anos de benefícios: IRT, IRC e imposto industrial reduzido</p></div>
+          </div>
+        </div>
+        <div class="card card-surface" style="padding:24px;">
+          <p class="text-body weight-medium color-cream mb-16">Documentos necessários para candidatura</p>
+          <div class="k-checklist">
+            <div class="k-checklist__item checked"><div class="k-checklist__checkbox"></div><div><p class="text-body color-cream">Certidão de matrícula de todos os co-founders</p></div></div>
+            <div class="k-checklist__item checked"><div class="k-checklist__checkbox"></div><div><p class="text-body color-cream">Acordo de co-founders assinado e autenticado</p></div></div>
+            <div class="k-checklist__item"><div class="k-checklist__checkbox"></div><div><p class="text-body color-cream">Plano de negócios com projecções financeiras</p></div></div>
+            <div class="k-checklist__item"><div class="k-checklist__checkbox"></div><div><p class="text-body color-cream">Registo IAPI da marca (ou comprovativo de pedido)</p></div></div>
+          </div>
+          <button class="btn-primary mt-16" style="width:100%;justify-content:center;" onclick="showToast('Candidatura INAPEM submetida! Aguarda confirmação.','success')">🏅 Submeter candidatura INAPEM</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+</main>
+<div id="k-footer-placeholder"></div>
+<script src="assets/js/kubica.js"></script>
+<script>
+KubicaNav.init('inc-01-dashboard.html');
+function updateGradProgress() {
+  const checked = document.querySelectorAll('#tccs-checklist .k-checklist__item.checked').length;
+  const total = document.querySelectorAll('#tccs-checklist .k-checklist__item').length;
+  const pct = Math.round(checked/total*100);
+  document.getElementById('tccs-progress').style.width = pct+'%';
+  document.getElementById('tccs-pct').textContent = pct+'%';
+}
+</script>
+</body></html>

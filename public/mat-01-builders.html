@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="pt-AO">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>Banco de Construtores (MAT-01) — Kubica Hub</title>
+  <meta name="description" content="Banco de Talentos e Co-Founders FKCU — Conecta competências multidisciplinares com cálculo de afinidade determinístico."/>
+  <link rel="stylesheet" href="kubica.css"/>
+  <style>
+    .builders-table-wrap {
+      background: var(--color-midnight-cocoa, #0b0600);
+      border: 1px solid var(--color-walnut, #43392d);
+      border-radius: var(--radius-card, 6px);
+      overflow-x: auto;
+    }
+  </style>
+</head>
+<body class="page-body">
+  <div id="k-nav-placeholder"></div>
+
+  <main id="main-content">
+    <section class="section-sm" style="border-bottom: 1px solid var(--color-walnut, #43392d);">
+      <div class="container">
+        <div class="section-eyebrow">MAT-01 — Fase 2: Matchmaking & Co-Fundação</div>
+        <h1 class="text-heading-lg weight-medium color-cream" style="letter-spacing: var(--tracking-heading-lg, -0.8px);">
+          Banco de Construtores FKCU
+        </h1>
+        <p class="text-body-lg color-driftwood mt-16" style="max-width: 650px;">
+          Encontra co-founders validados pelas universidades parceiras. O algoritmo calcula a afinidade multidisciplinar ($S_{match}$) em tempo real.
+        </p>
+
+        <!-- Filtros em Pills -->
+        <div class="mt-20 flex flex-gap-12" style="flex-wrap: wrap;">
+          <select id="role-filter" class="select-pill" onchange="filterBuilders()">
+            <option value="all">Todos os Papéis</option>
+            <option value="CTO">CTO — Engenharia & Tech</option>
+            <option value="CLO">CLO — Direito & IAPI</option>
+            <option value="CFO">CFO — Gestão & Finanças</option>
+            <option value="CMO">CMO — Marketing & Growth</option>
+          </select>
+
+          <select id="uni-filter" class="select-pill" onchange="filterBuilders()">
+            <option value="all">Todas as Universidades</option>
+            <option value="UAN">UAN</option>
+            <option value="UCAN">UCAN</option>
+            <option value="ISAF">ISAF</option>
+            <option value="UGS">UGS</option>
+          </select>
+
+          <select id="hours-filter" class="select-pill" onchange="filterBuilders()">
+            <option value="all">Disponibilidade</option>
+            <option value="20">20h+ / semana</option>
+            <option value="10">10h+ / semana</option>
+            <option value="5">5h+ / semana</option>
+          </select>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <div class="builders-table-wrap">
+          <table class="k-table" id="builders-table">
+            <thead>
+              <tr>
+                <th>Construtor / Estudante</th>
+                <th>Papel Almejado</th>
+                <th>Competências Chave</th>
+                <th>Dedicação Semanal</th>
+                <th>Universidade</th>
+                <th>Afinidade FKCU</th>
+                <th style="text-align: right;">Acção</th>
+              </tr>
+            </thead>
+            <tbody id="builders-tbody">
+              <!-- Renderizado dinamicamente -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <div id="k-footer-placeholder"></div>
+
+  <script src="assets/js/kubica.js"></script>
+  <script src="assets/js/app.js"></script>
+  <script>
+    KubicaNav.init('mat-01-builders.html');
+
+    const buildersData = [
+      { id: 1, name: "Maria Antónia", course: "Direito · 4º Ano", uni: "UCAN", role: "CLO", hours: 20, score: 96.4, skills: ["Direito Societário", "IAPI / Patentes", "Contratos"] },
+      { id: 2, name: "João Manuel", course: "Engenharia · 3º Ano", uni: "UAN", role: "CTO", hours: 10, score: 91.2, skills: ["React", "Python", "SQL"] },
+      { id: 3, name: "Luísa Santos", course: "Marketing · 2º Ano", uni: "ISAF", role: "CMO", hours: 15, score: 94.4, skills: ["Figma", "Copywriting", "Inglês Fluente"] },
+      { id: 4, name: "Paulo Carvalho", course: "Gestão · 4º Ano", uni: "UGS", role: "CFO", hours: 20, score: 92.6, skills: ["Excel", "Business Plan", "Análise Financeira"] },
+      { id: 5, name: "Catarina Neto", course: "Direito · 3º Ano", uni: "UCAN", role: "CLO", hours: 10, score: 88.0, skills: ["Contratos Comerciais", "Compliance"] },
+      { id: 6, name: "André Ferreira", course: "Engenharia · 5º Ano", uni: "UAN", role: "CTO", hours: 20, score: 95.0, skills: ["Flutter", "Node.js", "Cloud AWS"] }
+    ];
+
+    function renderBuilders(list) {
+      const tbody = document.getElementById('builders-tbody');
+      if (list.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="7" style="text-align:center; padding:32px; color:var(--color-driftwood);">Nenhum construtor encontrado com estes filtros.</td></tr>`;
+        return;
+      }
+
+      tbody.innerHTML = list.map(b => {
+        const skillsHTML = b.skills.map(s => `<span class="badge badge-walnut" style="font-size:10px; margin-right:4px;">${s}</span>`).join('');
+        return `
+          <tr>
+            <td>
+              <div class="flex flex-gap-12" style="align-items: center;">
+                <div class="avatar-placeholder avatar-sm">${b.name.split(' ').map(n=>n[0]).join('')}</div>
+                <div>
+                  <p class="text-body weight-medium color-cream" style="font-size:14px;">${b.name}</p>
+                  <p class="text-caption color-driftwood" style="font-size:11px;">${b.course}</p>
+                </div>
+              </div>
+            </td>
+            <td><span class="badge badge-amber">${b.role}</span></td>
+            <td><div class="flex" style="flex-wrap:wrap; gap:2px;">${skillsHTML}</div></td>
+            <td><span class="badge badge-walnut">${b.hours}h / sem</span></td>
+            <td><span class="text-body color-driftwood" style="font-size:13px;">${b.uni}</span></td>
+            <td><strong style="color: #4ade80; font-size:13px;">${b.score}%</strong></td>
+            <td style="text-align: right;">
+              <a href="mat-02-profile.html?id=${b.id}" class="btn-primary btn-sm" style="font-size:12px;">
+                Ver Perfil →
+              </a>
+            </td>
+          </tr>
+        `;
+      }).join('');
+    }
+
+    function filterBuilders() {
+      const r = document.getElementById('role-filter').value;
+      const u = document.getElementById('uni-filter').value;
+      const h = document.getElementById('hours-filter').value;
+
+      const filtered = buildersData.filter(b => {
+        const matchR = r === 'all' || b.role === r;
+        const matchU = u === 'all' || b.uni === u;
+        const matchH = h === 'all' || b.hours >= parseInt(h, 10);
+        return matchR && matchU && matchH;
+      });
+
+      renderBuilders(filtered);
+    }
+
+    document.addEventListener('DOMContentLoaded', () => renderBuilders(buildersData));
+  </script>
+</body>
+</html>

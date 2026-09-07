@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="pt-AO"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Gestão de Mentores — Kubica Hub Admin</title>
+<meta name="description" content="Painel de gestão de mentores académicos e de mercado atribuídos às startups FKCU."/>
+<link rel="stylesheet" href="kubica.css"/>
+</head>
+<body class="page-body"><div id="k-nav-placeholder"></div>
+<main>
+<section class="section-sm" style="border-bottom:1px solid var(--color-walnut);">
+  <div class="container">
+    <div class="section-eyebrow">ADM-04 — Gestão de Mentores</div>
+    <div class="flex-between" style="flex-wrap:wrap;gap:16px;">
+      <div>
+        <h1 class="text-heading-lg weight-medium color-cream" style="letter-spacing:var(--tracking-heading-lg);">Hub de Mentores FKCU</h1>
+        <p class="text-body-lg color-driftwood mt-8">Coordenação do programa de mentoria dual-track: académicos e de mercado.</p>
+      </div>
+      <button class="btn-primary" onclick="showModal('Adicionar Mentor','<div class=\'input-group\'><label class=\'input-label\'>Nome</label><input class=\'input-pill\' placeholder=\'Nome completo\'/></div><div class=\'input-group\'><label class=\'input-label\'>Tipo</label><select class=\'select-pill\'><option>Académico</option><option>Mercado</option></select></div><div class=\'input-group\'><label class=\'input-label\'>Especialidade</label><input class=\'input-pill\' placeholder=\'Engenharia, Fintech, Agritech...\'/></div>',[{label:'Adicionar',action:'showToast(\'Mentor adicionado!\',\'success\')',primary:true},{label:'Cancelar',action:'',primary:false}])">+ Adicionar Mentor</button>
+    </div>
+  </div>
+</section>
+
+<section class="section-sm">
+  <div class="container">
+    <div class="grid-4 mb-32">
+      <div class="kpi-card"><div class="kpi-card__value">24</div><div class="kpi-card__label">Mentores activos</div></div>
+      <div class="kpi-card"><div class="kpi-card__value">12</div><div class="kpi-card__label">Académicos</div></div>
+      <div class="kpi-card"><div class="kpi-card__value">12</div><div class="kpi-card__label">De mercado</div></div>
+      <div class="kpi-card"><div class="kpi-card__value">3.8</div><div class="kpi-card__label">Média startups/mentor</div></div>
+    </div>
+
+    <div class="grid-2" style="gap:24px;align-items:flex-start;">
+      <!-- Mentor List -->
+      <div class="card card-surface" style="padding:0;">
+        <div style="padding:20px;border-bottom:1px solid var(--color-walnut);">
+          <p class="text-body weight-medium color-cream">Lista de Mentores</p>
+        </div>
+        <div style="display:flex;flex-direction:column;">
+          <div style="padding:16px 20px;border-bottom:1px solid var(--color-burnt-edge);display:flex;align-items:center;justify-content:space-between;gap:12px;cursor:pointer;" onclick="selectMentor(this,'PL')" id="mentor-PL">
+            <div class="flex flex-gap-12" style="align-items:center;">
+              <div class="avatar-placeholder avatar-sm">PL</div>
+              <div><p class="text-body color-cream weight-medium">Prof. Pedro Lemos</p><p class="text-caption color-driftwood">Académico · Eng. UAN · 5 startups</p></div>
+            </div>
+            <span class="badge badge-walnut">Académico</span>
+          </div>
+          <div style="padding:16px 20px;border-bottom:1px solid var(--color-burnt-edge);display:flex;align-items:center;justify-content:space-between;gap:12px;cursor:pointer;" onclick="selectMentor(this,'CN')" id="mentor-CN">
+            <div class="flex flex-gap-12" style="align-items:center;">
+              <div class="avatar-placeholder avatar-sm">CN</div>
+              <div><p class="text-body color-cream weight-medium">Carlos Neves</p><p class="text-caption color-driftwood">Mercado · Ex-BODIVA · 4 startups</p></div>
+            </div>
+            <span class="badge badge-amber">Mercado</span>
+          </div>
+          <div style="padding:16px 20px;border-bottom:1px solid var(--color-burnt-edge);display:flex;align-items:center;justify-content:space-between;gap:12px;cursor:pointer;" onclick="selectMentor(this,'MA')" id="mentor-MA">
+            <div class="flex flex-gap-12" style="align-items:center;">
+              <div class="avatar-placeholder avatar-sm">MA</div>
+              <div><p class="text-body color-cream weight-medium">Prof. Maria Afonso</p><p class="text-caption color-driftwood">Académica · Gestão ISAF · 3 startups</p></div>
+            </div>
+            <span class="badge badge-walnut">Académico</span>
+          </div>
+          <div style="padding:16px 20px;border-bottom:1px solid var(--color-burnt-edge);display:flex;align-items:center;justify-content:space-between;gap:12px;cursor:pointer;" onclick="selectMentor(this,'BD')" id="mentor-BD">
+            <div class="flex flex-gap-12" style="align-items:center;">
+              <div class="avatar-placeholder avatar-sm">BD</div>
+              <div><p class="text-body color-cream weight-medium">Bruno Domingos</p><p class="text-caption color-driftwood">Mercado · Fintech Africa · 6 startups</p></div>
+            </div>
+            <span class="badge badge-amber">Mercado</span>
+          </div>
+          <div style="padding:16px 20px;display:flex;align-items:center;justify-content:space-between;gap:12px;cursor:pointer;" onclick="selectMentor(this,'FS')" id="mentor-FS">
+            <div class="flex flex-gap-12" style="align-items:center;">
+              <div class="avatar-placeholder avatar-sm">FS</div>
+              <div><p class="text-body color-cream weight-medium">Prof. Filomena Serra</p><p class="text-caption color-driftwood">Académica · Direito UCAN · 2 startups</p></div>
+            </div>
+            <span class="badge badge-walnut">Académico</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Mentor Detail + Sessions -->
+      <div id="mentor-detail" style="display:none;">
+        <div class="card card-surface mb-16" style="padding:24px;">
+          <div class="flex flex-gap-16 mb-16" style="align-items:center;">
+            <div class="avatar-placeholder avatar-md" id="det-avatar">PL</div>
+            <div>
+              <p class="text-body weight-medium color-cream" id="det-name">Prof. Pedro Lemos</p>
+              <p class="text-caption color-driftwood" id="det-role">Académico · UAN</p>
+            </div>
+          </div>
+          <div class="grid-2" style="gap:12px;margin-bottom:16px;">
+            <div class="kpi-card" style="padding:12px;"><div class="kpi-card__value" style="font-size:20px;">5</div><div class="kpi-card__label">Startups atribuídas</div></div>
+            <div class="kpi-card" style="padding:12px;"><div class="kpi-card__value" style="font-size:20px;">18</div><div class="kpi-card__label">Sessões realizadas</div></div>
+          </div>
+          <div class="flex flex-gap-8">
+            <button class="btn-primary btn-sm" style="flex:1;justify-content:center;" onclick="showToast('Sessão agendada!','success')">Agendar sessão</button>
+            <button class="btn-secondary btn-sm" style="flex:1;justify-content:center;" onclick="showToast('Startup atribuída!','success')">Atribuir startup</button>
+          </div>
+        </div>
+        <div class="card card-surface" style="padding:24px;">
+          <p class="text-body weight-medium color-cream mb-16">Próximas sessões</p>
+          <div class="k-timeline">
+            <div class="k-timeline__item active"><div class="k-timeline__dot"></div><p class="k-timeline__title">AgroLink Angola</p><p class="k-timeline__desc">20 Ago 2026 · 18h00 · Google Meet</p></div>
+            <div class="k-timeline__item"><div class="k-timeline__dot"></div><p class="k-timeline__title">SaúdeDesk AO</p><p class="k-timeline__desc">24 Ago 2026 · 19h00 · Campus UAN</p></div>
+            <div class="k-timeline__item"><div class="k-timeline__dot"></div><p class="k-timeline__title">TuriAngola</p><p class="k-timeline__desc">2 Set 2026 · 17h00 · Online</p></div>
+          </div>
+        </div>
+      </div>
+      <div id="mentor-empty" class="card card-surface" style="padding:48px;text-align:center;">
+        <p style="font-size:40px;margin-bottom:16px;">🎓</p>
+        <p class="text-body color-driftwood">Selecciona um mentor para ver os detalhes e sessões agendadas.</p>
+      </div>
+    </div>
+  </div>
+</section>
+</main>
+<div id="k-footer-placeholder"></div>
+<script src="assets/js/kubica.js"></script>
+<script>
+KubicaNav.init('adm-01-dashboard.html');
+const mentorData = {
+  PL: { name:'Prof. Pedro Lemos', role:'Académico · Eng. UAN' },
+  CN: { name:'Carlos Neves', role:'Mercado · Ex-BODIVA · Fintech' },
+  MA: { name:'Prof. Maria Afonso', role:'Académica · Gestão ISAF' },
+  BD: { name:'Bruno Domingos', role:'Mercado · Fintech Africa' },
+  FS: { name:'Prof. Filomena Serra', role:'Académica · Direito UCAN' }
+};
+function selectMentor(el, id) {
+  document.querySelectorAll('[id^="mentor-"]').forEach(m => m.style.background='');
+  el.style.background = 'rgba(255,180,66,.04)';
+  const d = mentorData[id];
+  document.getElementById('det-avatar').textContent = id;
+  document.getElementById('det-name').textContent = d.name;
+  document.getElementById('det-role').textContent = d.role;
+  document.getElementById('mentor-detail').style.display = 'block';
+  document.getElementById('mentor-empty').style.display = 'none';
+}
+</script>
+</body></html>
