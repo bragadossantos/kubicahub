@@ -60,7 +60,7 @@
       <div id="startup-section" style="margin-top:var(--sp-16);display:none;">
         <div class="k-list-card">
           <div class="k-list-card__header">
-            <h2 class="k-list-card__title">🚀 Startup em Incubação</h2>
+            <h2 class="k-list-card__title"><span class="k-icon" style="margin-right:8px;vertical-align:-2px;"><svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="k-icon-svg" aria-hidden="true"><path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z"/><path d="m12 15-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z"/><path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 0 5 0"/><path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5"/></svg></span>Startup em Incubação</h2>
             <span class="k-badge k-badge--info" id="startup-phase">Em Co-Criação</span>
           </div>
           <div class="k-list-card__body" id="startup-details"></div>
@@ -93,15 +93,15 @@
     const incubating  = ideas.filter(i => i.status === 'incubating').length;
 
     document.getElementById('kpi-grid').innerHTML = `
-      ${KubicaDash.kpiCard('Projectos Submetidos', totalIdeas, '💡')}
-      ${KubicaDash.kpiCard('Aprovados FKCU', approved, '✅')}
-      ${KubicaDash.kpiCard('Em Incubação', incubating, '🚀')}
-      ${KubicaDash.kpiCard('Universidade', user.university || 'UAN', '🎓')}
+      ${KubicaDash.kpiCard('Projectos Submetidos', totalIdeas, 'lightbulb')}
+      ${KubicaDash.kpiCard('Aprovados FKCU', approved, '<span class="k-icon"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="k-icon-svg" aria-hidden="true"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg></span>')}
+      ${KubicaDash.kpiCard('Em Incubação', incubating, '<span class="k-icon"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="k-icon-svg" aria-hidden="true"><path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z"/><path d="m12 15-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z"/><path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 0 5 0"/><path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5"/></svg></span>')}
+      ${KubicaDash.kpiCard('Universidade', user.university || 'UAN', '<span class="k-icon"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="k-icon-svg" aria-hidden="true"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c0 2.21 3.58 4 8 4s8-1.79 8-4v-5"/></svg></span>')}
     `;
 
     // Lista de projectos
     if (ideas.length === 0) {
-      KubicaDash.showEmpty('projects-list', 'Ainda não submeteste nenhum projecto.', '💡');
+      KubicaDash.showEmpty('projects-list', 'Ainda não submeteste nenhum projecto.', '<span class="k-icon"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="k-icon-svg" aria-hidden="true"><line x1="9" y1="18" x2="15" y2="18"/><line x1="10" y1="22" x2="14" y2="22"/><path d="M15.09 14c.18-.98.65-1.74 1.41-2.5A4.65 4.65 0 0 0 18 8 6 6 0 0 0 6 8c0 1 .23 2.23 1.5 3.5A4.61 4.61 0 0 1 8.91 14"/></svg></span>');
     } else {
       document.getElementById('projects-list').innerHTML = ideas.slice(0, 5).map(idea => `
         <div class="k-list-row">
@@ -118,10 +118,10 @@
     const activeIdea = ideas.find(i => i.status === 'incubating' || i.status === 'matched');
     if (activeIdea) {
       document.getElementById('startup-section').style.display = 'block';
-      document.getElementById('startup-phase').textContent = activeIdea.status === 'incubating' ? '🚀 Em Incubação' : '🤝 Matched';
+      document.getElementById('startup-phase').textContent = activeIdea.status === 'incubating' ? '<span class="k-icon"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="k-icon-svg" aria-hidden="true"><path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z"/><path d="m12 15-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z"/><path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 0 5 0"/><path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5"/></svg></span> Em Incubação' : '<span class="k-icon"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="k-icon-svg" aria-hidden="true"><path d="M20.42 4.58a5.4 5.4 0 0 0-7.65 0l-.77.78-.77-.78a5.4 5.4 0 0 0-7.65 7.65l.77.79L12 21l7.65-8.63.77-.79a5.4 5.4 0 0 0 0-7.4z"/></svg></span> Matched';
       document.getElementById('startup-details').innerHTML = `
         <div class="k-list-row">
-          <span style="font-size:24px;">💡</span>
+          <span style="font-size:24px;"><span class="k-icon"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="k-icon-svg" aria-hidden="true"><line x1="9" y1="18" x2="15" y2="18"/><line x1="10" y1="22" x2="14" y2="22"/><path d="M15.09 14c.18-.98.65-1.74 1.41-2.5A4.65 4.65 0 0 0 18 8 6 6 0 0 0 6 8c0 1 .23 2.23 1.5 3.5A4.61 4.61 0 0 1 8.91 14"/></svg></span></span>
           <div style="flex:1;">
             <div class="k-list-row__title" style="margin-bottom:4px;">${activeIdea.title}</div>
             <div class="k-list-row__meta">${activeIdea.sector} · ${activeIdea.pdn_axis}</div>
@@ -140,7 +140,7 @@
     const nRes = await KubicaApp.api('/notifications?limite=5');
     const notifs = nRes?.data?.notifications ?? [];
     if (notifs.length === 0) {
-      KubicaDash.showEmpty('activity-list', 'Sem actividade recente.', '📭');
+      KubicaDash.showEmpty('activity-list', 'Sem actividade recente.', 'inbox');
     } else {
       document.getElementById('activity-list').innerHTML = notifs.map(n => `
         <div class="k-list-row" style="${!n.is_read ? 'border-left:2px solid var(--color-amber-forge);padding-left:10px;' : ''}">
@@ -152,7 +152,7 @@
       `).join('');
     }
   } catch(e) {
-    KubicaDash.showEmpty('activity-list', 'Sem actividade recente.', '📭');
+    KubicaDash.showEmpty('activity-list', 'Sem actividade recente.', 'inbox');
   }
 })();
 </script>

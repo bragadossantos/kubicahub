@@ -60,7 +60,7 @@ function renderProfile(profile, badges, stats) {
             <h2 style="font-size:22px;font-weight:700;color:var(--color-warm-cream);margin:0 0 4px;">${profile.name}</h2>
             <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-bottom:var(--sp-12);">
               <span class="k-badge k-badge--${profile.role}">${profile.role}</span>
-              <span style="font-size:13px;color:var(--color-driftwood);">🎓 ${profile.faculty} · ${profile.university}</span>
+              <span style="font-size:13px;color:var(--color-driftwood);"><span class="k-icon" style="margin-right:8px;vertical-align:-2px;"><svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="k-icon-svg" aria-hidden="true"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c0 2.21 3.58 4 8 4s8-1.79 8-4v-5"/></svg></span>${profile.faculty} · ${profile.university}</span>
               ${profile.availability_hours ? `<span style="font-size:13px;color:var(--color-driftwood);">⏱ ${profile.availability_hours}h/semana</span>` : ''}
             </div>
             <p style="font-size:14px;color:var(--color-driftwood);margin:0;">${profile.bio || 'Sem biografia. Adiciona uma para descrever a tua visão e experiência!'}</p>
@@ -99,10 +99,10 @@ function renderProfile(profile, badges, stats) {
     ${badges && badges.length ? `
     <div class="k-list-card" style="margin-bottom:var(--sp-16);">
       <div class="k-list-card__header">
-        <h3 class="k-list-card__title">🏅 Badges de Reconhecimento FKCU</h3>
+        <h3 class="k-list-card__title"><span class="k-icon" style="margin-right:8px;vertical-align:-2px;"><svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="k-icon-svg" aria-hidden="true"><circle cx="12" cy="8" r="7"/><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"/></svg></span>Badges de Reconhecimento FKCU</h3>
       </div>
       <div class="k-list-card__body" style="display:flex;gap:var(--sp-12);flex-wrap:wrap;">
-        ${badges.map(b => `<span class="k-badge k-badge--warning">🏅 ${b.badge_type.replace(/_/g,' ')}</span>`).join('')}
+        ${badges.map(b => `<span class="k-badge k-badge--warning"><span class="k-icon" style="margin-right:8px;vertical-align:-2px;"><svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="k-icon-svg" aria-hidden="true"><circle cx="12" cy="8" r="7"/><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"/></svg></span>${b.badge_type.replace(/_/g,' ')}</span>`).join('')}
       </div>
     </div>` : ''}
 
@@ -148,11 +148,11 @@ async function saveProfile(userId) {
   try {
     await KubicaApp.api('/profile/' + userId, 'PATCH', payload);
     document.getElementById('edit-feedback').style.display = 'block';
-    document.getElementById('edit-feedback').innerHTML = '<div style="padding:10px 14px;background:rgba(74,222,128,0.12);border:1px solid #4ade80;border-radius:6px;color:#4ade80;font-size:13px;">✓ Perfil actualizado com sucesso!</div>';
+    document.getElementById('edit-feedback').innerHTML = '<div style="padding:10px 14px;background:rgba(74,222,128,0.12);border:1px solid #4ade80;border-radius:6px;color:#4ade80;font-size:13px;"><span class="k-icon"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="k-icon-svg" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg></span> Perfil actualizado com sucesso!</div>';
     KubicaDash.toast('Perfil actualizado com sucesso!', 'success');
   } catch(e) {
     document.getElementById('edit-feedback').style.display = 'block';
-    document.getElementById('edit-feedback').innerHTML = '<div style="padding:10px 14px;background:rgba(248,113,113,0.12);border:1px solid #f87171;border-radius:6px;color:#f87171;font-size:13px;">⚠ Erro ao guardar perfil.</div>';
+    document.getElementById('edit-feedback').innerHTML = '<div style="padding:10px 14px;background:rgba(248,113,113,0.12);border:1px solid #f87171;border-radius:6px;color:#f87171;font-size:13px;"><span class="k-icon" style="margin-right:8px;vertical-align:-2px;"><svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="k-icon-svg" aria-hidden="true"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/><line x1="12" x2="12" y1="9" y2="13"/><line x1="12" x2="12.01" y1="17" y2="17"/></svg></span>Erro ao guardar perfil.</div>';
   }
 }
 </script>

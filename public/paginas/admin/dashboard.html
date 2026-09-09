@@ -30,7 +30,7 @@
         <!-- Ideias Pendentes de Aprovação -->
         <div class="k-list-card">
           <div class="k-list-card__header">
-            <h2 class="k-list-card__title">⏳ Triagem de Ideias Pendentes</h2>
+            <h2 class="k-list-card__title"><span class="k-icon" style="margin-right:8px;vertical-align:-2px;"><svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="k-icon-svg" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></span>Triagem de Ideias Pendentes</h2>
             <a href="projetos.html" class="text-caption color-amber">Gerir fila →</a>
           </div>
           <div class="k-list-card__body" id="pending-ideas">
@@ -41,7 +41,7 @@
         <!-- Sandbox Pendente -->
         <div class="k-list-card">
           <div class="k-list-card__header">
-            <h2 class="k-list-card__title">💰 Sandbox / Funding Pendente</h2>
+            <h2 class="k-list-card__title"><span class="k-icon" style="margin-right:8px;vertical-align:-2px;"><svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="k-icon-svg" aria-hidden="true"><circle cx="8" cy="8" r="6"/><path d="M18.09 10.37A6 6 0 1 1 10.34 18"/><path d="M7 6h1v4"/><path d="m16.71 13.88.7.71-2.82 2.82"/></svg></span>Sandbox / Funding Pendente</h2>
             <a href="relatorios.html" class="text-caption color-amber">Gerir pedidos →</a>
           </div>
           <div class="k-list-card__body" id="pending-sandbox">
@@ -55,7 +55,7 @@
       <div class="k-form-section" style="margin-top:var(--sp-24);">
         <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:var(--sp-16);">
           <div style="flex:1;min-width:280px;">
-            <div style="font-size:15px;font-weight:600;color:var(--color-warm-cream);">🤖 Algoritmo de Matching FKCU</div>
+            <div style="font-size:15px;font-weight:600;color:var(--color-warm-cream);"><span class="k-icon" style="margin-right:8px;vertical-align:-2px;"><svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="k-icon-svg" aria-hidden="true"><rect width="18" height="12" x="3" y="6" rx="2"/><path d="M12 2v4M8 12h.01M16 12h.01"/></svg></span>Algoritmo de Matching FKCU</div>
             <div style="font-size:13px;color:var(--color-driftwood);margin-top:4px;">Gera sugestões de equipa e propostas automáticas cruzando o perfil dos Builders com as necessidades das ideias aprovadas.</div>
           </div>
           <button class="btn-primary" id="run-matching-btn" onclick="runMatching()">Executar Matching Automático →</button>
@@ -84,12 +84,12 @@
   if (kpisRes.status === 'fulfilled' && kpisRes.value?.success) {
     const k = kpisRes.value.data;
     document.getElementById('kpi-grid').innerHTML = `
-      ${KubicaDash.kpiCard('Total Membros', k.total_users ?? 0, '👥')}
-      ${KubicaDash.kpiCard('Ideias Submetidas', k.total_ideas ?? 0, '💡')}
-      ${KubicaDash.kpiCard('Equipas Formadas', k.total_teams ?? 0, '🤝')}
-      ${KubicaDash.kpiCard('Em Incubação', k.incubating_count ?? 0, '🚀')}
-      ${KubicaDash.kpiCard('Sandbox Total', KubicaDash.formatCurrency(k.sandbox_total_usd ?? 0), '💰')}
-      ${KubicaDash.kpiCard('Sessões Speed Dating', k.demo_day_sessions ?? 0, '🎤')}
+      ${KubicaDash.kpiCard('Total Membros', k.total_users ?? 0, '<span class="k-icon"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="k-icon-svg" aria-hidden="true"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></span>')}
+      ${KubicaDash.kpiCard('Ideias Submetidas', k.total_ideas ?? 0, 'lightbulb')}
+      ${KubicaDash.kpiCard('Equipas Formadas', k.total_teams ?? 0, '<span class="k-icon"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="k-icon-svg" aria-hidden="true"><path d="M20.42 4.58a5.4 5.4 0 0 0-7.65 0l-.77.78-.77-.78a5.4 5.4 0 0 0-7.65 7.65l.77.79L12 21l7.65-8.63.77-.79a5.4 5.4 0 0 0 0-7.4z"/></svg></span>')}
+      ${KubicaDash.kpiCard('Em Incubação', k.incubating_count ?? 0, '<span class="k-icon"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="k-icon-svg" aria-hidden="true"><path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z"/><path d="m12 15-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z"/><path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 0 5 0"/><path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5"/></svg></span>')}
+      ${KubicaDash.kpiCard('Sandbox Total', KubicaDash.formatCurrency(k.sandbox_total_usd ?? 0), '<span class="k-icon"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="k-icon-svg" aria-hidden="true"><circle cx="8" cy="8" r="6"/><path d="M18.09 10.37A6 6 0 1 1 10.34 18"/><path d="M7 6h1v4"/><path d="m16.71 13.88.7.71-2.82 2.82"/></svg></span>')}
+      ${KubicaDash.kpiCard('Sessões Speed Dating', k.demo_day_sessions ?? 0, 'mic')}
     `;
   } else {
     KubicaDash.showError('kpi-grid', 'Erro ao carregar métricas.');
@@ -99,7 +99,7 @@
   if (pendingRes.status === 'fulfilled') {
     const ideas = pendingRes.value?.data?.ideas ?? [];
     if (!ideas.length) {
-      KubicaDash.showEmpty('pending-ideas', 'Nenhuma ideia pendente de triagem.', '✅');
+      KubicaDash.showEmpty('pending-ideas', 'Nenhuma ideia pendente de triagem.', '<span class="k-icon"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="k-icon-svg" aria-hidden="true"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg></span>');
     } else {
       document.getElementById('pending-ideas').innerHTML = ideas.slice(0, 4).map(i => `
         <div class="k-list-row">
@@ -117,7 +117,7 @@
   if (sandboxRes.status === 'fulfilled') {
     const txns = sandboxRes.value?.data?.transactions ?? [];
     if (!txns.length) {
-      KubicaDash.showEmpty('pending-sandbox', 'Nenhum pedido de funding pendente.', '✅');
+      KubicaDash.showEmpty('pending-sandbox', 'Nenhum pedido de funding pendente.', '<span class="k-icon"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="k-icon-svg" aria-hidden="true"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg></span>');
     } else {
       document.getElementById('pending-sandbox').innerHTML = txns.slice(0, 4).map(t => `
         <div class="k-list-row">
@@ -141,12 +141,12 @@ async function runMatching() {
     document.getElementById('matching-result').style.display = 'block';
     document.getElementById('matching-result').innerHTML = `
       <div style="padding:var(--sp-12) var(--sp-16);background:rgba(74,222,128,0.12);border:1px solid #4ade80;border-radius:8px;color:#4ade80;font-size:13px;">
-        ✓ ${res.data?.message || 'Algoritmo executado com sucesso.'} ${res.data?.proposals_created ? `Foram geradas ${res.data.proposals_created} novas propostas de co-criação.` : ''}
+        <span class="k-icon"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="k-icon-svg" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg></span> ${res.data?.message || 'Algoritmo executado com sucesso.'} ${res.data?.proposals_created ? `Foram geradas ${res.data.proposals_created} novas propostas de co-criação.` : ''}
       </div>`;
     KubicaDash.toast('Matching FKCU executado!', 'success');
   } catch(err) {
     document.getElementById('matching-result').style.display = 'block';
-    document.getElementById('matching-result').innerHTML = `<div style="color:#f87171;font-size:13px;padding:var(--sp-12);">⚠ ${err?.data?.message || 'Erro ao executar algoritmo.'}</div>`;
+    document.getElementById('matching-result').innerHTML = `<div style="color:#f87171;font-size:13px;padding:var(--sp-12);"><span class="k-icon" style="margin-right:8px;vertical-align:-2px;"><svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="k-icon-svg" aria-hidden="true"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/><line x1="12" x2="12" y1="9" y2="13"/><line x1="12" x2="12.01" y1="17" y2="17"/></svg></span>${err?.data?.message || 'Erro ao executar algoritmo.'}</div>`;
   } finally {
     btn.disabled = false;
     btn.textContent = 'Executar Matching Automático →';

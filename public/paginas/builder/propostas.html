@@ -24,9 +24,9 @@
       </div>
 
       <div style="display:flex;gap:var(--sp-8);margin-bottom:var(--sp-24);">
-        <button class="btn-outline k-filter-btn k-filter-btn--active" data-tab="pending" onclick="switchTab('pending')">⏳ Pendentes</button>
-        <button class="btn-outline k-filter-btn" data-tab="accepted" onclick="switchTab('accepted')">✅ Aceites</button>
-        <button class="btn-outline k-filter-btn" data-tab="declined" onclick="switchTab('declined')">❌ Recusadas</button>
+        <button class="btn-outline k-filter-btn k-filter-btn--active" data-tab="pending" onclick="switchTab('pending')"><span class="k-icon" style="margin-right:6px;"><svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="k-icon-svg" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></span>Pendentes</button>
+        <button class="btn-outline k-filter-btn" data-tab="accepted" onclick="switchTab('accepted')"><span class="k-icon" style="margin-right:6px;"><svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="k-icon-svg" aria-hidden="true"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg></span>Aceites</button>
+        <button class="btn-outline k-filter-btn" data-tab="declined" onclick="switchTab('declined')"><span class="k-icon" style="margin-right:6px;"><svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="k-icon-svg" aria-hidden="true"><circle cx="12" cy="12" r="10"/><line x1="15" x2="9" y1="9" y2="15"/><line x1="9" x2="15" y1="9" y2="15"/></svg></span>Recusadas</button>
       </div>
 
       <div id="proposals-container">
@@ -70,7 +70,7 @@ function switchTab(tab) {
 function renderProposals(status) {
   const filtered = allProposals.filter(p => p.status === status);
   if (!filtered.length) {
-    KubicaDash.showEmpty('proposals-container', `Sem propostas ${status === 'pending' ? 'pendentes' : status === 'accepted' ? 'aceites' : 'recusadas'}.`, '📋');
+    KubicaDash.showEmpty('proposals-container', `Sem propostas ${status === 'pending' ? 'pendentes' : status === 'accepted' ? 'aceites' : 'recusadas'}.`, '<span class="k-icon"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="k-icon-svg" aria-hidden="true"><rect width="8" height="4" x="8" y="2" rx="1" ry="1"/><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><path d="m9 14 2 2 4-4"/></svg></span>');
     return;
   }
   document.getElementById('proposals-container').innerHTML = filtered.map(p => `
@@ -107,8 +107,8 @@ function renderProposals(status) {
           </div>
           ${p.status === 'pending' ? `
           <div style="display:flex;flex-direction:column;gap:var(--sp-8);flex-shrink:0;">
-            <button class="btn-primary" onclick="respondProposal(${p.id}, 'accepted')" style="font-size:13px;padding:8px 16px;">✓ Aceitar e Formar Equipa</button>
-            <button class="btn-outline" onclick="respondProposal(${p.id}, 'declined')" style="font-size:13px;padding:8px 16px;">✗ Recusar Proposta</button>
+            <button class="btn-primary" onclick="respondProposal(${p.id}, 'accepted')" style="font-size:13px;padding:8px 16px;"><span class="k-icon"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="k-icon-svg" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg></span> Aceitar e Formar Equipa</button>
+            <button class="btn-outline" onclick="respondProposal(${p.id}, 'declined')" style="font-size:13px;padding:8px 16px;"><span class="k-icon" style="margin-right:4px;vertical-align:-1px;"><svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.0" stroke-linecap="round" stroke-linejoin="round" class="k-icon-svg" aria-hidden="true"><line x1="18" x2="6" y1="6" y2="18"/><line x1="6" x2="18" y1="6" y2="18"/></svg></span>Recusar Proposta</button>
           </div>` : ''}
         </div>
       </div>
@@ -125,7 +125,7 @@ async function respondProposal(proposalId, action) {
   try {
     const res = await KubicaApp.api('/proposals/' + proposalId, 'PATCH', { status: action });
     if (res && res.success) {
-      KubicaDash.toast(action === 'accepted' ? '✓ Proposta aceite! Bem-vindo à equipa!' : 'Proposta recusada.', action === 'accepted' ? 'success' : 'info');
+      KubicaDash.toast(action === 'accepted' ? '<span class="k-icon"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="k-icon-svg" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg></span> Proposta aceite! Bem-vindo à equipa!' : 'Proposta recusada.', action === 'accepted' ? 'success' : 'info');
       await loadProposals();
     }
   } catch(err) {

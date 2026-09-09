@@ -13,21 +13,24 @@ const KubicaNav = (() => {
 
     if (user) {
       const dashUrl = `${basePath}/paginas/${user.role}/dashboard.html`;
+      const arrowSvg = typeof KubicaIcons !== 'undefined' ? KubicaIcons.get('arrowRight', { size: 14 }) : '';
       actionButtons = `
-        <a href="${dashUrl}" class="btn-primary btn-sm">Meu Painel (${user.role}) →</a>
+        <a href="${dashUrl}" class="btn-primary btn-sm">Meu Painel (${user.role}) <span class="k-icon">${arrowSvg}</span></a>
         <button onclick="KubicaApp.logout()" class="btn-outline btn-sm" style="font-size:12px;padding:5px 10px;">Sair</button>
       `;
     } else if (!isAuthPage) {
       const loginUrl = `${basePath}/paginas/auth/login.html`;
       const registerUrl = `${basePath}/paginas/auth/registo.html`;
+      const arrowSvg = typeof KubicaIcons !== 'undefined' ? KubicaIcons.get('arrowRight', { size: 14 }) : '';
       actionButtons = `
         <a href="${loginUrl}" class="btn-secondary btn-sm">Entrar</a>
-        <a href="${registerUrl}" class="btn-primary btn-sm">Participar →</a>
+        <a href="${registerUrl}" class="btn-primary btn-sm">Participar <span class="k-icon">${arrowSvg}</span></a>
       `;
     } else {
       const landingUrl = `${basePath}/paginas/landing.html`;
+      const arrowLeftSvg = typeof KubicaIcons !== 'undefined' ? KubicaIcons.get('arrowLeft', { size: 14 }) : '';
       actionButtons = `
-        <a href="${landingUrl}" class="btn-outline btn-sm">← Início</a>
+        <a href="${landingUrl}" class="btn-outline btn-sm"><span class="k-icon">${arrowLeftSvg}</span> Início</a>
       `;
     }
 
@@ -150,9 +153,13 @@ function showToast(message, type = 'info', duration = 3500) {
   toast.setAttribute('role', 'alert');
   toast.style.pointerEvents = 'auto';
 
-  const icons = { success: '✓', error: '✕', warning: '⚠', info: 'ℹ' };
+  const iconNameMap = { success: 'checkCircle', error: 'xCircle', warning: 'alertTriangle', info: 'info' };
+  const iconSvg = typeof KubicaIcons !== 'undefined'
+    ? KubicaIcons.get(iconNameMap[type] || 'info', { size: 16 })
+    : '';
+
   toast.innerHTML = `
-    <span class="k-toast__icon" aria-hidden="true">${icons[type] || 'ℹ'}</span>
+    <span class="k-toast__icon" aria-hidden="true">${iconSvg}</span>
     <span class="k-toast__msg">${message}</span>
   `;
 

@@ -2287,3 +2287,98 @@ svg { display: block; }
 @supports (-webkit-touch-callout: none) {
   input, select, textarea { font-size: max(16px, 1em); }
 }
+
+/* ============================================================
+   KUBICA HUB — SVG Icon System v2.0
+   Zero emojis unicode — traço linear preciso
+   ============================================================ */
+.k-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  vertical-align: middle;
+  flex-shrink: 0;
+  line-height: 1;
+}
+
+.k-icon svg, .k-icon-svg {
+  display: inline-block;
+  vertical-align: middle;
+  stroke: currentColor;
+  flex-shrink: 0;
+}
+
+/* Modificadores de tamanho */
+.k-icon--xs svg { width: 12px; height: 12px; }
+.k-icon--sm svg { width: 14px; height: 14px; }
+.k-icon--md svg { width: 18px; height: 18px; }
+.k-icon--lg svg { width: 22px; height: 22px; }
+.k-icon--xl svg { width: 28px; height: 28px; }
+.k-icon--2xl svg { width: 36px; height: 36px; }
+
+/* Espaçamento em botões e badges */
+.btn-primary .k-icon,
+.btn-secondary .k-icon,
+.btn-outline .k-icon,
+.btn-ghost .k-icon {
+  margin-right: 6px;
+}
+
+.btn-icon-right .k-icon {
+  margin-right: 0;
+  margin-left: 6px;
+}
+
+/* Contêiner de ícone de entregável */
+.deliverable-icon {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  border: 1px solid var(--color-walnut);
+  background: var(--color-amber-dim, rgba(255, 180, 66, 0.08));
+  color: var(--color-amber-forge, #ffb442);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.deliverable-icon svg {
+  width: 17px;
+  height: 17px;
+}
+
+/* Contêineres de notificação e cards */
+.notif-icon {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  border: 1px solid var(--color-walnut);
+}
+.notif-icon.match    { background: rgba(255, 180, 66, 0.12); color: var(--color-amber-forge); }
+.notif-icon.idea     { background: rgba(56, 189, 248, 0.12); color: #38bdf8; }
+.notif-icon.sandbox  { background: rgba(74, 222, 128, 0.12); color: #4ade80; }
+.notif-icon.deadline { background: rgba(248, 113, 113, 0.12); color: #f87171; }
+.notif-icon.system   { background: rgba(133, 121, 108, 0.15); color: var(--color-warm-cream); }
+.notif-icon svg { width: 18px; height: 18px; }
+
+/* Contêineres de cards de startups / portfólio */
+.startup-cover-icon {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  background: var(--color-amber-dim, rgba(255,180,66,0.12));
+  border: 1px solid var(--color-walnut);
+  color: var(--color-amber-forge);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: var(--sp-12);
+}
+.startup-cover-icon svg {
+  width: 26px;
+  height: 26px;
+}

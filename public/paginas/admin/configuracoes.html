@@ -22,7 +22,7 @@
 
       <!-- Sessões de Speed Dating -->
       <div class="k-form-section">
-        <h2 class="k-form-section__title">📅 Criar Sessão de Speed Dating</h2>
+        <h2 class="k-form-section__title"><span class="k-icon" style="margin-right:8px;vertical-align:-2px;"><svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="k-icon-svg" aria-hidden="true"><rect width="18" height="18" x="3" y="4" rx="2" ry="2"/><line x1="16" x2="16" y1="2" y2="6"/><line x1="8" x2="8" y1="2" y2="6"/><line x1="3" x2="21" y1="10" y2="10"/></svg></span>Criar Sessão de Speed Dating</h2>
         <p style="font-size:13px;color:var(--color-driftwood);margin-bottom:var(--sp-16);">Agenda uma sessão presencial ou virtual de matchmaking entre inventores e builders com limite de 14 equipas por sessão.</p>
         <div id="session-feedback" style="display:none;margin-bottom:var(--sp-12);"></div>
         <div class="k-form-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:var(--sp-16);">
@@ -46,7 +46,7 @@
 
       <!-- Parâmetros Operacionais -->
       <div class="k-form-section">
-        <h2 class="k-form-section__title">⚙ Parâmetros Operacionais do Ciclo FKCU</h2>
+        <h2 class="k-form-section__title"><span class="k-icon" style="margin-right:8px;vertical-align:-2px;"><svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="k-icon-svg" aria-hidden="true"><rect width="16" height="16" x="4" y="4" rx="2"/><rect width="6" height="6" x="9" y="9" rx="1"/><path d="M15 2v2M9 2v2M20 15h2M20 9h2M9 20v2M15 20v2M2 9h2M2 15h2"/></svg></span>Parâmetros Operacionais do Ciclo FKCU</h2>
         <div class="k-form-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:var(--sp-16);">
           <div>
             <div class="k-kpi" style="margin-bottom:var(--sp-12);">
@@ -57,7 +57,7 @@
               </div>
             </div>
             <div class="k-kpi">
-              <div class="k-kpi__icon">🔒</div>
+              <div class="k-kpi__icon"><span class="k-icon"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="k-icon-svg" aria-hidden="true"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></span></div>
               <div>
                 <div class="k-kpi__value" style="font-size:15px;">5 tentativas</div>
                 <div class="k-kpi__label">Rate limit de login (bloqueio 15m)</div>
@@ -66,14 +66,14 @@
           </div>
           <div>
             <div class="k-kpi" style="margin-bottom:var(--sp-12);">
-              <div class="k-kpi__icon">💰</div>
+              <div class="k-kpi__icon"><span class="k-icon"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="k-icon-svg" aria-hidden="true"><circle cx="8" cy="8" r="6"/><path d="M18.09 10.37A6 6 0 1 1 10.34 18"/><path d="M7 6h1v4"/><path d="m16.71 13.88.7.71-2.82 2.82"/></svg></span></div>
               <div>
                 <div class="k-kpi__value" style="font-size:15px;">USD 5.000</div>
                 <div class="k-kpi__label">Plafond Sandbox inicial por equipa</div>
               </div>
             </div>
             <div class="k-kpi">
-              <div class="k-kpi__icon">📅</div>
+              <div class="k-kpi__icon"><span class="k-icon"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="k-icon-svg" aria-hidden="true"><rect width="18" height="18" x="3" y="4" rx="2" ry="2"/><line x1="16" x2="16" y1="2" y2="6"/><line x1="8" x2="8" y1="2" y2="6"/><line x1="3" x2="21" y1="10" y2="10"/></svg></span></div>
               <div>
                 <div class="k-kpi__value" style="font-size:15px;">36 meses / 12m cliff</div>
                 <div class="k-kpi__label">Período de Vesting padrão</div>
@@ -130,7 +130,7 @@ async function createSession() {
 
   if (!date || !time) {
     document.getElementById('session-feedback').style.display = 'block';
-    document.getElementById('session-feedback').innerHTML = '<div style="color:#f87171;font-size:13px;padding:8px 0;">⚠ Data e hora são obrigatórias.</div>';
+    document.getElementById('session-feedback').innerHTML = '<div style="color:#f87171;font-size:13px;padding:8px 0;"><span class="k-icon" style="margin-right:8px;vertical-align:-2px;"><svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="k-icon-svg" aria-hidden="true"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/><line x1="12" x2="12" y1="9" y2="13"/><line x1="12" x2="12.01" y1="17" y2="17"/></svg></span>Data e hora são obrigatórias.</div>';
     return;
   }
 
@@ -138,14 +138,14 @@ async function createSession() {
     const res = await KubicaApp.api('/admin/speeddate/session', 'POST', { date, time, notes, capacity: 14 });
     if (res && res.success) {
       document.getElementById('session-feedback').style.display = 'block';
-      document.getElementById('session-feedback').innerHTML = `<div style="padding:10px 14px;background:rgba(74,222,128,0.12);border:1px solid #4ade80;border-radius:6px;color:#4ade80;font-size:13px;">✓ Sessão criada para ${date} às ${time}!</div>`;
+      document.getElementById('session-feedback').innerHTML = `<div style="padding:10px 14px;background:rgba(74,222,128,0.12);border:1px solid #4ade80;border-radius:6px;color:#4ade80;font-size:13px;"><span class="k-icon"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="k-icon-svg" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg></span> Sessão criada para ${date} às ${time}!</div>`;
       KubicaDash.toast('Sessão Speed Dating criada com sucesso!', 'success');
       document.getElementById('sd-date').value = '';
       document.getElementById('sd-notes').value = '';
     }
   } catch(err) {
     document.getElementById('session-feedback').style.display = 'block';
-    document.getElementById('session-feedback').innerHTML = `<div style="color:#f87171;font-size:13px;padding:8px 0;">⚠ ${err?.data?.message || 'Erro ao criar sessão.'}</div>`;
+    document.getElementById('session-feedback').innerHTML = `<div style="color:#f87171;font-size:13px;padding:8px 0;"><span class="k-icon" style="margin-right:8px;vertical-align:-2px;"><svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="k-icon-svg" aria-hidden="true"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/><line x1="12" x2="12" y1="9" y2="13"/><line x1="12" x2="12.01" y1="17" y2="17"/></svg></span>${err?.data?.message || 'Erro ao criar sessão.'}</div>`;
   }
 }
 </script>

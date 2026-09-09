@@ -24,10 +24,10 @@
       </div>
 
       <div style="display:flex;gap:var(--sp-8);margin-bottom:var(--sp-24);flex-wrap:wrap;">
-        <button class="btn-outline k-filter-btn k-filter-btn--active" data-status="pending" onclick="switchStatus('pending')">⏳ Pendentes de Triagem</button>
-        <button class="btn-outline k-filter-btn" data-status="approved" onclick="switchStatus('approved')">✅ Aprovadas</button>
-        <button class="btn-outline k-filter-btn" data-status="incubating" onclick="switchStatus('incubating')">🚀 Em Incubação</button>
-        <button class="btn-outline k-filter-btn" data-status="rejected" onclick="switchStatus('rejected')">❌ Rejeitadas</button>
+        <button class="btn-outline k-filter-btn k-filter-btn--active" data-status="pending" onclick="switchStatus('pending')"><span class="k-icon" style="margin-right:6px;"><svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="k-icon-svg" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></span>Pendentes de Triagem</button>
+        <button class="btn-outline k-filter-btn" data-status="approved" onclick="switchStatus('approved')"><span class="k-icon" style="margin-right:6px;"><svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="k-icon-svg" aria-hidden="true"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg></span>Aprovadas</button>
+        <button class="btn-outline k-filter-btn" data-status="incubating" onclick="switchStatus('incubating')"><span class="k-icon" style="margin-right:6px;"><svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="k-icon-svg" aria-hidden="true"><path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z"/><path d="m12 15-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z"/><path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 0 5 0"/><path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5"/></svg></span>Em Incubação</button>
+        <button class="btn-outline k-filter-btn" data-status="rejected" onclick="switchStatus('rejected')"><span class="k-icon" style="margin-right:6px;"><svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="k-icon-svg" aria-hidden="true"><circle cx="12" cy="12" r="10"/><line x1="15" x2="9" y1="9" y2="15"/><line x1="9" x2="15" y1="9" y2="15"/></svg></span>Rejeitadas</button>
       </div>
 
       <div id="ideas-container">
@@ -88,7 +88,7 @@ function switchStatus(status) {
 
 function renderIdeas(ideas) {
   if (!ideas.length) {
-    KubicaDash.showEmpty('ideas-container', 'Nenhum projecto encontrado nesta categoria.', '💡');
+    KubicaDash.showEmpty('ideas-container', 'Nenhum projecto encontrado nesta categoria.', '<span class="k-icon"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="k-icon-svg" aria-hidden="true"><line x1="9" y1="18" x2="15" y2="18"/><line x1="10" y1="22" x2="14" y2="22"/><path d="M15.09 14c.18-.98.65-1.74 1.41-2.5A4.65 4.65 0 0 0 18 8 6 6 0 0 0 6 8c0 1 .23 2.23 1.5 3.5A4.61 4.61 0 0 1 8.91 14"/></svg></span>');
     return;
   }
   document.getElementById('ideas-container').innerHTML = ideas.map(idea => {
@@ -118,8 +118,8 @@ function renderIdeas(ideas) {
             <div style="display:flex;gap:6px;flex-wrap:wrap;align-items:center;">
               <span style="font-size:12px;color:var(--color-driftwood);">Roles:</span>
               ${roles.map(r => `<span class="k-badge k-badge--info">${r}</span>`).join('')}
-              <span style="font-size:12px;color:var(--color-driftwood);margin-left:var(--sp-8);">👤 ${idea.inventor_name || 'Inventor'} (${idea.inventor_university || 'UAN'})</span>
-              <span style="font-size:12px;color:var(--color-driftwood);">📅 ${KubicaDash.formatDate(idea.created_at)}</span>
+              <span style="font-size:12px;color:var(--color-driftwood);margin-left:var(--sp-8);"><span class="k-icon" style="margin-right:8px;vertical-align:-2px;"><svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="k-icon-svg" aria-hidden="true"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></span>${idea.inventor_name || 'Inventor'} (${idea.inventor_university || 'UAN'})</span>
+              <span style="font-size:12px;color:var(--color-driftwood);"><span class="k-icon" style="margin-right:8px;vertical-align:-2px;"><svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="k-icon-svg" aria-hidden="true"><rect width="18" height="18" x="3" y="4" rx="2" ry="2"/><line x1="16" x2="16" y1="2" y2="6"/><line x1="8" x2="8" y1="2" y2="6"/><line x1="3" x2="21" y1="10" y2="10"/></svg></span>${KubicaDash.formatDate(idea.created_at)}</span>
             </div>
             
             ${idea.screening_feedback ? `<div style="font-size:12px;color:var(--color-warning);margin-top:8px;padding:6px 10px;background:rgba(251,191,36,0.08);border-radius:4px;">Feedback: ${idea.screening_feedback}</div>` : ''}
@@ -127,8 +127,8 @@ function renderIdeas(ideas) {
           
           <div style="display:flex;flex-direction:column;gap:var(--sp-8);flex-shrink:0;">
             ${idea.status === 'pending' ? `
-              <button class="btn-primary" onclick="openDecision(${idea.id}, 'approved')" style="font-size:12px;padding:6px 14px;">✓ Aprovar Ideia</button>
-              <button class="btn-outline" onclick="openDecision(${idea.id}, 'rejected')" style="font-size:12px;padding:6px 14px;color:#f87171;border-color:#f87171;">✗ Rejeitar</button>
+              <button class="btn-primary" onclick="openDecision(${idea.id}, 'approved')" style="font-size:12px;padding:6px 14px;"><span class="k-icon"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="k-icon-svg" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg></span> Aprovar Ideia</button>
+              <button class="btn-outline" onclick="openDecision(${idea.id}, 'rejected')" style="font-size:12px;padding:6px 14px;color:#f87171;border-color:#f87171;"><span class="k-icon" style="margin-right:4px;vertical-align:-1px;"><svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.0" stroke-linecap="round" stroke-linejoin="round" class="k-icon-svg" aria-hidden="true"><line x1="18" x2="6" y1="6" y2="18"/><line x1="6" x2="18" y1="6" y2="18"/></svg></span>Rejeitar</button>
             ` : `
               <button class="btn-outline" onclick="openDecision(${idea.id}, 'approved')" style="font-size:12px;padding:6px 12px;">Editar Feedback</button>
             `}
@@ -142,7 +142,7 @@ function renderIdeas(ideas) {
 function openDecision(ideaId, action) {
   document.getElementById('modal-idea-id').value = ideaId;
   document.getElementById('modal-action').value = action;
-  document.getElementById('modal-title').textContent = action === 'approved' ? '✅ Aprovar Ideia para o Hub' : '❌ Rejeitar Ideia';
+  document.getElementById('modal-title').textContent = action === 'approved' ? '<span class="k-icon"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="k-icon-svg" aria-hidden="true"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg></span> Aprovar Ideia para o Hub' : '<span class="k-icon"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="k-icon-svg" aria-hidden="true"><circle cx="12" cy="12" r="10"/><line x1="15" x2="9" y1="9" y2="15"/><line x1="9" x2="15" y1="9" y2="15"/></svg></span> Rejeitar Ideia';
   document.getElementById('confirm-btn').className = action === 'approved' ? 'btn-primary' : 'btn-outline';
   document.getElementById('confirm-btn').style.color = action === 'rejected' ? '#f87171' : '';
   document.getElementById('modal-feedback').value = '';
@@ -165,7 +165,7 @@ async function confirmDecision() {
 
   try {
     await KubicaApp.api('/admin/ideas/' + ideaId + '/status', 'PATCH', { status: action, screening_feedback: feedback });
-    KubicaDash.toast(action === 'approved' ? '✅ Ideia aprovada com sucesso!' : '❌ Ideia rejeitada.', action === 'approved' ? 'success' : 'info');
+    KubicaDash.toast(action === 'approved' ? '<span class="k-icon"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="k-icon-svg" aria-hidden="true"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg></span> Ideia aprovada com sucesso!' : '<span class="k-icon"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="k-icon-svg" aria-hidden="true"><circle cx="12" cy="12" r="10"/><line x1="15" x2="9" y1="9" y2="15"/><line x1="9" x2="15" y1="9" y2="15"/></svg></span> Ideia rejeitada.', action === 'approved' ? 'success' : 'info');
     closeFeedbackModal();
     await loadIdeas(currentStatus);
   } catch(err) {

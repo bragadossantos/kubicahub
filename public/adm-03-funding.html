@@ -107,7 +107,7 @@
             <td style="color:var(--color-amber-forge);font-weight:500;">USD 3.500</td>
             <td><span class="badge badge-walnut">Tranche 2</span></td>
             <td style="max-width:200px;"><p class="text-caption color-driftwood">Prototipagem de sensor IoT solar</p></td>
-            <td><span class="badge badge-success">Aprovado ✓</span></td>
+            <td><span class="badge badge-success">Aprovado <span class="k-icon" style="margin-left:4px;vertical-align:-1px;"><svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.0" stroke-linecap="round" stroke-linejoin="round" class="k-icon-svg" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg></span></span></td>
             <td><span class="text-caption color-driftwood">Dr. Daniel Amaral · 15 Jul</span></td>
           </tr>
           <tr data-status="rejected">
@@ -140,7 +140,7 @@ function approveRequest(btn, name, amount) {
   const row = btn.closest('tr');
   row.querySelector('[data-status]');
   row.dataset.status = 'approved';
-  row.querySelector('td:nth-child(6)').innerHTML = '<span class="badge badge-success">Aprovado ✓</span>';
+  row.querySelector('td:nth-child(6)').innerHTML = '<span class="badge badge-success">Aprovado <span class="k-icon" style="margin-left:4px;vertical-align:-1px;"><svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.0" stroke-linecap="round" stroke-linejoin="round" class="k-icon-svg" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg></span></span>';
   row.querySelector('td:nth-child(7)').innerHTML = '<span class="text-caption color-driftwood">Aprovado agora</span>';
   showToast('Disbursement de ' + amount + ' aprovado para ' + name + '!', 'success', 4000);
 }
