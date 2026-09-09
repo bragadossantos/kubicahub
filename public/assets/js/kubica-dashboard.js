@@ -31,7 +31,8 @@ const KubicaDash = (() => {
 
     const role = _user.role;
     const links = _navLinks(role);
-    const landingUrl = `${KubicaApp.getBasePath()}/paginas/landing.html`;
+    const base = (typeof KubicaApp !== 'undefined') ? KubicaApp.getBasePath() : '';
+    const landingUrl = (typeof KubicaNav !== 'undefined') ? KubicaNav.getHomeUrl() : (base ? `${base}/index.html` : '/index.html');
 
     const html = `
       <aside class="k-sidebar" id="k-sidebar">

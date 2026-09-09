@@ -4,10 +4,28 @@
 
 // ── NAV MODULE ────────────────────────────────────────────────
 const KubicaNav = (() => {
+  function _getHomeUrl() {
+    const proto = window.location.protocol;
+    const path = window.location.pathname;
+
+    if (proto === 'file:') {
+      if (path.includes('/paginas/')) {
+        const parts = path.split('/paginas/');
+        return `${parts[0]}/index.html`;
+      }
+      return 'index.html';
+    }
+
+    const basePath = (typeof KubicaApp !== 'undefined') ? KubicaApp.getBasePath() : '';
+    if (basePath) return `${basePath}/index.html`;
+    return '/index.html';
+  }
+
   function getNavHTML(activePage = '') {
     const isAuthPage = activePage === 'auth';
     const user = (typeof KubicaApp !== 'undefined') ? KubicaApp.getUser() : null;
     const basePath = (typeof KubicaApp !== 'undefined') ? KubicaApp.getBasePath() : '';
+    const homeUrl = _getHomeUrl();
 
     let actionButtons = '';
 
@@ -27,17 +45,16 @@ const KubicaNav = (() => {
         <a href="${registerUrl}" class="btn-primary btn-sm">Participar <span class="k-icon">${arrowSvg}</span></a>
       `;
     } else {
-      const landingUrl = `${basePath}/paginas/landing.html`;
       const arrowLeftSvg = typeof KubicaIcons !== 'undefined' ? KubicaIcons.get('arrowLeft', { size: 14 }) : '';
       actionButtons = `
-        <a href="${landingUrl}" class="btn-outline btn-sm"><span class="k-icon">${arrowLeftSvg}</span> Início</a>
+        <a href="${homeUrl}" class="btn-outline btn-sm"><span class="k-icon">${arrowLeftSvg}</span> Início</a>
       `;
     }
 
     return `
     <nav class="k-nav" role="navigation" aria-label="Kubica Hub navigation">
       <div class="k-nav__inner">
-        <a href="${basePath}/paginas/landing.html" class="k-nav__logo" aria-label="Kubica Hub início">
+        <a href="${homeUrl}" class="k-nav__logo" aria-label="Kubica Hub início">
           <div class="k-nav__logo-mark" aria-hidden="true">K</div>
           <span class="k-nav__wordmark">Kubica Hub</span>
         </a>
@@ -56,21 +73,22 @@ const KubicaNav = (() => {
     }
   }
 
-  return { init };
+  return { init, getHomeUrl: _getHomeUrl };
 })();
 
 // ── FOOTER MODULE ─────────────────────────────────────────────
 function getFooterHTML() {
   const basePath = (typeof KubicaApp !== 'undefined') ? KubicaApp.getBasePath() : '';
+  const homeUrl = (typeof KubicaNav !== 'undefined') ? KubicaNav.getHomeUrl() : (basePath ? `${basePath}/index.html` : '/index.html');
   return `
   <footer class="k-footer" role="contentinfo">
     <div class="container">
       <div class="k-footer__grid">
         <div>
-          <div class="k-nav__logo" style="margin-bottom:0">
+          <a href="${homeUrl}" class="k-nav__logo" style="margin-bottom:0;text-decoration:none;" aria-label="Kubica Hub início">
             <div class="k-nav__logo-mark">K</div>
             <span class="k-nav__wordmark">Kubica Hub</span>
-          </div>
+          </a>
           <p class="k-footer__brand-desc">
             Forjando as novas indústrias de Angola no coração das universidades. 
             Framework KUBICA de Co-Criação Universitária (FKCU).

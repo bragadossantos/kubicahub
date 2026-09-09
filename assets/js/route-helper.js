@@ -39,8 +39,8 @@ const KubicaRouter = (() => {
   // key => { root: 'caminho desde kubica/', public: 'caminho desde public/' }
   const SCREEN_MAP = {
     // Públicas / Landing
-    'landing'      : { root: 'public/paginas/landing.html',       public: 'paginas/landing.html' },
-    'index'        : { root: 'index.html',                        public: '../index.html' },
+    'landing'      : { root: 'index.html',                        public: 'index.html' },
+    'index'        : { root: 'index.html',                        public: 'index.html' },
 
     // Auth
     'login'        : { root: 'public/paginas/auth/login.html',    public: 'paginas/auth/login.html' },

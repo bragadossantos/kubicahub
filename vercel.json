@@ -6,6 +6,10 @@
   },
   "rewrites": [
     {
+      "source": "/paginas/landing.html",
+      "destination": "/public/index.html"
+    },
+    {
       "source": "/paginas/:path*",
       "destination": "/public/paginas/:path*"
     },

@@ -106,13 +106,15 @@ const KubicaApp = (() => {
     } catch (_) {}
     localStorage.removeItem('kubica_user');
     currentUser = null;
-    window.location.href = `${getBasePath()}/paginas/landing.html`;
+    const homeUrl = (typeof KubicaNav !== 'undefined') ? KubicaNav.getHomeUrl() : (getBasePath() ? `${getBasePath()}/index.html` : '/index.html');
+    window.location.href = homeUrl;
   }
 
   // ── Route Guards ────────────────────────────────────────────
   function verificarAcesso(roleRequerido = null) {
     const user = carregarUser();
     const base = getBasePath();
+    const homeUrl = (typeof KubicaNav !== 'undefined') ? KubicaNav.getHomeUrl() : (base ? `${base}/index.html` : '/index.html');
     
     // Se não estiver logado
     if (!user) {
@@ -125,7 +127,7 @@ const KubicaApp = (() => {
       if (user.role === 'admin') window.location.href = `${base}/paginas/admin/dashboard.html`;
       else if (user.role === 'inventor') window.location.href = `${base}/paginas/inventor/dashboard.html`;
       else if (user.role === 'builder') window.location.href = `${base}/paginas/builder/dashboard.html`;
-      else window.location.href = `${base}/paginas/landing.html`;
+      else window.location.href = homeUrl;
       return false;
     }
 

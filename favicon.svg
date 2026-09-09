@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <circle cx="32" cy="32" r="30" fill="#ffb442"/>
+  <!-- Precise bold geometric K matching Kubica design system -->
+  <path d="M22 17h6.5v12.2l8.8-12.2h8.2L34.2 30.5 46.5 47H38L28.5 33.8V47H22V17z" fill="#140b00"/>
+</svg>
